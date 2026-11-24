@@ -30,7 +30,7 @@ export const NAV_SECTORS: NavSector[] = [
     short: "Tôn – sắt thép",
     href: "/satthep",
     image: "/photos/satthep-bai-thep.jpg",
-    note: "Báo giá theo ngày, cắt theo quy cách",
+    note: "Thép xây dựng, tôn lợp, giao tận công trình",
     links: [
       { label: "Thép xây dựng", href: "/satthep/san-pham?nhom=thep-xay-dung" },
       { label: "Thép hình", href: "/satthep/san-pham?nhom=thep-hinh" },
@@ -44,7 +44,7 @@ export const NAV_SECTORS: NavSector[] = [
     short: "Lốp xe ô tô",
     href: "/lopxe",
     image: "/photos/lopxe-cua-hang.jpg",
-    note: "Thay lắp, cân bằng động tại chỗ",
+    note: "Lốp chính hãng, tư vấn đúng cỡ",
     links: [
       { label: "Lốp xe du lịch", href: "/lopxe/san-pham?nhom=xe-du-lich" },
       { label: "Lốp SUV – bán tải", href: "/lopxe/san-pham?nhom=suv-ban-tai" },

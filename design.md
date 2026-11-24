@@ -162,6 +162,14 @@ Thứ tự: **Hero → Về Kim Ngoan (ngà) → Sản phẩm (bạc hà) → Ba
 - **Phân bón:** “Hoặc chọn hãng” với 6 hãng (tìm theo tên hãng); thêm cây “Cây ăn trái”, “Rau màu”.
 - **Footer:** bỏ cột Sản phẩm (landing tổng, phân bón, lốp xe/sắt thép); footer phân bón và chuyên trang có Google Maps (`MapEmbed compact`, khoá con lăn tới khi bấm).
 
+## 6d. Lốp xe & sắt thép: chỉ “liên hệ nhận báo giá”
+
+- Kim Ngoan không nhận đặt lịch thay lốp và không niêm yết giá (giá đổi theo hãng, nhà máy, thời điểm). Mọi nút dẫn về gọi / Zalo / gửi yêu cầu báo giá.
+- **Lốp xe:** khối 05 `#bao-gia` = 3 bước nhận báo giá (`content.services`) + form `TyreQuote` (cỡ lốp tự điền từ ô tra cỡ, số lượng, mức lốp, SĐT). Bỏ đồng hồ “30:00”, bỏ các cam kết lắp đặt / cân bằng động / cứu hộ / bơm ni-tơ. Kết quả kiểm tra lốp xấu → “Nhận báo giá lốp”.
+- **Sắt thép:** `SteelBoard` thành “Vật tư thép thường dùng”: cột Giá ghi “Liên hệ”, nút “Gọi nhận báo giá”. Danh sách vật tư bỏ thước giá lẻ / sỉ / dự án, thay bằng ghi chú báo giá theo thời điểm. Admin bỏ phần nhập giá (dữ liệu `quote.prices` cũ vẫn đọc được, không hiển thị).
+- **Header chuyên trang:** logo chữ giống landing tổng (CÔNG TY TNHH / KIM NGOAN in hoa, sát lề trái) + nhãn ngành nhỏ.
+- **Câu chữ:** ngắn, nói việc cụ thể, không hứa điều chưa xác nhận (thời gian giao, bán kính, dịch vụ tại chỗ).
+
 ## 7. Phân bón `/phanbon`
 
 Trang chủ: hero cửa hàng (tìm kiếm + nhóm hàng + ảnh theo cây trồng) → bản tin nhà nông (thời tiết, việc nên làm) → nhãn bao NPK → bác sĩ cây trồng → vườn thật → tư vấn nhanh → tin tức.

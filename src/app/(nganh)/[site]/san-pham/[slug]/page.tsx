@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const v = VERTICALS[site];
   const url = `${v.base}/san-pham/${p.slug}`;
   const title = `${p.name} – ${p.keySpec}`;
-  const description = metaDescription([p.shortDescription, `${p.brand} ${p.keySpec} chính hãng tại Kim Ngoan – ${COMPANY.area}`, site === "lopxe" ? "Báo giá nhanh, thay lắp và cân bằng động tại chỗ" : "Báo giá theo ngày, cắt theo quy cách, giao tận công trình"]);
+  const description = metaDescription([p.shortDescription, `${p.brand} ${p.keySpec} chính hãng tại Kim Ngoan – ${COMPANY.area}`, site === "lopxe" ? "Tư vấn đúng cỡ, gọi hoặc nhắn Zalo để nhận báo giá" : "Gửi quy cách, khối lượng để nhận báo giá, giao tận công trình"]);
   return {
     title: fitTitle(p.name, `${v.name} Kim Ngoan`),
     description,
@@ -105,7 +105,7 @@ export default async function ProductDetail({ params }: { params: Params }) {
           <div className="mt-9 rounded-xl bg-v-raise p-6 md:p-8">
             <p className="text-caption font-medium text-v-mute">Giá</p>
             <p className="v-display mt-1 text-h3 text-v-fg">Liên hệ báo giá</p>
-            <p className="mt-2 text-small text-v-mute">Giá thay đổi theo ngày và số lượng. Gọi hoặc nhắn Zalo để nhận giá tốt nhất hôm nay.</p>
+            <p className="mt-2 text-small text-v-mute">Giá thay đổi theo thời điểm và số lượng nên không ghi sẵn. Gọi hoặc nhắn Zalo để nhận báo giá.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <VButton asChild size="lg">
                 <a href={telHref(vertical.phone)}><Phone /> <span className="tabular-nums">{vertical.phone}</span></a>

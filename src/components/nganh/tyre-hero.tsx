@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const WIDTHS = [155, 165, 175, 185, 195, 205, 215, 225, 235, 245, 255, 265, 275, 285];
 const RATIOS = [40, 45, 50, 55, 60, 65, 70, 75, 80];
 const RIMS = [13, 14, 15, 16, 17, 18, 19, 20];
-export const SIZE_KEY = "kn-co-lop"; // cỡ lốp vừa tra – form đặt lịch đọc lại
+export const SIZE_KEY = "kn-co-lop"; // cỡ lốp vừa tra – form nhận báo giá đọc lại
 
 /* Hông lốp: tâm bánh xe nằm dưới khung, chỉ thấy một cung lớn (gai + hông lốp + chữ nổi). */
 const C = { x: 600, y: 1390 };

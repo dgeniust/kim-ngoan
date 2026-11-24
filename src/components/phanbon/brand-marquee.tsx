@@ -30,7 +30,7 @@ export function BrandMarquee() {
                 <Link
                   href={`/phanbon/tim-kiem?q=${encodeURIComponent(b)}`}
                   tabIndex={copy ? -1 : undefined}
-                  className="group/b flex h-12 items-center gap-3 whitespace-nowrap rounded-lg bg-brand-200 py-2 px-4 shadow-[0_1px_3px_rgb(19_42_30/0.08)] transition-colors duration-200 hover:bg-brand-900"
+                  className="group/b flex h-12 items-center gap-3 whitespace-nowrap rounded-full bg-brand-200 px-4 py-2 shadow-[0_1px_3px_rgb(19_42_30/0.08)] transition-colors duration-200 hover:bg-brand-900"
                 >
                   {/* <span aria-hidden className="grid size-10 place-items-center rounded-full bg-brand-100 text-[13px] font-bold tracking-tight text-brand-700 transition-colors group-hover/b:bg-white/15 group-hover/b:text-sun-300">
                     {initials(b)}

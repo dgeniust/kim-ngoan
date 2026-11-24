@@ -44,7 +44,7 @@ export type CatalogContent = {
     status: string;
     documents: string;
     notes: string[];
-    /** bảng giá hôm nay (sắt thép): giá để trống → hiện “Gọi chốt giá” */
+    /** (cũ) giá từng vật tư – không còn hiển thị: giá thép báo theo thời điểm, không niêm yết */
     prices?: { slug: string; price: string; unit: string; trend: "up" | "down" | "flat" }[];
     /** ngày giờ cập nhật bảng giá, dạng chữ (VD “19/11/2026 08:00”) */
     updated?: string;

@@ -82,7 +82,7 @@ function TreadSection({ mm }: { mm: number }) {
  * “Lốp của bạn còn an toàn không?” – hai phép thử tại xe:
  *  1. đọc tuổi lốp từ 4 số cuối mã DOT trên hông lốp;
  *  2. kéo thanh độ sâu gai, xem mặt cắt so với vạch báo mòn 1,6 mm.
- * Kết quả xấu → mời đặt lịch thay (#dat-lich).
+ * Kết quả xấu → mời để lại số nhận báo giá (#bao-gia).
  */
 export function TyreCheck({ serverNow }: { serverNow: number }) {
   const now = useSyncExternalStore(noop, getNow, () => serverNow);
@@ -179,10 +179,10 @@ export function TyreCheck({ serverNow }: { serverNow: number }) {
       {/* kết luận chung */}
       <div className={cn("mt-4 flex flex-col items-start justify-between gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:p-7", worst >= 2 ? "bg-v-accent text-v-on-accent" : "bg-v-raise text-v-fg")}>
         <p className="text-title font-semibold">
-          {worst >= 2 ? "Lốp của bạn nên được thay sớm — đặt lịch, thay xong trong khoảng 30 phút." : "Lốp còn dùng tốt. Lưu lại 4 số DOT để kiểm tra lần sau."}
+          {worst >= 2 ? "Bộ lốp này nên thay sớm. Để lại số điện thoại, chúng tôi gọi báo giá lốp cùng cỡ." : "Lốp còn dùng tốt. Ghi lại 4 số DOT để lần sau kiểm tra lại."}
         </p>
-        <a href="#dat-lich" className={cn("inline-flex h-11 shrink-0 items-center rounded-full px-6 text-body font-semibold transition-colors", worst >= 2 ? "bg-v-on-accent text-v-accent hover:bg-black" : "bg-v-accent text-v-on-accent hover:bg-v-accent-hover")}>
-          {worst >= 2 ? "Đặt lịch thay lốp" : "Đặt lịch kiểm tra"}
+        <a href="#bao-gia" className={cn("inline-flex h-11 shrink-0 items-center rounded-full px-6 text-body font-semibold transition-colors", worst >= 2 ? "bg-v-on-accent text-v-accent hover:bg-black" : "bg-v-accent text-v-on-accent hover:bg-v-accent-hover")}>
+          {worst >= 2 ? "Nhận báo giá lốp" : "Hỏi thêm về lốp"}
         </a>
       </div>
     </div>

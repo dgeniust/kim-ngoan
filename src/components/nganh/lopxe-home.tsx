@@ -9,7 +9,7 @@ import { getSettings } from "@/lib/settings/server";
 import { telHref, type Vertical } from "@/lib/verticals";
 import { AutoCarousel } from "./auto-carousel";
 import { Headline } from "./headline";
-import { TyreBooking } from "./tyre-booking";
+import { TyreQuote } from "./tyre-quote";
 import { TyreCheck } from "./tyre-check";
 import { TyreHero } from "./tyre-hero";
 import { TyreLabel, TyreTiers } from "./tyre-parts";
@@ -19,9 +19,9 @@ import { VSectionHead } from "./v-section-head";
 
 /**
  * Trang chủ LỐP XE – bố cục v1.1 (design.md §13). Giữ theme đen · trắng · cam.
- * Đánh vào tâm lý người mua lốp: an toàn → chọn dễ → làm nhanh.
+ * Kim Ngoan bán lốp, không nhận đặt lịch thay và không niêm yết giá → mọi nút dẫn về “nhận báo giá”.
  *  banner hông lốp khổng lồ (tra cỡ) → 01 lốp còn an toàn? → 02 ba mức lốp → 03 loại xe
- *  → 04 nhãn thông số bán chạy → 05 thay trong 30 phút + đặt lịch → 06 cam kết → 07 tin tức → gọi ngay.
+ *  → 04 nhãn thông số hỏi nhiều → 05 nhận báo giá (3 bước + form) → 06 cam kết → 07 tin tức → gọi ngay.
  */
 export async function LopXeHome({
   vertical,
@@ -66,12 +66,12 @@ export async function LopXeHome({
               <p className="text-lead leading-relaxed text-v-mute">{hero.description}</p>
               <div className="mt-5 flex flex-wrap gap-2">
                 <VButton asChild>
-                  <a href="#an-toan">
-                    Lốp còn an toàn? <ArrowRight className="arrow" />
+                  <a href="#bao-gia">
+                    Nhận báo giá <ArrowRight className="arrow" />
                   </a>
                 </VButton>
                 <VButton asChild variant="tint">
-                  <a href="#dat-lich">Đặt lịch thay</a>
+                  <a href="#an-toan">Lốp còn an toàn?</a>
                 </VButton>
               </div>
             </div>
@@ -143,13 +143,13 @@ export async function LopXeHome({
         </VContainer>
       </section>
 
-      {/* 04. Bán chạy – nhãn thông số tự cuộn */}
+      {/* 04. Cỡ lốp hỏi nhiều – nhãn thông số tự cuộn */}
       <section aria-labelledby="noi-bat-title" className="border-y border-v-line bg-v-sunk py-16 md:py-24">
         <VContainer>
           <VSectionHead
             id="noi-bat-title"
             no="04"
-            kicker="Bán chạy"
+            kicker="Hỏi nhiều"
             title={<Headline h={sec.featured} />}
             lead={sec.featured?.subtitle}
             action={
@@ -161,27 +161,23 @@ export async function LopXeHome({
             }
           />
         </VContainer>
-        <AutoCarousel label="Lốp bán chạy" itemClassName="w-[270px] sm:w-[290px]">
+        <AutoCarousel label="Lốp được hỏi nhiều" itemClassName="w-[270px] sm:w-[290px]">
           {ordered.map((p) => (
             <TyreLabel key={p.slug} product={p} href={`${base}/san-pham/${p.slug}`} />
           ))}
         </AutoCarousel>
       </section>
 
-      {/* 05. Thay trong 30 phút + đặt lịch */}
-      <section id="dat-lich" aria-labelledby="dat-lich-title" className="scroll-mt-24 py-16 md:py-24">
+      {/* 05. Nhận báo giá: 3 bước + form */}
+      <section id="bao-gia" aria-labelledby="bao-gia-title" className="scroll-mt-24 py-16 md:py-24">
         <VContainer>
-          <VSectionHead id="dat-lich-title" no="05" kicker="Tại cửa hàng" title={<Headline h={sec.process} />} lead={sec.process?.subtitle} />
+          <VSectionHead id="bao-gia-title" no="05" kicker="Báo giá" title={<Headline h={sec.process} />} lead={sec.process?.subtitle} />
           <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-6">
-              <p aria-hidden className="font-semibold tabular-nums leading-none tracking-[-0.06em] text-v-accent [font-size:clamp(5rem,14vw,11rem)]">
-                30:00
-              </p>
-              <p className="mt-3 text-body text-v-mute">Thời gian thay một bộ lốp tiêu chuẩn tại cửa hàng, tính từ lúc xe vào cầu nâng.</p>
-              <ol className="mt-10">
+              <ol>
                 {content.services.map((s, i) => (
                   <Reveal as="li" key={s.title} delay={i * 80} className="grid grid-cols-[3rem_1fr] gap-4 border-t border-v-line py-5">
-                    <span className="text-h4 font-semibold tabular-nums text-v-fg">0{i + 1}</span>
+                    <span className="text-h4 font-semibold tabular-nums text-v-accent">0{i + 1}</span>
                     <span>
                       <span className="block text-title font-semibold text-v-fg">{s.title}</span>
                       <span className="mt-1 block text-body leading-relaxed text-v-mute">{s.description}</span>
@@ -189,9 +185,12 @@ export async function LopXeHome({
                   </Reveal>
                 ))}
               </ol>
+              <p className="mt-6 rounded-xl bg-v-raise px-5 py-4 text-small leading-relaxed text-v-mute">
+                Vì sao không ghi giá trên web? Giá lốp thay đổi theo hãng, đợt nhập hàng và thời điểm. Báo giá trực tiếp giúp anh/chị nhận đúng giá đang bán, không phải giá cũ.
+              </p>
             </div>
             <div className="lg:col-span-5 lg:col-start-8">
-              <TyreBooking phone={vertical.phone} zalo={COMPANY.zalo} />
+              <TyreQuote phone={vertical.phone} zalo={COMPANY.zalo} />
             </div>
           </div>
         </VContainer>
@@ -284,7 +283,7 @@ export async function LopXeHome({
                 <Phone className="size-6" aria-hidden />
               </a>
               <a href={COMPANY.zalo} target="_blank" rel="noopener noreferrer" className="flex h-13 items-center justify-between gap-3 rounded-xl bg-v-tint px-5 text-body font-medium text-v-on-tint">
-                Gửi cỡ lốp qua Zalo <MessageCircle className="size-5" aria-hidden />
+                Gửi ảnh hông lốp qua Zalo <MessageCircle className="size-5" aria-hidden />
               </a>
               <Link href={`${base}/lien-he`} className="flex h-13 items-center justify-between gap-3 rounded-md bg-v-raise px-5 text-body font-medium text-v-fg transition-colors hover:bg-white/[0.04]">
                 Gửi yêu cầu báo giá <ArrowRight className="size-5" aria-hidden />

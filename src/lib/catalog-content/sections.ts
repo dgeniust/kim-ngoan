@@ -9,8 +9,8 @@ export const SECTION_SPECS: Record<CatalogSite, SectionSpec[]> = {
     { key: "safety", label: "Lốp còn an toàn?", where: "Khối 01 – đọc tuổi lốp (DOT) và độ sâu gai", fields: ["highlight", "after", "subtitle"] },
     { key: "tiers", label: "Ba mức lốp", where: "Khối 02 – Tiết kiệm / Cân bằng / Cao cấp", fields: ["highlight", "after", "subtitle"] },
     { key: "categories", label: "Chọn theo loại xe", where: "Khối 03 – danh mục loại xe", fields: ["highlight", "after", "subtitle"] },
-    { key: "featured", label: "Lốp bán chạy", where: "Khối 04 – dải nhãn thông số tự cuộn", fields: ["highlight", "after", "subtitle"] },
-    { key: "process", label: "Thay lốp 30 phút & đặt lịch", where: "Khối 05 – các bước dịch vụ + form đặt lịch", fields: ["highlight", "after", "subtitle"] },
+    { key: "featured", label: "Cỡ lốp hỏi nhiều", where: "Khối 04 – dải nhãn thông số tự cuộn", fields: ["highlight", "after", "subtitle"] },
+    { key: "process", label: "Nhận báo giá", where: "Khối 05 – 3 bước nhận báo giá + form", fields: ["highlight", "after", "subtitle"] },
     { key: "news", label: "Tin tức", where: "Khối 07 – bài viết mới", fields: ["highlight", "after", "subtitle"] },
   ],
   satthep: [

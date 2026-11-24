@@ -56,7 +56,7 @@ export const TYRE_TIERS: TyreTier[] = [
   },
 ];
 
-/* ------------------------------------------------------------------ Sắt thép: dự toán & bậc giá */
+/* ------------------------------------------------------------------ Sắt thép: dự toán khối lượng */
 
 /** Hệ số thép sơ bộ cho nhà phố bê tông cốt thép (kg thép / m² sàn) – CHỈ THAM KHẢO. */
 export const STEEL_PER_M2 = { low: 35, high: 45 };
@@ -69,12 +69,6 @@ export const STEEL_SPLIT: { label: string; share: number; d: number }[] = [
   { label: "Ø20 – Ø25 (móng, cột chính)", share: 0.15, d: 22 },
 ];
 
-/** Bậc giá theo khối lượng (tấn). */
-export const PRICE_TIERS = [
-  { name: "Giá lẻ", from: 0, note: "Dưới 1 tấn" },
-  { name: "Giá sỉ", from: 1, note: "Từ 1 tấn" },
-  { name: "Giá dự án", from: 5, note: "Từ 5 tấn" },
-];
 
 export const BAR_LENGTH = 11.7; // m / cây thép thanh vằn
 /** khối lượng 1 m thép tròn theo công thức lý thuyết d² × 0,00617 (kg/m) */

@@ -27,9 +27,9 @@ function cartUnit(p: CatalogProduct): CartProduct {
 
 /**
  * Trang chủ SẮT THÉP – bố cục v1.1 “bản vẽ kỹ thuật” (design.md §13). Giữ theme trắng · xám · đen.
- * Đánh vào tâm lý nhà thầu / chủ nhà: minh bạch giá → không mua thiếu, không mua dư → không mua nhầm hàng kém.
- *  banner + bảng giá hôm nay (cỡ lớn) → 01 danh sách vật tư & dự toán → 02 duyệt vật tư → 03 nhận biết thép chính phẩm
- *  → 04 dịch vụ tại kho → 05 cam kết → 06 tin tức → gọi chốt giá.
+ * Giá thép đổi theo thời điểm → không niêm yết; mọi nút dẫn về gọi / gửi danh sách để nhận báo giá.
+ *  banner + bảng vật tư (không ghi giá) → 01 danh sách vật tư & dự toán → 02 duyệt vật tư → 03 nhận biết thép chính phẩm
+ *  → 04 dịch vụ → 05 cam kết → 06 tin tức → gọi nhận báo giá.
  */
 export async function SatThepHome({
   vertical,
@@ -64,7 +64,7 @@ export async function SatThepHome({
 
   return (
     <>
-      {/* BANNER trên nền giấy kẻ ô: dòng thông tin → tiêu đề → bảng giá hôm nay cỡ lớn → số liệu */}
+      {/* BANNER trên nền giấy kẻ ô: dòng thông tin → tiêu đề → bảng vật tư → số liệu */}
       <section aria-labelledby="hero-title" className="blueprint border-b border-v-line pb-16 md:pb-20">
         <VContainer className="pt-6 md:pt-10">
           <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-v-fg pb-3 text-caption text-v-fg">
@@ -87,7 +87,7 @@ export async function SatThepHome({
                   </a>
                 </VButton>
                 <VButton asChild variant="quiet">
-                  <a href={telHref(vertical.phone)}>Gọi chốt giá</a>
+                  <a href={telHref(vertical.phone)}>Gọi nhận báo giá</a>
                 </VButton>
               </div>
             </div>
@@ -146,10 +146,10 @@ export async function SatThepHome({
         </VContainer>
       </section>
 
-      {/* 04. Dịch vụ tại kho – khung tên bản vẽ */}
+      {/* 04. Dịch vụ – khung tên bản vẽ */}
       <section aria-labelledby="dich-vu-title" className="border-y border-v-line py-16 md:py-24">
         <VContainer>
-          <VSectionHead id="dich-vu-title" no="04" kicker="Dịch vụ tại kho" title={content.about.title} lead={content.about.paragraphs[0]} />
+          <VSectionHead id="dich-vu-title" no="04" kicker="Dịch vụ" title={content.about.title} lead={content.about.paragraphs[0]} />
           <ol className="grid gap-4 md:grid-cols-3">
             {content.services.map((s, i) => (
               <Reveal as="li" key={s.title} delay={i * 80} className="flex flex-col border-2 border-v-fg">
@@ -223,7 +223,7 @@ export async function SatThepHome({
         </section>
       )}
 
-      {/* Gọi chốt giá */}
+      {/* Gọi nhận báo giá */}
       <section aria-labelledby="cta-title" className="py-16 md:py-24">
         <VContainer>
           <div className="grid items-end gap-8 rounded-2xl bg-v-island p-8 text-v-on-island sm:p-12 lg:grid-cols-12 lg:p-14">
@@ -242,7 +242,7 @@ export async function SatThepHome({
                 <Phone className="size-6" aria-hidden />
               </a>
               <Link href={`${base}/lien-he`} className="flex h-13 items-center justify-between gap-3 rounded-xl border border-white/20 px-5 text-body font-medium transition-colors hover:bg-white/10">
-                Gửi bản vẽ bóc tách <ArrowRight className="size-5" aria-hidden />
+                Gửi bản vẽ, nhận báo giá <ArrowRight className="size-5" aria-hidden />
               </Link>
             </div>
           </div>

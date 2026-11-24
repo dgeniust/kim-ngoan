@@ -1,6 +1,5 @@
 import "server-only";
 import { HUB_HERO, HUB_PRODUCTS, HUB_STATS } from "@/lib/content/hub-home";
-import { ZONES } from "@/lib/content/hub-extras";
 import { getCategories, getProducts } from "@/lib/data/catalog";
 import type { ArtKind, NewsItem } from "@/lib/data/types";
 import { getCategory as getFertilizerCategory } from "@/lib/mock/categories";

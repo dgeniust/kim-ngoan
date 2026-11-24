@@ -3,7 +3,7 @@
 import { useId, useState, useSyncExternalStore } from "react";
 import { ClipboardList, MessageCircle, Phone, Plus, Trash2 } from "lucide-react";
 import { useNotify } from "@/hooks/use-notify";
-import { BAR_LENGTH, PRICE_TIERS, STEEL_PER_M2, STEEL_SPLIT, kgPerM } from "@/lib/data/vertical-extras";
+import { BAR_LENGTH, STEEL_PER_M2, STEEL_SPLIT, kgPerM } from "@/lib/data/vertical-extras";
 import { telHref } from "@/lib/verticals";
 import { cn } from "@/lib/utils";
 
@@ -43,7 +43,7 @@ const INPUT = "h-11 w-full rounded-lg border border-v-line bg-v-bg px-3.5 text-l
  *  - Dự toán theo diện tích (hệ số sơ bộ kg/m² sàn, chia theo nhóm đường kính) → thêm vào danh sách;
  *  - Tính theo số cây (công thức d² × 0,00617) → thêm;
  *  - Chọn từ danh mục → thêm;
- * Bên phải: danh sách + tổng khối lượng + thước bậc giá (lẻ / sỉ / dự án) + gửi yêu cầu báo giá.
+ * Bên phải: danh sách + tổng khối lượng + gửi yêu cầu báo giá (giá báo theo thời điểm, không niêm yết).
  * Danh sách lưu trong trình duyệt để quay lại vẫn còn.
  */
 export function SteelCart({ products, phone, zalo }: { products: CartProduct[]; phone: string; zalo: string }) {
@@ -84,9 +84,6 @@ export function SteelCart({ products, phone, zalo }: { products: CartProduct[]; 
   const kg = cart.reduce((s, l) => s + (l.kg ?? 0), 0);
   const tons = kg / 1000;
   const unknown = cart.filter((l) => l.kg === undefined).length;
-  const tierIdx = PRICE_TIERS.reduce((i, t, k) => (tons >= t.from ? k : i), 0);
-  const nextTier = PRICE_TIERS[tierIdx + 1];
-  const maxScale = 6; // tấn – thang thước bậc giá
   const [name, setName] = useState("");
   const [tel, setTel] = useState("");
   const [err, setErr] = useState("");
@@ -235,14 +232,14 @@ export function SteelCart({ products, phone, zalo }: { products: CartProduct[]; 
         </div>
       </div>
 
-      {/* phải: danh sách + bậc giá + gửi */}
+      {/* phải: danh sách + tổng + gửi */}
       <aside aria-label="Danh sách vật tư" className="flex flex-col rounded-2xl bg-v-island p-6 text-v-on-island sm:p-8 lg:col-span-5">
         <p className="inline-flex items-center gap-2 text-title font-semibold">
           <ClipboardList className="size-5" aria-hidden /> Danh sách vật tư
           <span className="ml-auto text-caption font-normal tabular-nums text-white/55">{cart.length} dòng</span>
         </p>
         {cart.length === 0 ? (
-          <p className="mt-6 rounded-xl border border-dashed border-white/20 p-5 text-small leading-relaxed text-white/60">Chưa có vật tư. Dùng một trong ba cách bên cạnh để thêm — danh sách được lưu lại trên máy này.</p>
+          <p className="mt-6 rounded-xl border border-dashed border-white/20 p-5 text-small leading-relaxed text-white/60">Chưa có vật tư nào. Thêm bằng một trong ba cách bên cạnh, danh sách được lưu lại trên máy này.</p>
         ) : (
           <ul className="mt-5 max-h-72 overflow-y-auto">
             {cart.map((l) => (
@@ -262,36 +259,14 @@ export function SteelCart({ products, phone, zalo }: { products: CartProduct[]; 
           </ul>
         )}
 
-        {/* tổng + thước bậc giá */}
+        {/* tổng khối lượng */}
         <div className="mt-5 border-t border-white/15 pt-5" aria-live="polite">
           <p className="flex items-baseline justify-between gap-3">
             <span className="text-caption text-white/60">Tổng khối lượng{unknown ? ` (chưa tính ${unknown} dòng)` : ""}</span>
             <span className="text-h3 font-semibold tabular-nums">{fmt(tons, 2)} tấn</span>
           </p>
-          <div className="relative mt-5 h-2 rounded-full bg-white/10">
-            <span className="absolute inset-y-0 left-0 rounded-full bg-white transition-[width] duration-500" style={{ width: `${Math.min(100, (tons / maxScale) * 100)}%` }} />
-            {PRICE_TIERS.slice(1).map((t) => (
-              <span key={t.name} aria-hidden className="absolute -top-1 h-4 w-0.5 bg-white/50" style={{ left: `${(t.from / maxScale) * 100}%` }} />
-            ))}
-          </div>
-          <ol className="mt-3 grid grid-cols-3 text-caption">
-            {PRICE_TIERS.map((t, i) => (
-              <li key={t.name} className={cn(i === 1 && "text-center", i === 2 && "text-right", i === tierIdx ? "font-semibold text-white" : "text-white/65")}>
-                {t.name}
-                <span className="block text-micro font-normal">{t.note}</span>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-4 rounded-lg bg-white/[0.07] px-4 py-3 text-small">
-            {nextTier ? (
-              <>
-                Đang ở <strong>{PRICE_TIERS[tierIdx].name.toLowerCase()}</strong>. Thêm <strong className="tabular-nums">{fmt(nextTier.from - tons, 2)} tấn</strong> để lên <strong>{nextTier.name.toLowerCase()}</strong>.
-              </>
-            ) : (
-              <>
-                Đơn đủ mức <strong>giá dự án</strong> — gọi để được báo giá riêng và xếp xe cẩu.
-              </>
-            )}
+          <p className="mt-4 rounded-lg bg-white/[0.07] px-4 py-3 text-small leading-relaxed text-white/80">
+            Khối lượng tính theo barem lý thuyết, chỉ để tham khảo. Giá thép thay đổi theo nhà máy và thời điểm nên Kim Ngoan báo giá khi nhận danh sách.
           </p>
         </div>
 
@@ -302,7 +277,7 @@ export function SteelCart({ products, phone, zalo }: { products: CartProduct[]; 
           onSubmit={(e) => {
             e.preventDefault();
             if (!cart.length) {
-              setErr("Danh sách đang trống — thêm ít nhất một vật tư.");
+              setErr("Danh sách đang trống, cần thêm ít nhất một vật tư.");
               return;
             }
             if (!/^0\d{9}$/.test(tel.replace(/\D/g, ""))) {
@@ -313,7 +288,7 @@ export function SteelCart({ products, phone, zalo }: { products: CartProduct[]; 
             try {
               navigator.clipboard?.writeText(text).catch(() => {});
             } catch {}
-            n.success("Đã gửi danh sách báo giá", { description: `Kim Ngoan sẽ gọi số ${tel} với báo giá theo barem trong ngày. Danh sách cũng đã được chép để gửi qua Zalo.` });
+            n.success("Đã gửi danh sách", { description: `Kim Ngoan sẽ gọi số ${tel} để báo giá. Danh sách cũng đã được chép, anh/chị có thể dán gửi qua Zalo.` });
           }}
         >
           <div className="grid grid-cols-2 gap-2">

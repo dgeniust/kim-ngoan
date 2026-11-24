@@ -50,15 +50,7 @@ function HeadlinePreview({ site, h, large }: { site: Site; h: Partial<SectionHea
 
 type Block = { id: string; label: string; render: () => React.ReactNode; errorPrefix: string[] };
 
-type PriceRow = NonNullable<NonNullable<CatalogContent["quote"]>["prices"]>[number];
-const UNITS = ["đ/kg", "đ/cây", "đ/m", "đ/tấm", "đ/m²", "đ/tấn"].map((u) => ({ value: u, label: u }));
-const TRENDS = [
-  { value: "flat", label: "— Giữ giá" },
-  { value: "up", label: "▲ Tăng" },
-  { value: "down", label: "▼ Giảm" },
-];
-
-export function CatalogContentForm({ site, initial, products = [] }: { site: Site; initial: CatalogContent; products?: { slug: string; name: string; spec: string }[] }) {
+export function CatalogContentForm({ site, initial }: { site: Site; initial: CatalogContent }) {
   const meta = META[site];
   const [data, setData] = useState(initial);
   const [saved, setSaved] = useState(JSON.stringify(initial));
@@ -79,14 +71,7 @@ export function CatalogContentForm({ site, initial, products = [] }: { site: Sit
   const setHero = (k: keyof CatalogContent["hero"]) => (v: string) => set((d) => ({ ...d, hero: { ...d.hero, [k]: v } }));
   const setSec = (key: string, k: keyof SectionHeading) => (v: string) => set((d) => ({ ...d, sections: { ...d.sections, [key]: { ...d.sections[key], [k]: v } } }));
   const setCta = (k: keyof CatalogContent["cta"]) => (v: string) => set((d) => ({ ...d, cta: { ...d.cta, [k]: v } }));
-  const setQuote = (k: "title" | "status" | "documents" | "updated") => (v: string) => set((d) => ({ ...d, quote: { ...d.quote!, [k]: v } }));
-  const priceOf = (slug: string): PriceRow => data.quote?.prices?.find((r) => r.slug === slug) ?? { slug, price: "", unit: "đ/kg", trend: "flat" };
-  const setPrice = (slug: string, patch: Partial<PriceRow>) =>
-    set((d) => {
-      const rows = d.quote?.prices ?? [];
-      const next = { ...priceOf(slug), ...patch };
-      return { ...d, quote: { ...d.quote!, prices: rows.some((r) => r.slug === slug) ? rows.map((r) => (r.slug === slug ? next : r)) : [...rows, next] } };
-    });
+  const setQuote = (k: "title" | "status" | "documents") => (v: string) => set((d) => ({ ...d, quote: { ...d.quote!, [k]: v } }));
 
   function save() {
     const local = errorsOf(data);
@@ -168,58 +153,17 @@ export function CatalogContentForm({ site, initial, products = [] }: { site: Sit
 
   const quoteBlock: Block = {
     id: "bao-gia",
-    label: "Bảng giá hôm nay",
+    label: "Bảng vật tư",
     errorPrefix: ["quote."],
     render: () =>
       data.quote && (
-        <Card title="Bảng giá hôm nay (banner)" description="Bảng giá cỡ lớn ở đầu trang. Ô giá để trống → hiện “Gọi chốt giá”. Nhớ bấm “Ghi giờ hiện tại” mỗi lần cập nhật giá.">
+        <Card title="Bảng vật tư (banner)" description="Bảng vật tư thường dùng ở đầu trang. Không ghi giá vì giá thép thay đổi theo thời điểm; khách gọi hoặc gửi danh sách để nhận báo giá.">
           <Grid cols={3}>
             <TextField label="Tiêu đề bảng" required value={data.quote.title} onChange={setQuote("title")} error={e("quote.title")} />
-            <TextField label="Trạng thái" required value={data.quote.status} onChange={setQuote("status")} error={e("quote.status")} hint="VD: Đang nhận đơn" />
+            <TextField label="Trạng thái" required value={data.quote.status} onChange={setQuote("status")} error={e("quote.status")} hint="VD: Nhận báo giá 7:00 – 17:00 mỗi ngày" />
             <TextField label="Chứng từ" required value={data.quote.documents} onChange={setQuote("documents")} error={e("quote.documents")} />
           </Grid>
-          <div className="flex flex-wrap items-end gap-3">
-            <div className="min-w-56 flex-1">
-              <TextField label="Cập nhật lúc" value={data.quote.updated ?? ""} onChange={setQuote("updated")} hint="VD: 19/11/2026 08:00" />
-            </div>
-            <button
-              type="button"
-              className={BTN_TEXT}
-              onClick={() => setQuote("updated")(new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Ho_Chi_Minh" }).format(new Date()))}
-            >
-              Ghi giờ hiện tại
-            </button>
-          </div>
-          <div className="overflow-hidden rounded-lg border border-hub-line">
-            <div className="hidden grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_7rem_8rem] gap-3 bg-hub-canvas px-4 py-2 text-[12px] font-medium text-hub-ink/55 sm:grid">
-              <span>Vật tư</span>
-              <span>Giá</span>
-              <span>Đơn vị</span>
-              <span>So với tuần trước</span>
-            </div>
-            {products.map((p) => {
-              const r = priceOf(p.slug);
-              return (
-                <div key={p.slug} className="grid gap-2 border-t border-hub-line px-4 py-3 first:border-t-0 sm:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_7rem_8rem] sm:items-center sm:gap-3">
-                  <p className="min-w-0 text-[14px] font-medium text-hub-ink">
-                    {p.name} <span className="block text-[12px] font-normal text-hub-ink/50">{p.spec}</span>
-                  </p>
-                  <input aria-label={`Giá ${p.name}`} value={r.price} placeholder="Để trống = Gọi chốt giá" onChange={(ev) => setPrice(p.slug, { price: ev.target.value })} className="h-9 rounded-md border border-hub-line bg-hub-paper px-3 text-[14px] tabular-nums outline-none focus:border-hub-blue" />
-                  <select aria-label={`Đơn vị ${p.name}`} value={r.unit} onChange={(ev) => setPrice(p.slug, { unit: ev.target.value })} className="h-9 rounded-md border border-hub-line bg-hub-paper px-2 text-[14px] outline-none focus:border-hub-blue">
-                    {UNITS.map((u) => (
-                      <option key={u.value}>{u.value}</option>
-                    ))}
-                  </select>
-                  <select aria-label={`Xu hướng giá ${p.name}`} value={r.trend} onChange={(ev) => setPrice(p.slug, { trend: ev.target.value as PriceRow["trend"] })} className="h-9 rounded-md border border-hub-line bg-hub-paper px-2 text-[14px] outline-none focus:border-hub-blue">
-                    {TRENDS.map((t) => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
-                    ))}
-                  </select>
-                </div>
-              );
-            })}
-          </div>
-          <LinesField key={`notes-${version}`} label="Dòng dịch vụ dưới bảng giá" value={data.quote.notes} onChange={(v) => set((d) => ({ ...d, quote: { ...d.quote!, notes: v } }))} />
+          <LinesField key={`notes-${version}`} label="Dòng ghi chú dưới bảng" value={data.quote.notes} onChange={(v) => set((d) => ({ ...d, quote: { ...d.quote!, notes: v } }))} />
         </Card>
       ),
   };

@@ -1,23 +1,14 @@
 import Link from "next/link";
-import { ArrowDown, ArrowUp, Lock, Minus, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import type { CatalogContent, CatalogProduct } from "@/lib/data/types";
 import { telHref } from "@/lib/verticals";
-import { cn } from "@/lib/utils";
 
-const TREND = {
-  up: { icon: ArrowUp, label: "Tăng so với tuần trước", cls: "text-white" },
-  down: { icon: ArrowDown, label: "Giảm so với tuần trước", cls: "text-white" },
-  flat: { icon: Minus, label: "Giữ giá", cls: "text-white/40" },
-} as const;
 
 /**
- * Bảng giá thép hôm nay – “bảng điện tử” cỡ lớn ở banner sắt thép.
- * Giá nhập trong admin (Nội dung sắt thép › Bảng giá); ô trống hiện “Gọi chốt giá”.
- * Góc phải trên là khung tên như bản vẽ kỹ thuật.
+ * Bảng vật tư thép thường dùng – khối lớn ở banner sắt thép, góc phải là khung tên như bản vẽ kỹ thuật.
+ * Không niêm yết giá: giá thép đổi theo nhà máy và thời điểm, khách gọi / gửi danh sách để nhận báo giá.
  */
 export function SteelBoard({ quote, products, base, phone, today }: { quote: NonNullable<CatalogContent["quote"]>; products: CatalogProduct[]; base: string; phone: string; today: string }) {
-  const priceOf = (slug: string) => quote.prices?.find((r) => r.slug === slug && r.price.trim());
-  const hasAny = products.some((p) => priceOf(p.slug));
   return (
     <div className="overflow-hidden rounded-2xl bg-v-island text-v-on-island">
       {/* đầu bảng + khung tên */}
@@ -31,7 +22,7 @@ export function SteelBoard({ quote, products, base, phone, today }: { quote: Non
             {quote.status}
           </p>
           <h2 className="mt-2 text-h2 font-semibold tracking-[-0.03em] !text-white">{quote.title}</h2>
-          <p className="mt-1.5 text-small text-white/60">{quote.updated ? `Cập nhật ${quote.updated}` : "Giá chốt theo ngày, theo khối lượng — gọi để nhận giá hôm nay."}</p>
+          <p className="mt-1.5 max-w-xl text-small leading-relaxed text-white/65">Giá thép thay đổi theo nhà máy và thời điểm nên chúng tôi không ghi giá trên web. Gọi hoặc gửi danh sách vật tư để nhận báo giá đúng khối lượng.</p>
         </div>
         <dl aria-label="Khung tên" className="grid grid-cols-2 border border-white/20 text-micro uppercase tracking-[0.12em] text-white/60 sm:grid-cols-4 [&>div]:border-white/20 [&>div]:px-3 [&>div]:py-2">
           <div className="border-b border-r sm:border-b-0">
@@ -40,7 +31,7 @@ export function SteelBoard({ quote, products, base, phone, today }: { quote: Non
           </div>
           <div className="border-b sm:border-b-0 sm:border-r">
             <dt>Hạng mục</dt>
-            <dd className="mt-0.5 font-semibold text-white">Bảng giá</dd>
+            <dd className="mt-0.5 font-semibold text-white">Vật tư</dd>
           </div>
           <div className="border-r">
             <dt>Tờ</dt>
@@ -62,16 +53,11 @@ export function SteelBoard({ quote, products, base, phone, today }: { quote: Non
               <th scope="col">Vật tư</th>
               <th scope="col" className="hidden sm:table-cell">Quy cách</th>
               <th scope="col" className="hidden md:table-cell">Hãng</th>
-              <th scope="col" className="text-right">Giá hôm nay</th>
-              <th scope="col" className="w-12 text-center sm:w-16">
-                <span className="sr-only">So với tuần trước</span>±
-              </th>
+              <th scope="col" className="text-right">Giá</th>
             </tr>
           </thead>
           <tbody>
             {products.map((p) => {
-              const r = priceOf(p.slug);
-              const T = TREND[r?.trend ?? "flat"];
               return (
                 <tr key={p.slug} className="group relative border-t border-white/10 transition-colors hover:bg-white/[0.04] [&>td]:px-4 [&>td]:py-4 sm:[&>td]:px-8">
                   <td className="font-semibold">
@@ -82,21 +68,8 @@ export function SteelBoard({ quote, products, base, phone, today }: { quote: Non
                   </td>
                   <td className="hidden tabular-nums text-white/70 sm:table-cell">{p.keySpec}</td>
                   <td className="hidden text-white/70 md:table-cell">{p.brand}</td>
-                  <td className="text-right tabular-nums">
-                    {r ? (
-                      <span>
-                        <span className="text-h4 font-semibold tracking-[-0.02em]">{r.price}</span> <span className="text-caption text-white/55">{r.unit}</span>
-                      </span>
-                    ) : (
-                      <span className="whitespace-nowrap text-small font-medium text-white/55">Gọi chốt giá</span>
-                    )}
-                  </td>
-                  <td className="text-center">
-                    {r ? (
-                      <T.icon className={cn("mx-auto size-4", T.cls)} aria-label={T.label} />
-                    ) : (
-                      <span aria-hidden className="text-white/25">·</span>
-                    )}
+                  <td className="text-right">
+                    <span className="whitespace-nowrap text-small font-medium text-white/60">Liên hệ</span>
                   </td>
                 </tr>
               );
@@ -114,7 +87,7 @@ export function SteelBoard({ quote, products, base, phone, today }: { quote: Non
           ))}
         </ul>
         <a href={telHref(phone)} className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 text-body font-semibold text-v-island transition-opacity hover:opacity-90">
-          {hasAny ? <Lock className="size-4" aria-hidden /> : <Phone className="size-4" aria-hidden />} {hasAny ? "Khoá giá hôm nay" : "Gọi nhận giá hôm nay"}<span className="hidden sm:inline"> · </span><span className="hidden tabular-nums sm:inline">{phone}</span>
+          <Phone className="size-4" aria-hidden /> Gọi nhận báo giá<span className="hidden sm:inline"> · </span><span className="hidden tabular-nums sm:inline">{phone}</span>
         </a>
       </div>
     </div>

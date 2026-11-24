@@ -60,11 +60,11 @@ export const VERTICALS: Record<VerticalId, Vertical> = {
     name: "Lốp xe ô tô",
     short: "Lốp xe",
     tagline: "Bám đường. Bền bỉ. Chính hãng.",
-    description: "Lốp xe du lịch, SUV – bán tải, xe tải và xe khách từ các thương hiệu lớn. Thay lắp, cân bằng động tại chỗ.",
+    description: "Lốp xe du lịch, SUV – bán tải, xe tải và xe khách chính hãng. Tư vấn đúng cỡ, báo giá qua điện thoại và Zalo.",
     contactLabel: "Liên hệ về lốp xe ô tô",
     phone: "02713668112",
-    seoTitle: "Lốp xe ô tô chính hãng Kim Ngoan – Thay lắp tại Chơn Thành",
-    seoDescription: "Đại lý lốp xe ô tô chính hãng tại Chơn Thành: lốp xe du lịch, SUV, bán tải, xe tải. Báo giá nhanh, thay lắp và cân bằng động tại chỗ.",
+    seoTitle: "Lốp xe ô tô chính hãng Kim Ngoan – Chơn Thành, Bình Phước",
+    seoDescription: "Đại lý lốp xe ô tô chính hãng tại Chơn Thành: lốp xe du lịch, SUV, bán tải, xe tải. Tư vấn đúng cỡ, gọi hoặc nhắn Zalo để nhận báo giá.",
     themeColor: "#100904",
   },
   satthep: {
@@ -77,7 +77,7 @@ export const VERTICALS: Record<VerticalId, Vertical> = {
     contactLabel: "Liên hệ về tôn – sắt thép",
     phone: "02713668112",
     seoTitle: "Tôn, sắt thép Kim Ngoan – Thép xây dựng, tôn lợp Chơn Thành",
-    seoDescription: "Thép xây dựng, thép hình, ống hộp, tôn lợp chính phẩm tại Chơn Thành. Báo giá theo ngày, cắt theo quy cách, giao tận công trình.",
+    seoDescription: "Thép xây dựng, thép hình, ống hộp, tôn lợp chính phẩm tại Chơn Thành. Gửi danh sách vật tư để nhận báo giá, giao tận công trình.",
     themeColor: "#08090a",
   },
 };

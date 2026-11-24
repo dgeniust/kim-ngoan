@@ -11,27 +11,9 @@ import { useHideOnScroll } from "@/hooks/use-hide-on-scroll";
 /**
  * Header chuyên trang lốp xe / sắt thép – CÙNG CẤU TRÚC với header phân bón
  * (components/landing/site-header.tsx) để 3 chuyên trang có điểm chung:
- * thanh nổi bo tròn · logo "CÔNG TY TNHH / KIM NGOAN" · menu dạng viên · tìm kiếm · nút gọi.
+ * thanh nổi bo tròn · logo chữ "CÔNG TY TNHH / KIM NGOAN" (giống landing tổng) · menu dạng viên · tìm kiếm · nút gọi.
  * Màu lấy từ token theme của từng chuyên trang.
  */
-
-/** Dấu logo: ô bo góc màu nhấn của ngành + biểu tượng ngành (lốp / thép chữ I). */
-function VMark({ site }: { site: string }) {
-  return (
-    <svg viewBox="0 0 40 40" aria-hidden className="size-9 shrink-0">
-      <rect width="40" height="40" rx="10" fill="var(--v-accent)" />
-      {site === "lopxe" ? (
-        <g fill="none" stroke="var(--v-on-accent)" strokeWidth="3">
-          <circle cx="20" cy="20" r="11" />
-          <circle cx="20" cy="20" r="4.5" />
-          <path d="M20 9v6.5M20 24.5V31M9 20h6.5M24.5 20H31" strokeLinecap="round" />
-        </g>
-      ) : (
-        <path d="M11 11h18v4.5h-6.5v9H29V29H11v-4.5h6.5v-9H11Z" fill="var(--v-on-accent)" />
-      )}
-    </svg>
-  );
-}
 
 export function VHeader({ vertical, company: COMPANY }: { vertical: Vertical; company: { prefix: string; name: string; legalName: string } }) {
   const pathname = usePathname();
@@ -88,16 +70,14 @@ export function VHeader({ vertical, company: COMPANY }: { vertical: Vertical; co
           scrolled ? "shadow-[0_1px_0_var(--v-line),0_8px_24px_-16px_rgb(0_0_0/0.25)]" : "shadow-[0_1px_0_var(--v-line)]",
           hidden && "-translate-y-full",
         )}>
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between gap-4 md:h-[72px]">
-            <Link href={vertical.base} className="flex shrink-0 items-center gap-2.5 rounded-lg">
-              <VMark site={vertical.id} />
-              <span className="leading-none">
-                <span className="block logo-prefix text-v-mute">{COMPANY.prefix}</span>
-                <span className="mt-1 flex items-center gap-2">
-                  <span className="logo-name font-bold text-v-fg">{COMPANY.name}</span>
-                  <span className="hidden rounded-[4px] bg-v-pill px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-v-on-pill sm:inline">{vertical.short}</span>
-                </span>
+        <div className="w-full px-4 sm:px-6 lg:pl-6 lg:pr-8 2xl:pl-8">
+          <div className="flex h-16 items-center justify-between gap-4 md:h-[72px] lg:h-[76px]">
+            {/* logo chữ giống hệt landing tổng: CÔNG TY TNHH / KIM NGOAN, kèm nhãn ngành nhỏ */}
+            <Link href={vertical.base} className="group flex shrink-0 flex-col gap-1.5 rounded-md text-v-fg">
+              <span className="block logo-prefix text-v-mute">{COMPANY.prefix}</span>
+              <span className="flex items-center gap-2.5">
+                <span className="block text-[1.375rem] font-extrabold uppercase leading-none tracking-[0.01em] transition-transform duration-300 group-hover:-translate-y-px lg:text-[1.75rem]">{COMPANY.name}</span>
+                <span className="hidden rounded-[4px] bg-v-pill px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-v-on-pill sm:inline">{vertical.short}</span>
               </span>
             </Link>
 

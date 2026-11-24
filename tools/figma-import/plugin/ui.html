@@ -1,0 +1,69 @@
+<style>
+  body { font: 13px/1.45 Inter, system-ui, sans-serif; margin: 0; padding: 16px; color: var(--figma-color-text, #1b1b1b); background: var(--figma-color-bg, #fff); }
+  h1 { font-size: 15px; margin: 0 0 4px; }
+  p { margin: 0 0 12px; color: var(--figma-color-text-secondary, #666); }
+  .drop { border: 1.5px dashed var(--figma-color-border-strong, #bbb); border-radius: 10px; padding: 18px 12px; text-align: center; cursor: pointer; }
+  .drop.on { border-color: #2f7d32; background: rgba(47,125,50,.06); }
+  ul { list-style: none; padding: 0; margin: 10px 0; max-height: 110px; overflow: auto; }
+  li { padding: 3px 0; display: flex; justify-content: space-between; gap: 8px; }
+  li span { color: var(--figma-color-text-secondary, #777); white-space: nowrap; }
+  label.opt { display: flex; gap: 6px; align-items: center; margin: 6px 0 12px; }
+  button { width: 100%; height: 36px; border: 0; border-radius: 8px; background: #143f1b; color: #fff; font-weight: 600; cursor: pointer; }
+  button:disabled { opacity: .45; cursor: default; }
+  .bar { height: 6px; background: var(--figma-color-bg-secondary, #eee); border-radius: 3px; overflow: hidden; margin-top: 12px; display: none; }
+  .bar i { display: block; height: 100%; width: 0; background: #2f7d32; transition: width .2s; }
+  #msg { margin-top: 10px; white-space: pre-wrap; }
+  .err { color: #c62828; }
+</style>
+<h1>Kim Ngoan → Figma</h1>
+<p>Chọn các file <b>.json</b> trong thư mục <b>data/</b> (có thể chọn cả 4 cùng lúc).</p>
+<div class="drop" id="drop">Bấm để chọn file, hoặc kéo thả vào đây</div>
+<input type="file" id="file" accept=".json,application/json" multiple hidden />
+<ul id="list"></ul>
+<label class="opt"><input type="checkbox" id="pages" checked /> Tạo trang Figma riêng cho mỗi landing</label>
+<button id="go" disabled>Dựng thiết kế</button>
+<div class="bar" id="bar"><i id="fill"></i></div>
+<div id="msg"></div>
+<script>
+  const docs = [];
+  const $ = (id) => document.getElementById(id);
+  const list = $("list"), go = $("go"), msg = $("msg");
+  async function add(files) {
+    for (const f of files) {
+      try {
+        const d = JSON.parse(await f.text());
+        if (!d.root || !d.width) throw new Error("không đúng định dạng");
+        const i = docs.findIndex((x) => x.name === d.name);
+        if (i >= 0) docs.splice(i, 1);
+        docs.push(d);
+      } catch (e) {
+        msg.innerHTML = '<span class="err">' + f.name + ": " + e.message + "</span>";
+      }
+    }
+    list.innerHTML = docs.map((d) => "<li>" + d.name + "<span>" + d.width + "×" + d.height + "</span></li>").join("");
+    go.disabled = !docs.length;
+  }
+  $("drop").onclick = () => $("file").click();
+  $("file").onchange = (e) => add(e.target.files);
+  const dz = $("drop");
+  dz.ondragover = (e) => { e.preventDefault(); dz.classList.add("on"); };
+  dz.ondragleave = () => dz.classList.remove("on");
+  dz.ondrop = (e) => { e.preventDefault(); dz.classList.remove("on"); add(e.dataTransfer.files); };
+  go.onclick = () => {
+    go.disabled = true;
+    $("bar").style.display = "block";
+    msg.textContent = "Đang dựng… (vài chục giây)";
+    parent.postMessage({ pluginMessage: { type: "build", docs, usePages: $("pages").checked } }, "*");
+  };
+  onmessage = (e) => {
+    const m = e.data.pluginMessage;
+    if (!m) return;
+    if (m.type === "progress") $("fill").style.width = Math.round((m.done / m.total) * 100) + "%";
+    if (m.type === "done") {
+      $("fill").style.width = "100%";
+      msg.textContent = "Xong: " + m.frames + " frame, " + m.nodes + " lớp." + (m.missing.length ? "\nThiếu font (đã thay bằng Inter): " + m.missing.join(", ") : "");
+      go.disabled = false;
+    }
+    if (m.type === "error") { msg.innerHTML = '<span class="err">Lỗi: ' + m.message + "</span>"; go.disabled = false; }
+  };
+</script>

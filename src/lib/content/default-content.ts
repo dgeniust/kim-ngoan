@@ -1,0 +1,134 @@
+import type { SiteContent } from "./schema";
+
+export const defaultContent: SiteContent = {
+  site: {
+    companyPrefix: "CÔNG TY TNHH",
+    companyName: "KIM NGOAN",
+    slogan: "Đại lý phân bón - Vì mùa màng bội thu",
+    logo: "",
+    phone: "123456789",
+    email: "kimngoan@example.com",
+    address: "Tổ 3, Ấp 2, Quốc Lộ 13, Xã Thành Tâm, Huyện Chơn Thành, Tỉnh Bình Phước",
+    facebook: "https://facebook.com",
+    seoTitle: "Công ty TNHH Kim Ngoan – Đại lý phân bón & thuốc BVTV",
+    seoDescription:
+      "Đại lý phân bón uy tín tại Chơn Thành – Bình Phước. Cung cấp phân bón, thuốc bảo vệ thực vật chất lượng cao cho nhà nông.",
+  },
+  nav: [
+    { label: "Trang chủ", href: "/phanbon" },
+    { label: "Sản phẩm", href: "/phanbon/san-pham" },
+    { label: "Dịch vụ", href: "/phanbon/dich-vu" },
+    { label: "Tin tức", href: "/phanbon/tin-tuc" },
+    { label: "Giới thiệu", href: "/phanbon/gioi-thieu" },
+    { label: "Liên hệ", href: "/phanbon/lien-he" },
+  ],
+  hero: {
+    autoplay: true,
+    stats: [
+      { value: "10+", label: "Năm đồng hành cùng nhà nông" },
+      { value: "5.000+", label: "Nhà vườn tin dùng" },
+    ],
+    slides: [
+      {
+        eyebrow: "ĐẠI LÝ PHÂN BÓN",
+        titleLine1: "CÔNG TY TNHH",
+        titleLine2: "KIM NGOAN",
+        tagline: "Đồng hành cùng nhà nông\nvì một nền nông nghiệp bền vững",
+        description: "Cung cấp các loại phân bón và thuốc bảo vệ thực vật",
+        ctaLabel: "Xem sản phẩm",
+        ctaHref: "/phanbon/san-pham",
+        image: "/hero-img.jpg",
+      },
+      {
+        eyebrow: "GIẢI PHÁP DINH DƯỠNG",
+        titleLine1: "MÙA MÀNG",
+        titleLine2: "BỘI THU",
+        tagline: "Chọn đúng phân bón\ncho từng loại cây trồng",
+        description: "Tư vấn kỹ thuật miễn phí cho cà phê, cao su, sầu riêng, tiêu và lúa",
+        ctaLabel: "Nhận tư vấn",
+        ctaHref: "/phanbon/lien-he",
+        image: "/hero-img2.jpg",
+      },
+    ],
+  },
+  features: [
+    { icon: "ShieldCheck", title: "Sản phẩm chính hãng", description: "Chất lượng, uy tín" },
+    { icon: "Truck", title: "Giao hàng nhanh chóng", description: "Đúng hẹn, tận nơi" },
+    { icon: "Sprout", title: "Tư vấn kỹ thuật tận tâm", description: "Đồng hành cùng nhà nông" },
+    { icon: "Handshake", title: "Giá cả hợp lý", description: "Hỗ trợ tối đa" },
+  ],
+  products: {
+    title: "Sản phẩm của chúng tôi",
+    subtitle: "Đa dạng sản phẩm - Đáp ứng mọi nhu cầu của nhà nông",
+    items: [
+      {
+        title: "Phân bón",
+        bullets: ["Phân bón hữu cơ", "Phân bón vô cơ", "Phân bón NPK", "Phân bón vi sinh"],
+        image: "/fertilize-img.jpg",
+        ctaLabel: "Xem danh mục",
+        ctaHref: "/phanbon/danh-muc/phan-bon",
+      },
+      {
+        title: "Thuốc bảo vệ thực vật",
+        bullets: ["Thuốc trừ sâu", "Thuốc trừ bệnh", "Thuốc diệt cỏ", "Thuốc kích thích sinh trưởng"],
+        image: "/fertilize-img.jpg",
+        ctaLabel: "Xem danh mục",
+        ctaHref: "/phanbon/danh-muc/thuoc-bao-ve-thuc-vat",
+      },
+    ],
+  },
+  crops: {
+    title: "Cây trồng tiêu biểu",
+    subtitle: "Chúng tôi cung cấp giải pháp dinh dưỡng và bảo vệ cây trồng cho nhiều loại cây trồng chủ lực",
+    items: [
+      { name: "Cây cà phê", description: "Năng suất cao - Chất lượng tốt", image: "/coffee.jpg" },
+      { name: "Cây cao su", description: "Bền vững - Hiệu quả lâu dài", image: "/caosu.jpg" },
+      { name: "Cây sầu riêng", description: "Trái to - Ngọt đậm", image: "/durian.jpg" },
+      { name: "Cây tiêu", description: "Phát triển mạnh - Ít sâu bệnh", image: "/tieu.webp" },
+      { name: "Cây lúa", description: "Xanh lá - Bội thu", image: "/lua.jpg" },
+      { name: "Cây ăn trái", description: "Bưởi, cam, quýt - Trái đều, ngọt", image: "/hero-img.jpg" },
+      // TODO(khách hàng): thay ảnh vườn rau thật
+      { name: "Rau màu", description: "Lá xanh - Thu hoạch nhanh", image: "/garden.jpg" },
+    ],
+  },
+  about: {
+    title: "Về chúng tôi",
+    quote: "Nông nghiệp phát triển\nlà cuộc sống ấm no hơn",
+    image: "/garden.jpg",
+    paragraphs: [
+      "Công ty TNHH Kim Ngoan là đại lý phân bón uy tín tại khu vực Chơn Thành – Bình Phước, chuyên cung cấp các loại phân bón và thuốc bảo vệ thực vật chất lượng cao, phục vụ bà con nông dân.",
+      "Với phương châm \"Chất lượng tạo nên niềm tin\", chúng tôi luôn nỗ lực mang đến những sản phẩm tốt nhất, dịch vụ chuyên nghiệp và giải pháp nông nghiệp hiệu quả cho mọi nhà nông.",
+    ],
+    ctaLabel: "Câu chuyện Kim Ngoan",
+    ctaHref: "/phanbon/gioi-thieu",
+    highlights: [
+      { icon: "ShieldCheck", title: "Uy tín lâu năm" },
+      { icon: "Sprout", title: "Sản phẩm đa dạng" },
+      { icon: "Users", title: "Đội ngũ chuyên nghiệp" },
+      { icon: "HeartHandshake", title: "Luôn đồng hành cùng nhà nông" },
+    ],
+  },
+  stories: {
+    title: "Vườn thật, người thật",
+    subtitle: "Câu chuyện của bà con đang dùng phân, thuốc Kim Ngoan — ảnh thật, kết quả thật, được chủ vườn đồng ý đăng.",
+    // TODO(khách hàng): thêm câu chuyện thật trong admin › Nội dung phân bón › Vườn thật. Không đăng câu chuyện mẫu.
+    items: [],
+  },
+  contact: {
+    title: "Liên hệ ngay",
+    subtitle: "Để được tư vấn và hỗ trợ tốt nhất!",
+    addressLabel: "Địa chỉ",
+  },
+  footer: {
+    sloganLine1: "Hợp tác hôm nay",
+    sloganLine2: "Thịnh vượng ngày mai",
+    copyright: "© 2026 Công ty TNHH Kim Ngoan. Bảo lưu mọi quyền.",
+    links: [
+      { label: "Sản phẩm", href: "/phanbon/san-pham" },
+      { label: "Dịch vụ", href: "/phanbon/dich-vu" },
+      { label: "Tin tức", href: "/phanbon/tin-tuc" },
+      { label: "Giới thiệu", href: "/phanbon/gioi-thieu" },
+      { label: "Liên hệ", href: "/phanbon/lien-he" },
+    ],
+  },
+};

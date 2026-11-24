@@ -1,0 +1,636 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Kim Ngoan – design tokens
+ * Giữ bảng màu cũ (xanh lá + vàng nắng) nhưng tiết chế:
+ *  - forest (brand-900) cho các dải nhấn, footer
+ *  - sage (surface) thay cho viền để tách khối
+ *  - vàng chỉ dùng cho hành động chính (gọi điện) và gạch dưới tiêu đề
+ */
+@theme {
+  /* ===================================================================
+   * THANG CHỮ DUY NHẤT cho toàn website (dùng: text-display, text-h1 … text-micro)
+   * Tiêu đề co giãn theo màn hình (clamp), chữ thường cố định để dễ đọc.
+   *   display  hero của mỗi trang chủ          40 → 72px
+   *   h1       tiêu đề trang con (H1)          36 → 56px
+   *   h2       tiêu đề khối (H2)               30 → 44px
+   *   h3       tiêu đề phụ / số liệu lớn       24 → 30px
+   *   h4       tiêu đề thẻ lớn                 20px
+   *   title    tiêu đề thẻ, tên sản phẩm       18px
+   *   lead     đoạn mở đầu dưới tiêu đề        17 → 19px
+   *   body     chữ thường                      16px
+   *   small    chữ phụ, nút nhỏ, menu          14px
+   *   caption  nhãn, ngày tháng, chú thích     13px
+   *   micro    huy hiệu rất nhỏ                12px (nhỏ nhất)
+   * =================================================================== */
+  --text-display: clamp(2.5rem, 5.4vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 4.2vw, 3.5rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.875rem, 3.1vw, 2.75rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.5rem, 2.1vw, 1.875rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h4: 1.25rem;
+  --text-h4--line-height: 1.3;
+  --text-h4--letter-spacing: -0.015em;
+  --text-title: 1.125rem;
+  --text-title--line-height: 1.35;
+  --text-title--letter-spacing: -0.01em;
+  --text-lead: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.45;
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.4;
+
+  --color-brand-50: #f1f5f1;
+  --color-brand-100: #e2ebe3;
+  --color-brand-200: #c3d6c6;
+  --color-brand-300: #9dbda3;
+  --color-brand-400: #6c9a75;
+  --color-brand-500: #4b7c55;
+  --color-brand-600: #3b6b45;
+  --color-brand-700: #2f5d3a;
+  --color-brand-800: #264c2f;
+  --color-brand-900: #1d3a25;
+  --color-brand-950: #13281a;
+
+  --color-sun-100: #f8eedf;
+  --color-sun-200: #f0dcbc;
+  --color-sun-300: #e7c48e;
+  --color-sun-400: #dcae6a;
+  --color-sun-500: #cf9950;
+
+  /* Bề mặt phụ: xanh xám rất nhạt, dùng thay viền */
+  --color-surface: #f4f5f7;
+  --color-surface-strong: #eceef1;
+  /* Nền trang landing "Vườn Xanh" – trắng ngả xanh lá */
+  --color-paper: #f8f9fa;
+
+  --color-ink: #18181b;
+  --color-ink-muted: #52525b;
+  --color-ink-subtle: #5b5b63; /* ≥ 4.5:1 trên nền trắng & surface */
+
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Dancing Script", cursive;
+
+  /* Landing tổng (hub) – phong cách "sổ giấy dưới nắng chiều" (Notion):
+   * nền giấy ấm, thẻ trắng viền mảnh không đổ bóng, MỘT màu xanh cho hành động chính,
+   * các mảng màu phẳng (vàng, xanh trời, đào, xanh đêm) như giấy note. Không dùng gradient. */
+  --color-hub-ink: #18181b; /* xám than – business v1 */
+  --color-hub-graphite: #37352f;
+  --color-hub-ink-soft: #52525b;
+  --color-hub-muted: #a1a1aa;
+  --color-hub-paper: #ffffff;
+  --color-hub-canvas: #f8f9fa;
+  --color-hub-sand: #f6f5f4;
+  --color-hub-stone: #eceef1;
+  --color-hub-line: rgb(24 24 27 / 0.1);
+  /* v1.2: màu hành động chính của landing tổng chuyển từ xanh dương sang xanh rừng (brand-700) để trang
+     mang chất nông nghiệp, nghiêng về phân bón. Giữ tên token cũ để không phải đổi hàng trăm chỗ dùng. */
+  /* business v1 (Editorial Industrial): màu hành động = cam đồng; giữ tên token cũ để không sửa hàng trăm chỗ dùng */
+  --color-hub-blue: #a84b24; /* 5.6:1 trên nền trắng */
+  --color-hub-blue-hover: #8c3d1c;
+  --color-hub-blue-tint: #f8ece5;
+  /* màu nhận diện từng ngành trong landing business */
+  --color-biz-moss: #2f5d3a; /* phân bón */
+  --color-biz-moss-tint: #ecf2ec;
+  --color-biz-graphite: #26272b; /* lốp xe */
+  --color-biz-copper: #a84b24; /* sắt thép & nút hành động */
+  --color-biz-mist: #f4f5f7; /* nền khối tin tức */
+  /* Bảng màu “mùa vụ” cho landing tổng – sặc sỡ vừa đủ: mỗi màu có bản đặc (chấm, vạch),
+   * bản chữ (≥4.5:1 trên trắng và trên nền nhạt của chính nó) và bản nền nhạt. */
+  --color-c-leaf: #16a34a;
+  --color-c-leaf-ink: #0b5d36;
+  --color-c-leaf-tint: #dcf2e3;
+  --color-c-sun: #f59e0b;
+  --color-c-sun-ink: #92400e;
+  --color-c-sun-tint: #fef3c7;
+  --color-c-sky: #0f4c81;
+  --color-c-sky-ink: #0f4c81;
+  --color-c-sky-tint: #e1ecf6;
+  --color-c-ember: #ea580c;
+  --color-c-ember-ink: #c2410c;
+  --color-c-ember-tint: #ffedd5;
+  /* “Mùa Vàng & Đại Ngàn” – landing tổng (design.md §2.5) */
+  --color-mv-ivory: #faf9f5; /* nền khối sáng */
+  --color-mv-mint: #eff6f1; /* nền khối xen kẽ */
+  --color-mv-emerald: #0b5d36; /* thương hiệu chính, tab chọn, thanh chỉ số */
+  --color-mv-green: #16a34a; /* xanh lá tươi: vạch, chấm, mảng (không dùng làm chữ trên nền sáng) */
+  --color-mv-green-deep: #15803d; /* điểm cuối gradient banner */
+  --color-mv-gold: #f59e0b; /* vàng lúa chín: nút trên nền xanh, badge */
+  --color-mv-gold-soft: #fbbf24; /* chữ nhấn / số liệu trên nền tối */
+  --color-mv-amber: #ea580c; /* cam hổ phách: CTA (mảng lớn) */
+  --color-mv-amber-ink: #c2410c; /* cam hổ phách đậm: nền nút chữ trắng & chữ cam (≥4.5:1) */
+  --color-mv-night: #082919; /* xanh rừng đêm: overlay hero, footer */
+  --color-mv-ink: #132a1e; /* chữ chính */
+  --color-mv-ink-soft: #4b5d52; /* chữ phụ */
+  --color-mv-mist: #d1fae5; /* chữ phụ trên nền xanh */
+  --color-mv-slate: #1e293b; /* lốp xe */
+  --color-mv-steel: #0f4c81; /* sắt thép */
+  --color-mv-brick: #dc2626; /* sắt thép – nhấn */
+  --color-hub-marigold: #ffb110;
+  --color-hub-marigold-soft: #fff4d9;
+  --color-hub-coral: #f64932;
+  --color-hub-coral-soft: #fee6e1;
+  --color-hub-sky: #62aef0;
+  --color-hub-sky-soft: #e6f3fe;
+  --color-hub-signal: #097fe8;
+  --color-hub-peach: #f6d5b8;
+  --color-hub-mocha: #b18164;
+  --color-hub-midnight: #02093a;
+  --color-hub-mint: #9bd8a9;
+  --color-hub-mint-soft: #e7f5ea;
+  --color-hub-peri: #62aef0;
+  --color-hub-peri-soft: #e6f3fe;
+  --shadow-hub-nav: 0 0.7px 1.462px rgb(0 0 0 / 0.015), 0 3px 9px rgb(0 0 0 / 0.03);
+  --shadow-hub-ui: 0 4px 12px rgb(0 0 0 / 0.1);
+  --animate-bob: bob 3.2s ease-in-out infinite;
+  --animate-pop: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(-4deg); }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(0.35em) scale(0.92); }
+    to { opacity: 1; transform: none; }
+  }
+  /* Màu đại diện ngành trên trang tổng – khớp theme chuyên trang:
+   * phân bón = xanh lá; lốp xe = cam (màu nhấn chuyên trang lốp); sắt thép = xanh thép. */
+  --color-sector-phanbon: #3a9a4f;
+  --color-sector-lopxe: #e07a3f;
+  --color-sector-satthep: #3d7fc2;
+  --color-lopxe-ink: #17181b;
+  --color-lopxe-orange: #e07a3f;
+  --color-lopxe-soft: #f6ece5;
+  --color-satthep-ink: #111111;
+  --color-satthep-soft: #f1f1f2;
+  --color-satthep-gray: #e4e4e7;
+  --shadow-craft: 0 50px 40px rgb(0 0 0 / 0.01), 0 50px 40px rgb(0 0 0 / 0.02), 0 20px 40px rgb(0 0 0 / 0.05), 0 3px 10px rgb(0 0 0 / 0.08);
+  --shadow-craft-hover: 0 12px 12px 2px rgb(0 0 0 / 0.08), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-rise: rise 0.9s var(--ease-soft) both;
+  --animate-progress: progress linear both;
+  --animate-fade: fade 0.5s var(--ease-soft) both;
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes tour-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes peek {
+    from { transform: translateX(24px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+  @keyframes progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  --shadow-soft: 0 1px 2px rgb(24 24 27 / 0.04), 0 8px 24px -12px rgb(24 24 27 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(24 24 27 / 0.04), 0 20px 40px -20px rgb(24 24 27 / 0.2);
+}
+
+/* ---------- shadcn semantic tokens ---------- */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-heading: var(--font-sans);
+
+  /* Token theo theme chuyên trang (.theme-lopxe / .theme-satthep) */
+  --color-v-bg: var(--v-bg);
+  --color-v-raise: var(--v-raise);
+  --color-v-sunk: var(--v-sunk);
+  --color-v-fg: var(--v-fg);
+  --color-v-mute: var(--v-mute);
+  --color-v-accent: var(--v-accent);
+  --color-v-on-accent: var(--v-on-accent);
+  --color-v-invert: var(--v-invert);
+  --color-v-on-invert: var(--v-on-invert);
+  --color-v-mark: var(--v-mark);
+  --color-v-spark: var(--v-spark);
+  --color-v-card: var(--v-card);
+  --color-v-tint: var(--v-tint);
+  --color-v-on-tint: var(--v-on-tint);
+  --color-v-pill: var(--v-pill);
+  --color-v-on-pill: var(--v-on-pill);
+  --color-v-chip: var(--v-chip);
+  --color-v-island: var(--v-island);
+  --color-v-on-island: var(--v-on-island);
+  --color-v-accent-hover: var(--v-accent-hover);
+  --color-v-line: var(--v-line);
+  --font-display: var(--v-display);
+}
+
+:root {
+  --radius: 0.375rem; /* business: bo góc nhẹ 6px (2xl ≈ 10px) */
+  --background: #ffffff;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #264c2f;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f5f7;
+  --secondary-foreground: #264c2f;
+  --muted: #f4f5f7;
+  --muted-foreground: #52525b;
+  --accent: #eceef1;
+  --accent-foreground: #264c2f;
+  --destructive: #c0352b;
+  --border: #e4e5e9;
+  --input: #d4d5db;
+  --ring: #4b7c55;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    /* KHÔNG dùng scroll-padding-top trên <html>: router Next coi trang mới “nằm ngoài màn hình”
+       khi nội dung bắt đầu cao hơn giá trị này → tự cuộn xuống giữa trang sau khi chuyển trang. */
+    -webkit-text-size-adjust: 100%;
+    @apply font-sans;
+  }
+  /* Chừa chỗ cho header dính khi nhảy tới neo #… (thay cho scroll-padding-top của html) */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+  body {
+    @apply bg-background text-ink antialiased;
+    font-feature-settings: "kern", "liga";
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    color: var(--heading, var(--color-brand-900));
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--selection-bg, var(--color-brand-200));
+    color: var(--selection-fg, var(--color-brand-950));
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2;
+    outline-color: var(--focus, var(--color-brand-500));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer utilities {
+  /* Tiêu đề lớn kiểu "Vườn Xanh": nét vừa, chữ khít */
+  .display {
+    @apply font-medium text-brand-900;
+  }
+  /* Khối logo (chữ “CÔNG TY TNHH / KIM NGOAN”): cỡ cố định, giống nhau ở mọi header/footer */
+  .logo-prefix {
+    font-size: 0.6875rem;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+  }
+  .logo-name {
+    font-size: 1.375rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  /* Nội dung bài viết dễ đọc */
+  .prose-kn {
+    @apply max-w-[68ch] text-[1.0625rem] leading-[1.8] text-ink;
+  }
+}
+
+/* =====================================================================
+ * THEME CHUYÊN TRANG
+ * Nguyên tắc chung cho lốp xe & sắt thép: không viền card, tách khối bằng
+ * mảng màu + khoảng trắng; một font Be Vietnam Pro; gần như không animation.
+ * ===================================================================== */
+/* Hai chuyên trang dùng chung cấu trúc Notion (thẻ bo 12px viền mảnh, nút bo 8px, viên màu bọc chữ,
+ * mảng màu phẳng, không gradient, không đổ bóng thẻ); chỉ khác bảng màu. */
+.theme-lopxe {
+  /* Lốp xe: nền đen, chữ trắng, điểm nhấn cam */
+  --v-bg: #17181b;
+  --v-card: #202125;
+  --v-raise: #202125;
+  --v-sunk: #1b1c1f;
+  --v-fg: #f4f4f5;
+  --v-mute: #a1a1aa;
+  --v-accent: #e07a3f;
+  --v-on-accent: #17181b;
+  --v-accent-hover: #e98f58;
+  --v-tint: rgb(224 122 63 / 0.14);
+  --v-on-tint: #f0a476;
+  --v-invert: #e07a3f;
+  --v-on-invert: #17181b;
+  --v-mark: #e07a3f;
+  --v-spark: #e07a3f;
+  --v-line: rgb(255 255 255 / 0.1);
+  --v-pill: #e07a3f;
+  --v-on-pill: #17181b;
+  --v-chip: rgb(255 255 255 / 0.07);
+  --v-ring-1: #e07a3f;
+  --v-ring-2: rgb(255 255 255 / 0.55);
+  --v-island: #f4f4f5;
+  --v-on-island: #17181b;
+  --v-art-bg: #26272b;
+  --heading: #f4f4f5;
+  --focus: #e07a3f;
+  --selection-bg: #e07a3f;
+  --selection-fg: #17181b;
+  color-scheme: dark;
+}
+.theme-satthep {
+  /* Sắt thép: nền trắng, phối xám, chữ đen */
+  --v-bg: #ffffff;
+  --v-card: #ffffff;
+  --v-raise: #f4f5f7;
+  --v-sunk: #f4f5f7;
+  --v-fg: #18181b;
+  --v-mute: #5b5b63;
+  --v-accent: #a84b24;
+  --v-on-accent: #ffffff;
+  --v-accent-hover: #8c3d1c;
+  --v-tint: #f8ece5;
+  --v-on-tint: #8c3d1c;
+  --v-invert: #111111;
+  --v-on-invert: #ffffff;
+  --v-mark: #a84b24;
+  --v-spark: #a84b24;
+  --v-line: rgb(0 0 0 / 0.08);
+  --v-pill: #e4e4e7;
+  --v-on-pill: #0a0a0a;
+  --v-chip: #f4f5f7;
+  --v-ring-1: #a84b24;
+  --v-ring-2: #a1a1aa;
+  --v-island: #18181b;
+  --v-on-island: #ffffff;
+  --v-art-bg: #f4f5f7;
+  --heading: #18181b;
+  --focus: #a84b24;
+  --selection-bg: #f8ece5;
+  --selection-fg: #18181b;
+}
+.theme-lopxe,
+.theme-satthep {
+  --v-display: var(--font-sans);
+  --v-display-style: normal;
+  --v-display-weight: 700;
+  --v-display-track: -0.025em;
+  --v-display-leading: 1.1;
+  --v-display-case: none;
+  --v-label-case: none;
+  --v-label-track: 0;
+  --v-hero-size: clamp(2.5rem, 6vw, 4.5rem);
+  --v-cut: none;
+  --v-radius: 6px;
+  --v-radius-lg: 8px;
+  --v-zoom: scale(1.04);
+  --v-rule-style: solid;
+}
+/* Lốp xe & sắt thép: bỏ hiệu ứng hiện dần / trượt vào – chỉ giữ chuyển màu khi hover */
+.theme-lopxe .reveal,
+.theme-satthep .reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+.theme-lopxe .animate-rise,
+.theme-satthep .animate-rise {
+  animation: none;
+}
+.theme-hub {
+  --heading: var(--color-hub-ink);
+  --focus: var(--color-hub-blue);
+  --selection-bg: var(--color-hub-blue-tint);
+  --selection-fg: var(--color-hub-ink);
+}
+
+@layer utilities {
+  /* Tiêu đề lớn của chuyên trang – kiểu chữ đổi theo theme */
+  .v-display {
+    font-family: var(--v-display);
+    font-style: var(--v-display-style);
+    font-weight: var(--v-display-weight);
+    /* cỡ chữ, line-height, letter-spacing: theo token text-display / text-h1 … */
+    text-transform: var(--v-display-case, uppercase);
+  }
+  .v-art {
+    background: var(--v-art-bg);
+    border-radius: var(--v-radius-lg, 0);
+  }
+  /* Phóng nhẹ hình khi hover thẻ – mức độ theo theme */
+  .v-hover-zoom {
+    transition: transform 0.7s var(--ease-soft);
+  }
+  .group:hover .v-hover-zoom {
+    transform: var(--v-zoom);
+  }
+
+  /* Hiện dần khi cuộn tới – xem components/shared/reveal.tsx */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.8s var(--ease-soft),
+      transform 0.8s var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[peek"], [class*="animate-[tour-in"] { animation: none !important; }
+}
+
+/* =====================================================================
+ * SPLASH chuyển khu (components/shared/route-splash.tsx) + SKELETON tải trang
+ * ===================================================================== */
+@keyframes splash-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes splash-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes splash-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes skel-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+.splash { animation: splash-in 180ms ease-out both; }
+.splash[data-state="out"] { animation: splash-out 260ms ease-in both; }
+/* logo chữ kim ngoan: vẽ nét → lùi camera → chữ bật vào → tag */
+@keyframes splash-stroke { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes splash-zoom { from { transform: scale(2.6); } to { transform: scale(1); } }
+@keyframes splash-letter-l { from { opacity: 0; transform: translateX(-48px) scale(0.45); } 70% { opacity: 1; transform: translateX(3px) scale(1.06); } to { opacity: 1; transform: none; } }
+@keyframes splash-letter-r { from { opacity: 0; transform: translateX(48px) scale(0.45); } 70% { opacity: 1; transform: translateX(-3px) scale(1.06); } to { opacity: 1; transform: none; } }
+.splash-draw { stroke-dasharray: 1; animation: splash-stroke 460ms 40ms cubic-bezier(0.55, 0.1, 0.35, 1) both; }
+.splash-zoom { animation: splash-zoom 400ms 400ms cubic-bezier(0.7, 0, 0.2, 1) both; }
+.splash-letter-l, .splash-letter-r { transform-box: fill-box; transform-origin: 50% 100%; animation: splash-letter-l 320ms cubic-bezier(0.3, 0.7, 0.4, 1) both; }
+.splash-letter-r { animation-name: splash-letter-r; }
+.splash-tag { animation: splash-rise 300ms 620ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+/* khối skeleton: màu nền theo theme đang đứng (phân bón mặc định, hub/lốp xe/sắt thép ghi đè) */
+:root { --skel: #e6ede0; --skel-shine: rgb(255 255 255 / 0.65); }
+.theme-hub { --skel: #e9e8e5; --skel-shine: rgb(255 255 255 / 0.7); }
+.theme-lopxe { --skel: #1d1d1d; --skel-shine: rgb(255 255 255 / 0.07); }
+.theme-satthep { --skel: #e9e9ec; --skel-shine: rgb(255 255 255 / 0.75); }
+.skel { position: relative; overflow: hidden; background: var(--skel); }
+.skel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--skel-shine), transparent);
+  animation: skel-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash, .splash[data-state="out"], .splash * { animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
+  .skel::after { display: none; }
+}
+
+/* Nền “giấy kẻ ô bản vẽ” cho trang sắt thép (ô lớn 120px + ô nhỏ 24px, nét rất mảnh) */
+.blueprint {
+  background-color: var(--v-bg);
+  background-image:
+    linear-gradient(to right, rgb(0 0 0 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.05) 1px, transparent 1px),
+    linear-gradient(to right, rgb(0 0 0 / 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.025) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+/* hiện ra nhẹ (thẻ gợi ý, kết quả bác sĩ cây trồng…) */
+@keyframes kn-pop { from { opacity: 0; transform: translateY(6px) scale(0.98); } to { opacity: 1; transform: none; } }
+.kn-pop { animation: kn-pop 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .kn-pop { animation: none; }
+}
+
+
+/* Hero landing tổng: thanh thời gian 6s của ảnh nền */
+@keyframes biz-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes biz-panel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+/* Landing tổng dùng bảng màu “Mùa Vàng & Đại Ngàn”: đổi các token hub-* trong phạm vi .theme-hub
+   (admin và chuyên trang không bị ảnh hưởng). */
+.theme-hub {
+  --color-hub-ink: #132a1e;
+  --color-hub-ink-soft: #4b5d52;
+  --color-hub-canvas: #faf9f5;
+  --color-hub-stone: #e4ebe5;
+  --color-hub-blue: #c2410c;
+  --color-hub-blue-hover: #9a3412;
+  --color-hub-blue-tint: #ffedd5;
+  --color-biz-moss: #0b5d36;
+}
+.biz-garden { background-color: #faf9f5; }
+/* Chuyên trang phân bón – bảng màu “Mùa Vàng & Đại Ngàn” (cùng landing tổng, design.md §2.4/§6b).
+ * Đổi giá trị token nên mọi component dùng brand-*, sun-*, ink-* tự đổi theo, không sửa từng chỗ.
+ * brand-500 (#16A34A) chỉ cho mảng/vạch; chữ xanh dùng brand-700 (#0B5D36 ≥ 7:1 trên ngà). */
+.theme-pb {
+  --color-brand-50: #eff6f1;
+  --color-brand-100: #dcefe2;
+  --color-brand-200: #bfe3cc;
+  --color-brand-300: #86cf9f;
+  --color-brand-400: #43b56a;
+  --color-brand-500: #16a34a;
+  --color-brand-600: #15803d;
+  --color-brand-700: #0b5d36;
+  --color-brand-800: #0b5d36;
+  --color-brand-900: #082919;
+  --color-brand-950: #051a10;
+  --color-sun-100: #fef3c7;
+  --color-sun-200: #fde68a;
+  --color-sun-300: #fbbf24;
+  --color-sun-400: #f59e0b;
+  --color-sun-500: #ea580c;
+  --color-ink: #132a1e;
+  --color-ink-muted: #4b5d52;
+  --color-ink-subtle: #52645a;
+  --color-biz-copper: #c2410c;
+  --color-paper: #faf9f5;
+  --color-surface: #e3efe6;
+  --color-surface-strong: #d3e6d9;
+  --heading: #082919;
+}
+@keyframes biz-drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }

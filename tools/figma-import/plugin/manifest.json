@@ -1,0 +1,10 @@
+{
+  "name": "Kim Ngoan → Figma (landing v1.1)",
+  "id": "kim-ngoan-landing-import",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"] }
+}

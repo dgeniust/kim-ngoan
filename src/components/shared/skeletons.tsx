@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
 
 /*
- * Skeleton tải trang dùng chung cho cả 4 khu. Màu khối tự đổi theo theme đang đứng
- * (biến --skel trong globals.css: phân bón xanh nhạt, hub xám ấm, lốp xe xám đen, sắt thép xám lạnh).
- * Bố cục bám sát trang thật để khi nội dung hiện ra không bị nhảy (CLS ≈ 0).
+ * Page-loading skeletons shared by all four areas. Block colour follows the current theme
+ * (--skel in globals.css: light green on fertilizer, warm grey on the hub, charcoal on tyres, cool grey on steel).
+ * Layouts mirror the real pages so nothing jumps when content arrives (CLS ≈ 0).
  */
 
 function Skel({ className }: { className?: string }) {
   return <div aria-hidden className={cn("skel rounded-lg", className)} />;
 }
 
-/** Vùng đang tải: thông báo cho trình đọc màn hình, ẩn khối trang trí. */
+/** Loading region: announced to screen readers, decorative blocks hidden. */
 function Loading({ label = "Đang tải nội dung…", className, children }: { label?: string; className?: string; children: React.ReactNode }) {
   return (
     <div role="status" aria-live="polite" aria-busy="true" className={cn("mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8", className)}>
@@ -28,7 +28,7 @@ const Lines = ({ n = 3, last = "w-2/3", className }: { n?: number; last?: string
   </div>
 );
 
-/** Đầu trang con: breadcrumb + tiêu đề + mô tả */
+/** Sub-page header: breadcrumb + title + description. */
 function PageHeadSkeleton() {
   return (
     <div className="pb-10 pt-8 md:pt-12">
@@ -50,7 +50,7 @@ function ProductCardSkeleton() {
   );
 }
 
-/** Danh sách sản phẩm: thanh lọc + lưới (có/không cột bên) */
+/** Product list: filter bar + grid (with or without a sidebar). */
 export function ProductListSkeleton({ sidebar = false, count = 8 }: { sidebar?: boolean; count?: number }) {
   return (
     <Loading label="Đang tải danh sách sản phẩm…">
@@ -80,7 +80,7 @@ export function ProductListSkeleton({ sidebar = false, count = 8 }: { sidebar?: 
   );
 }
 
-/** Chi tiết sản phẩm: ảnh + thông tin + bảng thông số */
+/** Product detail: image + info + spec table. */
 export function ProductDetailSkeleton() {
   return (
     <Loading label="Đang tải sản phẩm…">
@@ -115,7 +115,7 @@ export function ProductDetailSkeleton() {
   );
 }
 
-/** Danh sách bài viết: 1 bài nổi bật + lưới */
+/** Article list: one featured article + grid. */
 export function ArticleListSkeleton() {
   return (
     <Loading label="Đang tải tin tức…">
@@ -144,7 +144,7 @@ export function ArticleListSkeleton() {
   );
 }
 
-/** Chi tiết bài viết: cột đọc 68ch */
+/** Article detail: 68ch reading column. */
 export function ArticleDetailSkeleton() {
   return (
     <Loading label="Đang tải bài viết…" className="max-w-3xl">
@@ -161,7 +161,7 @@ export function ArticleDetailSkeleton() {
   );
 }
 
-/** Trang nội dung chung (giới thiệu, dịch vụ, liên hệ…) */
+/** Generic content page (about, services, contact…). */
 export function GenericPageSkeleton() {
   return (
     <Loading>
@@ -181,7 +181,7 @@ export function GenericPageSkeleton() {
   );
 }
 
-/** Trang liên hệ: thông tin + form */
+/** Contact page: details + form. */
 export function ContactSkeleton() {
   return (
     <Loading label="Đang tải trang liên hệ…">

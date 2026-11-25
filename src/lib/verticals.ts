@@ -1,19 +1,19 @@
 /**
- * Cấu hình tập đoàn + 3 chuyên trang (kimngoan.com/phanbon | /lopxe | /satthep).
- * Mọi thông tin liên hệ nằm ở đây — thay số điện thoại/địa chỉ thật trước khi go-live.
+ * Company + three sector sites config (kimngoan.com/phanbon | /lopxe | /satthep).
+ * Defaults for every contact detail live here — replace phone numbers/address with real ones before go-live.
  */
 export type VerticalId = "phanbon" | "lopxe" | "satthep";
 
 export type Vertical = {
   id: VerticalId;
-  /** URL gốc của chuyên trang */
+  /** Root URL of the sector site */
   base: `/${VerticalId}`;
   name: string;
-  /** Nhãn ngắn trên tab/nút */
+  /** Short label for tabs/buttons */
   short: string;
   tagline: string;
   description: string;
-  /** Dòng "Liên hệ về …" ở landing tổng */
+  /** "Liên hệ về …" line on the hub */
   contactLabel: string;
   phone: string;
   seoTitle: string;
@@ -26,15 +26,15 @@ export const COMPANY = {
   name: "KIM NGOAN",
   legalName: "Công ty TNHH Kim Ngoan",
   slogan: "Mùa thuận, đường êm, nhà vững.",
-  // TODO(khách hàng): thay bằng thông tin thật
+  // TODO(client): replace with real details
   hotline: "02713668112",
   email: "kimngoan@example.com",
   address: "Tổ 3, Ấp 2, Quốc Lộ 13, Xã Thành Tâm, Huyện Chơn Thành, Tỉnh Bình Phước",
-  /** Khu vực phục vụ – dùng trong các câu “giao tận nơi khu vực …”, mô tả SEO */
+  /** Service area – used in "delivered across …" copy and SEO descriptions */
   area: "Chơn Thành – Bình Phước",
   zalo: "https://zalo.me/02713668112",
   facebook: "https://facebook.com",
-  /** Truy vấn dùng cho Google Maps embed – thay bằng địa chỉ/toạ độ chính xác. */
+  /** Google Maps embed query – use the exact address / coordinates. */
   mapQuery: "Tổ 3, Ấp 2, Quốc Lộ 13, Xã Thành Tâm, Huyện Chơn Thành, Tỉnh Bình Phước, Việt Nam",
   openingHours: "Mo-Su 07:00-17:00",
   founded: "2015",
@@ -45,7 +45,7 @@ export const VERTICALS: Record<VerticalId, Vertical> = {
     id: "phanbon",
     base: "/phanbon",
     name: "Phân bón & thuốc BVTV",
-    short: "Phân bón",
+    short: "Phân bón & Thuốc BVTV",
     tagline: "Vì mùa màng bội thu",
     description: "Phân bón hữu cơ, vô cơ, NPK, vi sinh và thuốc bảo vệ thực vật chính hãng cho cà phê, cao su, sầu riêng, tiêu, lúa.",
     contactLabel: "Liên hệ về phân bón & thuốc BVTV",
@@ -65,7 +65,7 @@ export const VERTICALS: Record<VerticalId, Vertical> = {
     phone: "02713668112",
     seoTitle: "Lốp xe ô tô chính hãng Kim Ngoan – Chơn Thành, Bình Phước",
     seoDescription: "Đại lý lốp xe ô tô chính hãng tại Chơn Thành: lốp xe du lịch, SUV, bán tải, xe tải. Tư vấn đúng cỡ, gọi hoặc nhắn Zalo để nhận báo giá.",
-    themeColor: "#100904",
+    themeColor: "#ffffff",
   },
   satthep: {
     id: "satthep",
@@ -82,12 +82,12 @@ export const VERTICALS: Record<VerticalId, Vertical> = {
   },
 };
 
-/** Hai chuyên trang dùng chung bộ route động `app/(nganh)/[site]`. */
+/** The two catalog sites share the dynamic route `app/(verticals)/[site]`. */
 export const CATALOG_SITES = ["lopxe", "satthep"] as const;
 export type CatalogSite = (typeof CATALOG_SITES)[number];
 export const isCatalogSite = (s: string): s is CatalogSite => (CATALOG_SITES as readonly string[]).includes(s);
 
-/** Chấm màu nhận diện từng ngành (class Tailwind dùng chung cho mọi nơi). */
+/** Sector identity dot (shared Tailwind classes). */
 export const SECTOR_DOT: Record<VerticalId, string> = {
   phanbon: "bg-sector-phanbon",
   lopxe: "bg-sector-lopxe",

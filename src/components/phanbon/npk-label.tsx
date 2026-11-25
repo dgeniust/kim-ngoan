@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getCategory } from "@/lib/mock/categories";
-import type { Product } from "@/lib/mock/types";
+import type { Product } from "@/types/phanbon";
 import { cn } from "@/lib/utils";
 
 export type LabelProduct = Pick<Product, "slug" | "name" | "categorySlug" | "ingredients" | "crops" | "packing" | "featured" | "isNew">;
@@ -16,7 +16,7 @@ const pct = (v: string) => {
   return m ? Number(m[1].replace(",", ".")) : null;
 };
 
-/** Đọc công thức N-P-K từ thành phần (Đạm / Lân / Kali). Trả null nếu không phải phân NPK. */
+/** Reads the N-P-K formula from the ingredients (Đạm / Lân / Kali). Returns null for non-NPK products. */
 export function npkOf(p: Pick<Product, "ingredients" | "name">) {
   const vals = NUTRIENT.map((n) => {
     const row = p.ingredients.find((i) => i.name.startsWith(n.key));
@@ -28,16 +28,16 @@ export function npkOf(p: Pick<Product, "ingredients" | "name">) {
 }
 
 /**
- * Thẻ “nhãn bao”: thay cho ảnh sản phẩm (phần lớn chưa có ảnh bao bì đẹp).
- * Dải xanh trên cùng = công thức như in trên bao; 3 thanh N–P–K cho thấy tỉ lệ ngay;
- * sản phẩm không phải NPK (hữu cơ, vi sinh, thuốc) hiện 3 thành phần chính.
+ * "Bag label" card used instead of a product photo (most products have no good packaging shot yet).
+ * The green top band shows the formula as printed on the bag; 3 N–P–K bars show the ratio at a glance;
+ * non-NPK products (organic, microbial, pesticides) show their 3 main ingredients instead.
  */
 export function NpkLabel({ product: p, className }: { product: LabelProduct; className?: string }) {
   const npk = npkOf(p);
   const category = getCategory(p.categorySlug)?.name;
   const isDrug = p.categorySlug.startsWith("thuoc") || p.categorySlug === "kich-thich-sinh-truong";
   const max = npk ? Math.max(30, ...npk.values) : 1;
-  // không phải NPK: lấy thành phần chính có % làm “công thức” (VD “60% K₂O”, “≥ 55% hữu cơ”)
+  // not NPK: use the main ingredient with a % as the "formula" (e.g. "60% K₂O", "≥ 55% hữu cơ")
   const main = !npk ? p.ingredients.find((i) => /%/.test(i.value)) : undefined;
   const mainTag = main ? (main.name.match(/\(([^)]+)\)/)?.[1]?.replace(/hh$/, "") ?? main.name.split(" ").slice(-2).join(" ").toLowerCase()) : "";
   return (

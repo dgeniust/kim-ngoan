@@ -1,8 +1,8 @@
 import { getArticles } from "@/lib/mock/articles";
 import { VERTICALS, type VerticalId } from "@/lib/verticals";
-import type { NewsItem } from "./types";
+import type { NewsItem } from "@/types/catalog";
 
-/** DỮ LIỆU MẪU cho 2 chuyên trang mới. Tin phân bón lấy từ lib/mock/articles (section "tin-tuc"). */
+/** SAMPLE DATA for the two sector sites. Fertilizer news comes from lib/mock/articles (section "tin-tuc"). */
 const raw: Omit<NewsItem, "href">[] = [
   {
     site: "lopxe", slug: "cach-doc-thong-so-lop-xe", title: "Cách đọc thông số trên hông lốp ô tô", art: "tyre", cover: "/photos/lopxe-cua-hang.jpg",
@@ -76,11 +76,11 @@ const fromFertilizer = (): Omit<NewsItem, "href">[] =>
 type NewsQuery = { site?: VerticalId; limit?: number };
 
 /**
- * Nguồn tin tức duy nhất của toàn hệ thống.
- *  - Landing tổng: getNews()            -> tất cả chuyên trang
- *  - Chuyên trang: getNews({ site })    -> lọc theo chuyên trang
- * Khi có backend: thay thân hàm bằng `fetch(`${API}/news?site=${site}`)`, giữ nguyên chữ ký.
- * Cũng được phơi ra qua route handler GET /api/tin-tuc?site=lopxe&limit=3.
+ * Single news source for the whole system.
+ *  - Landing hub:  getNews()          -> every sector site
+ *  - Sector site:  getNews({ site })  -> filtered to that site
+ * With a backend, replace the body with `fetch(`${API}/news?site=${site}`)` and keep the signature.
+ * Also exposed through the route handler GET /api/tin-tuc?site=lopxe&limit=3.
  */
 export async function getNews({ site, limit }: NewsQuery = {}): Promise<NewsItem[]> {
   const all = [...fromFertilizer(), ...raw]

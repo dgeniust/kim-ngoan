@@ -1,16 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { SmartImage } from "@/components/shared/smart-image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type PickerCrop = { key: string; label: string; image?: string };
+type PickerCrop = { key: string; label: string; image?: string };
 
 /**
- * Thanh chọn cây trên ảnh vườn: viên có ảnh tròn nhỏ của từng cây + tên.
- * Nhiều cây hơn bề rộng → cuộn ngang, hai mép mờ dần và hiện nút mũi tên khi còn cây bị che;
- * cây đang chọn luôn được kéo vào giữa tầm nhìn.
+ * Crop picker over the garden photo: a pill per crop with a small round photo + name.
+ * When crops overflow the width the bar scrolls horizontally, edges fade and arrow buttons appear;
+ * the selected crop is always scrolled into the centre.
  */
 export function CropPicker({ crops, value, onChange }: { crops: PickerCrop[]; value: string; onChange: (key: string) => void }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export function CropPicker({ crops, value, onChange }: { crops: PickerCrop[]; va
     };
   }, [measure]);
 
-  // kéo cây đang chọn vào giữa thanh (chỉ cuộn ngang trong thanh, không cuộn trang)
+  // centre the selected crop (scrolls the bar horizontally only, never the page)
   useEffect(() => {
     const el = ref.current;
     const btn = el?.querySelector<HTMLElement>(`[data-key="${value}"]`);
@@ -77,7 +77,7 @@ export function CropPicker({ crops, value, onChange }: { crops: PickerCrop[]; va
               )}
             >
               <span className={cn("relative size-8 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 transition-colors", on ? "ring-sun-300" : "ring-transparent")}>
-                {c.image && <Image src={c.image} alt="" fill sizes="32px" className="object-cover" />}
+                {c.image && <SmartImage src={c.image} alt="" fill sizes="32px" className="object-cover" />}
               </span>
               {c.label}
             </button>

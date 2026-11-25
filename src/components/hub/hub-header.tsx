@@ -1,14 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { BrandMark } from "@/components/shared/brand-mark";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ChevronDown, Menu, Phone, X } from "lucide-react";
-import { HUB_NAV, type NavItem } from "@/lib/content/hub-nav";
-import { SECTOR_DOT, telHref } from "@/lib/verticals";
-
+import { useModalMenu } from "@/hooks/use-modal-menu";
+import { useScrolled } from "@/hooks/use-scrolled";
+import { HUB_NAV, type NavItem } from "@/constants/hub-nav";
+import { telHref } from "@/lib/verticals";
 import { cn } from "@/lib/utils";
+import { DropPanel } from "./nav/drop-panel";
+import { MobileMenu } from "./nav/mobile-menu";
 
 type HeaderCompany = {
   prefix: string;
@@ -18,164 +21,30 @@ type HeaderCompany = {
   hotline: string;
 };
 
-export function HubMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden className={className}>
-      <rect width="48" height="48" rx="12" className="fill-hub-ink" />
-      <path
-        d="M14 12v24M14 24l12-12M14 24l12 12"
-        stroke="#fff"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      <circle cx="34" cy="14" r="4" className="fill-sector-phanbon" />
-      <circle cx="34" cy="24" r="4" className="fill-sector-lopxe" />
-      <circle cx="34" cy="34" r="4" className="fill-sector-satthep" />
-    </svg>
-  );
-}
 
 const ITEM =
   "relative inline-flex h-11 items-center gap-1 px-3.5 text-body font-medium transition-colors duration-200 after:absolute after:inset-x-3.5 after:bottom-1.5 after:h-[2px] after:origin-left after:bg-hub-blue group-data-[dark]/hd:after:bg-mv-gold-soft after:transition-transform after:duration-300 after:ease-soft xl:px-4 xl:after:inset-x-4";
 
-/** Bảng thả xuống của một mục menu (desktop). */
-function DropPanel({
-  item,
-  id,
-  onNavigate,
-}: {
-  item: Exclude<NavItem, { kind: "link" }>;
-  id: string;
-  onNavigate: () => void;
-}) {
-  if (item.kind === "sectors") {
-    return (
-      <div
-        id={id}
-        className="absolute left-1/2 top-full w-[min(880px,calc(100vw-48px))] -translate-x-1/2 pt-2"
-      >
-        <div className="animate-[biz-drop_220ms_var(--ease-soft)_both] overflow-hidden rounded-lg bg-white shadow-[0_24px_60px_-24px_rgb(24_24_27/0.35),0_0_0_1px_rgb(24_24_27/0.05)]">
-          <ul className="grid grid-cols-3">
-            {item.sectors.map((s) => (
-              <li
-                key={s.id}
-                className="group/col p-5 transition-colors duration-200 hover:bg-[#f3f7f1]"
-              >
-                <Link
-                  href={s.href}
-                  onClick={onNavigate}
-                  className="block rounded-md"
-                >
-                  <span className="relative block aspect-[16/9] overflow-hidden rounded-md bg-hub-stone">
-                    <Image
-                      src={s.image}
-                      alt=""
-                      fill
-                      sizes="260px"
-                      className="object-cover transition-transform duration-500 ease-soft group-hover/col:scale-[1.04]"
-                    />
-                  </span>
-                  <span className="mt-4 flex items-center gap-2 text-title font-semibold text-hub-ink">
-                    <span
-                      aria-hidden
-                      className={cn("size-2 rounded-full", SECTOR_DOT[s.id])}
-                    />{" "}
-                    {s.label}
-                  </span>
-                  <span className="mt-1 block text-small text-hub-ink-soft">
-                    {s.note}
-                  </span>
-                </Link>
-                <ul className="mt-3 border-t border-hub-ink/10 pt-2">
-                  {s.links.map((l) => (
-                    <li key={l.href}>
-                      <Link
-                        href={l.href}
-                        onClick={onNavigate}
-                        className="group/l flex items-center justify-between rounded-md py-1.5 text-small text-hub-ink-soft transition-colors hover:text-biz-moss"
-                      >
-                        {l.label}
-                        <ArrowRight
-                          aria-hidden
-                          className="size-3.5 -translate-x-1 opacity-0 transition-all duration-200 group-hover/l:translate-x-0 group-hover/l:opacity-100"
-                        />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-          <div className="flex items-center justify-between bg-[#f3f7f1] px-5 py-3 text-small">
-            <span className="text-hub-ink-soft">
-              Một đầu mối – báo giá cả ba ngành trong ngày.
-            </span>
-            <Link
-              href="/#lien-he"
-              onClick={onNavigate}
-              className="inline-flex items-center gap-1.5 font-semibold text-hub-blue hover:text-hub-blue-hover"
-            >
-              Nhận báo giá <ArrowRight aria-hidden className="size-3.5" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div id={id} className="absolute left-0 top-full w-80 pt-2">
-      <ul className="animate-[biz-drop_220ms_var(--ease-soft)_both] rounded-lg bg-white p-2 shadow-[0_24px_60px_-24px_rgb(24_24_27/0.35),0_0_0_1px_rgb(24_24_27/0.05)]">
-        {item.links.map((l) => (
-          <li key={l.href}>
-            <Link
-              href={l.href}
-              onClick={onNavigate}
-              className="group/l block rounded-md px-3.5 py-2.5 transition-colors hover:bg-[#f3f7f1]"
-            >
-              <span className="flex items-center justify-between text-body font-medium text-hub-ink group-hover/l:text-biz-moss">
-                {l.label}
-                <ArrowRight
-                  aria-hidden
-                  className="size-3.5 -translate-x-1 opacity-0 transition-all duration-200 group-hover/l:translate-x-0 group-hover/l:opacity-100"
-                />
-              </span>
-              {l.note && (
-                <span className="mt-0.5 block text-small text-hub-ink-soft">
-                  {l.note}
-                </span>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
   const pathname = usePathname();
   const onHome = pathname === "/";
   const [open, setOpen] = useState(false);
   const [drop, setDrop] = useState<string | null>(null);
-  const [mobileGroup, setMobileGroup] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
   const [spy, setSpy] = useState("");
   const progress = useRef<HTMLSpanElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const closeTimer = useRef<number>(0);
 
-  // Bóng đổ khi cuộn + thanh tiến trình đọc trang (gom vào 1 khung hình, có ngưỡng trễ để không nhấp nháy).
+  const scrolled = useScrolled({ on: 24, off: 4 });
+
+  // Reading-progress bar under the header, written straight to the DOM (no re-render per frame).
   useEffect(() => {
     let raf = 0;
     const update = () => {
       raf = 0;
-      const y = window.scrollY;
-      setScrolled((prev) => (prev ? y > 4 : y > 24));
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (progress.current)
-        progress.current.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
+      if (progress.current) progress.current.style.transform = `scaleX(${max > 0 ? Math.min(window.scrollY / max, 1) : 0})`;
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -190,7 +59,7 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
     };
   }, [pathname]);
 
-  // Scrollspy trên trang chủ
+  // Scroll-spy on the home page
   useEffect(() => {
     if (!onHome) return;
     const ids = HUB_NAV.map((m) => m.spy).filter((v): v is string => !!v);
@@ -212,20 +81,8 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
     };
   }, [onHome]);
 
-  // Menu điện thoại: khoá cuộn, Esc để đóng
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
 
-  // Dropdown: Esc đóng và trả focus về nút; bấm ra ngoài thì đóng
+  // Dropdown: Escape closes and returns focus to its button; clicking outside closes it
   useEffect(() => {
     if (!drop) return;
     const onKey = (e: KeyboardEvent) => {
@@ -264,6 +121,8 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
     setDrop(null);
     setOpen(false);
   }, []);
+  const closeMenu = useCallback(() => setOpen(false), []);
+  useModalMenu(open, closeMenu);
 
   const isActive = (m: NavItem) => {
     if (onHome) return m.href === "/" ? spy === "" : !!m.spy && spy === m.spy;
@@ -272,7 +131,7 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
     );
   };
 
-  // trong suốt trên hero tối (trang chủ, chữ trắng) → cuộn/mở menu: trắng ngà mờ, chữ xanh than
+  // Transparent over the dark hero (home page, white text) → ivory glass with dark text once scrolled or a menu opens
   const dark = onHome && !(scrolled || open || drop);
 
   return (
@@ -291,15 +150,19 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
           Bỏ qua đến nội dung chính
         </a>
         <div className="flex h-16 items-center justify-between gap-6 px-4 sm:px-6 lg:h-[76px] lg:pl-6 lg:pr-8 2xl:pl-8">
+          {/* brand: lotus mark on the left, company name to its right – always links to the company home page */}
           <Link
             href="/"
-           
-            className="group flex flex-col gap-1.5 rounded-md text-hub-ink transition-colors group-data-[dark]/hd:text-white"
+            aria-label={`${COMPANY.prefix} ${COMPANY.name} – Trang chủ`}
+            className="group flex shrink-0 items-center gap-3 rounded-md text-hub-ink transition-colors group-data-[dark]/hd:text-white lg:gap-3.5"
           >
-            <span className="block logo-prefix text-hub-ink-soft group-data-[dark]/hd:text-white/75">
-              {COMPANY.prefix}
+            <BrandMark eager className="h-10 lg:h-12" />
+            <span className="flex flex-col gap-1.5">
+              <span className="block logo-prefix text-hub-ink-soft group-data-[dark]/hd:text-white/75">
+                {COMPANY.prefix}
+              </span>
+              <span className="block text-[1.375rem] font-extrabold uppercase leading-none tracking-[0.01em] transition-transform duration-300 ease-soft group-hover:-translate-y-px lg:text-[1.75rem]">{COMPANY.name}</span>
             </span>
-            <span className="block text-[1.375rem] font-extrabold uppercase leading-none tracking-[0.01em] transition-transform duration-300 ease-soft group-hover:-translate-y-px lg:text-[1.75rem]">{COMPANY.name}</span>
           </Link>
 
           <nav
@@ -402,7 +265,7 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
           </button>
         </div>
 
-        {/* tiến trình đọc trang */}
+        {/* reading progress */}
         <span
           ref={progress}
           aria-hidden
@@ -410,113 +273,7 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
         />
       </header>
 
-      {/* menu điện thoại nằm NGOÀI <header>: backdrop-filter của header tạo khối chứa mới, làm `fixed` bị kẹp theo header */}
-      {open && (
-        <div
-          id="menu-hub"
-          className="fixed inset-x-0 bottom-0 top-16 z-50 overflow-y-auto bg-mv-ivory px-4 pb-8 pt-2 sm:px-6 lg:hidden"
-        >
-          <nav aria-label="Điều hướng di động">
-            <ul className="divide-y divide-hub-ink/10">
-              {HUB_NAV.map((m, i) => {
-                if (m.kind === "link") {
-                  return (
-                    <li
-                      key={m.label}
-                      className="animate-rise"
-                      style={{ animationDelay: `${i * 40}ms` }}
-                    >
-                      <Link
-                        href={m.href}
-                        onClick={closeAll}
-                        className="flex min-h-14 items-center text-title font-semibold text-hub-ink"
-                      >
-                        {m.label}
-                      </Link>
-                    </li>
-                  );
-                }
-                const expanded = mobileGroup === m.label;
-                const links =
-                  m.kind === "sectors"
-                    ? m.sectors.map((s) => ({
-                        label: s.label,
-                        href: s.href,
-                        note: s.note,
-                        dot: SECTOR_DOT[s.id],
-                      }))
-                    : m.links.map((l) => ({ ...l, dot: "" }));
-                return (
-                  <li
-                    key={m.label}
-                    className="animate-rise"
-                    style={{ animationDelay: `${i * 40}ms` }}
-                  >
-                    <button
-                      type="button"
-                      aria-expanded={expanded}
-                      aria-controls={`mb-${i}`}
-                      onClick={() => setMobileGroup(expanded ? null : m.label)}
-                      className="flex min-h-14 w-full items-center justify-between text-left text-title font-semibold text-hub-ink"
-                    >
-                      {m.label}
-                      <ChevronDown
-                        aria-hidden
-                        className={cn(
-                          "size-5 text-hub-ink-soft transition-transform duration-200",
-                          expanded && "rotate-180",
-                        )}
-                      />
-                    </button>
-                    {expanded && (
-                      <ul
-                        id={`mb-${i}`}
-                        className="animate-[biz-drop_220ms_var(--ease-soft)_both] pb-3"
-                      >
-                        {links.map((l) => (
-                          <li key={l.href}>
-                            <Link
-                              href={l.href}
-                              onClick={closeAll}
-                              className="flex items-start gap-3 rounded-md px-3 py-2.5 hover:bg-[#f3f7f1]"
-                            >
-                              {l.dot && (
-                                <span
-                                  aria-hidden
-                                  className={cn(
-                                    "mt-2 size-2 shrink-0 rounded-full",
-                                    l.dot,
-                                  )}
-                                />
-                              )}
-                              <span>
-                                <span className="block text-body font-medium text-hub-ink">
-                                  {l.label}
-                                </span>
-                                {l.note && (
-                                  <span className="block text-small text-hub-ink-soft">
-                                    {l.note}
-                                  </span>
-                                )}
-                              </span>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-          <a
-            href={telHref(COMPANY.hotline)}
-            className="mt-6 flex h-13 items-center justify-center gap-2 rounded-md bg-hub-blue text-body font-medium text-white"
-          >
-            <Phone className="size-4" aria-hidden /> Hotline {COMPANY.hotline}
-          </a>
-        </div>
-      )}
+      {open && <MobileMenu hotline={COMPANY.hotline} onNavigate={closeAll} />}
     </>
   );
 }

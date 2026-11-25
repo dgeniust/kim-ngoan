@@ -6,7 +6,7 @@ import { useNotify } from "@/hooks/use-notify";
 import { SmartImage } from "@/components/shared/smart-image";
 import { cn } from "@/lib/utils";
 
-/* Bộ thành phần form cho trang admin – phong cách Notion: thẻ trắng viền mảnh 12px, nút 8px, một màu xanh hành động. */
+/* Form kit for the admin, Notion style: white cards with 12px hairline borders, 8px buttons, one green action colour. */
 
 const BTN = "inline-flex h-9 items-center justify-center gap-1.5 rounded-lg px-3.5 text-sm font-medium transition-colors duration-200 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4";
 export const BTN_PRIMARY = `${BTN} bg-hub-blue text-white hover:bg-hub-blue-hover`;
@@ -15,7 +15,7 @@ export const BTN_DANGER = `${BTN} text-[#d1242f] hover:bg-[#d1242f]/10`;
 const INPUT =
   "w-full rounded-lg border border-hub-line bg-hub-paper px-3 py-2 text-[15px] text-hub-ink outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-hub-ink/35 focus:border-hub-blue focus:shadow-[0_0_0_3px_var(--color-hub-blue-tint)] aria-[invalid=true]:border-[#d1242f]";
 
-/** Đầu trang kiểu tài liệu Notion: biểu tượng lớn · tiêu đề · mô tả · thao tác. */
+/** Notion-style document header: big icon · title · description · actions. */
 export function PageHeader({ icon, title, description, actions, children }: { icon: React.ReactNode; title: string; description?: React.ReactNode; actions?: React.ReactNode; children?: React.ReactNode }) {
   return (
     <div data-tour="page-header" className="mx-auto max-w-5xl px-5 pb-6 pt-10 sm:px-10 lg:pt-16">
@@ -74,7 +74,7 @@ function FieldShell({ id, label, hint, error, required, counter, over, children 
   );
 }
 
-/** `recommended`: độ dài khuyến nghị – chỉ hiện bộ đếm (chuyển cam khi vượt), không chặn lưu. */
+/** `recommended`: suggested length – only shows a counter (turns orange when exceeded), never blocks saving. */
 export function TextField({ value, onChange, multiline, placeholder, recommended, type = "text", ...f }: BaseField & { value: string; onChange: (v: string) => void; multiline?: boolean; placeholder?: string; recommended?: number; type?: string }) {
   const id = useId();
   const common = { id, value, placeholder, onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange(e.target.value), className: INPUT, "aria-invalid": f.error ? true : undefined, "aria-describedby": f.error ? `${id}-err` : undefined };
@@ -85,7 +85,7 @@ export function TextField({ value, onChange, multiline, placeholder, recommended
   );
 }
 
-/** Danh sách chuỗi: mỗi dòng một mục (cách nhập quen thuộc như gạch đầu dòng trong Notion). */
+/** String list: one item per line (like Notion bullet entry). */
 export function LinesField({ value, onChange, placeholder, ...f }: BaseField & { value: string[]; onChange: (v: string[]) => void; placeholder?: string }) {
   const id = useId();
   const [text, setText] = useState(value.join("\n"));
@@ -106,7 +106,7 @@ export function LinesField({ value, onChange, placeholder, ...f }: BaseField & {
   );
 }
 
-/** Bảng thuộc tính tên – giá trị (thông số, thành phần) giống bảng thuộc tính trang Notion. */
+/** Name–value property table (specs, ingredients), like Notion page properties. */
 export function PairsField({ label, value, onChange, namePlaceholder = "Tên", valuePlaceholder = "Giá trị", error }: { label: string; value: { name: string; value: string }[]; onChange: (v: { name: string; value: string }[]) => void; namePlaceholder?: string; valuePlaceholder?: string; error?: string }) {
   const update = (i: number, k: "name" | "value", v: string) => onChange(value.map((row, j) => (j === i ? { ...row, [k]: v } : row)));
   return (
@@ -147,7 +147,7 @@ export function Toggle({ label, checked, onChange, hint }: { label: string; chec
   );
 }
 
-/** Danh sách ảnh: dán đường dẫn hoặc tải lên (/api/admin/upload). */
+/** Image list: paste a URL or upload (/api/admin/upload). */
 export function ImagesField({ label, value, onChange, error, max = 6 }: { label: string; value: string[]; onChange: (v: string[]) => void; error?: string; max?: number }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -213,7 +213,7 @@ export function ImagesField({ label, value, onChange, error, max = 6 }: { label:
   );
 }
 
-/** Thanh lưu nổi phía dưới khi có thay đổi chưa lưu. */
+/** Floating save bar shown while there are unsaved changes. */
 export function SaveBar({ dirty, pending, onSave, onReset, extra }: { dirty: boolean; pending: boolean; onSave: () => void; onReset?: () => void; extra?: React.ReactNode }) {
   return (
     <div className={cn("pointer-events-none fixed inset-x-0 bottom-4 z-30 flex justify-center px-4 transition-[opacity,transform] duration-200 lg:pl-64", dirty ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0")}>
@@ -233,7 +233,7 @@ export function SaveBar({ dirty, pending, onSave, onReset, extra }: { dirty: boo
   );
 }
 
-/** Danh sách mục có nhiều trường (VD: ưu điểm tiêu đề + mô tả) – thêm, xoá, đổi thứ tự. */
+/** List of multi-field items (e.g. a benefit's title + description) – add, remove, reorder. */
 export function ItemsField<T extends Record<string, string>>({
   label,
   hint,
@@ -259,7 +259,7 @@ export function ItemsField<T extends Record<string, string>>({
   itemName?: string;
   errorAt?: (i: number, key: string) => string | undefined;
   error?: string;
-  /** nhãn nhỏ cạnh số thứ tự (VD: “Ô cam lớn” cho mục đầu tiên) */
+  /** small label next to the index (e.g. "Large orange tile" for the first item) */
   badge?: (i: number) => string | undefined;
 }) {
   const move = (i: number, d: -1 | 1) => {

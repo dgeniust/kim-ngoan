@@ -1,16 +1,17 @@
 import { getSettings } from "@/lib/settings/server";
-import { fitTitle, metaDescription } from "@/lib/seo";
+import { fitTitle, metaDescription, socialMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProductListing } from "@/components/site/product-listing";
-import type { Crumb } from "@/components/site/breadcrumbs";
+import { ProductListing } from "@/components/phanbon/catalog/product-listing";
+import type { Crumb } from "@/components/phanbon/catalog/breadcrumbs";
 import { categories, getCategory } from "@/lib/mock/categories";
+import { siteNameFor } from "@/lib/site-name";
 
 type Params = Promise<{ slug: string }>;
 
 /**
- * Danh mục cố định trong code. Không đặt loading.tsx cho nhánh này: trang render động (đọc ?page, ?sap-xep)
- * nên skeleton sẽ được gửi trước khi biết slug sai → mã 200 thay vì 404.
+ * Categories are fixed in code. No loading.tsx for this branch: the page renders dynamically (reads ?page, ?sap-xep),
+ * so a skeleton would stream before an invalid slug is known → status 200 instead of 404.
  */
 export const dynamicParams = false;
 
@@ -22,10 +23,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const category = getCategory((await params).slug);
   if (!category) return { title: "Danh mục" };
   const { COMPANY } = await getSettings();
+  const description = metaDescription([category.description, `${category.name} chính hãng tại đại lý Kim Ngoan – ${COMPANY.area}`, "Báo giá theo số lượng, tư vấn kỹ thuật miễn phí, giao tận vườn"]);
   return {
     title: fitTitle(category.name, "Kim Ngoan"),
-    description: metaDescription([category.description, `${category.name} chính hãng tại đại lý Kim Ngoan – ${COMPANY.area}`, "Báo giá theo số lượng, tư vấn kỹ thuật miễn phí, giao tận vườn"]),
-    alternates: { canonical: `/phanbon/danh-muc/${category.slug}` },
+    description,
+    ...socialMeta({ title: category.name, description, path: `/phanbon/danh-muc/${category.slug}`, siteName: await siteNameFor("phanbon") }),
   };
 }
 

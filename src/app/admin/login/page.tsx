@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LoginForm } from "@/components/admin/login-form";
-import { ProductArt } from "@/components/nganh/product-art";
+import { ProductArt } from "@/components/shared/product-art";
 import { getSettings } from "@/lib/settings/server";
 
 export const metadata: Metadata = { title: { absolute: "Đăng nhập quản trị · Kim Ngoan" }, robots: { index: false, follow: false } };

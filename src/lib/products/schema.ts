@@ -6,7 +6,7 @@ const lines = z.array(text.min(1)).default([]);
 const pairs = z.array(z.object({ name: text.min(1, "Thiếu tên"), value: text.min(1, "Thiếu giá trị") })).default([]);
 const imagePath = text.refine((v) => v.startsWith("/") || /^https?:\/\//.test(v), "Ảnh phải là /đường-dẫn hoặc https://");
 
-/** Sản phẩm phân bón (khớp lib/mock/types.ts → Product). */
+/** Fertilizer product (matches types/phanbon.ts → Product). */
 export const fertilizerProductSchema = z.object({
   slug,
   name: text.min(2, "Bắt buộc"),
@@ -27,7 +27,7 @@ export const fertilizerProductSchema = z.object({
 
 export const ART_KINDS = ["tyre", "tyre-at", "tyre-truck", "rebar", "ibeam", "pipe", "box", "roofing", "coil", "plate"] as const;
 
-/** Sản phẩm lốp xe / sắt thép (khớp lib/data/types.ts → CatalogProduct). */
+/** Tyre / steel product (matches types/catalog.ts → CatalogProduct). */
 export const catalogProductSchema = z.object({
   site: z.enum(["lopxe", "satthep"]),
   slug,

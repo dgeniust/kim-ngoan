@@ -1,6 +1,6 @@
-import type { CatalogCategory, CatalogContent, CatalogProduct } from "./types";
+import type { CatalogCategory, CatalogContent, CatalogProduct } from "@/types/catalog";
 
-/** DỮ LIỆU MẪU – thay bằng API/CMS. Thương hiệu, quy cách chỉ để minh hoạ bố cục. */
+/** SAMPLE DATA – replace via API/CMS. Brands and specs only illustrate the layout. */
 export const categories: CatalogCategory[] = [
   { slug: "xe-du-lich", name: "Lốp xe du lịch", description: "Sedan, hatchback 4–7 chỗ: êm, tiết kiệm nhiên liệu, bám đường ướt.", art: "tyre" },
   { slug: "suv-ban-tai", name: "Lốp SUV – bán tải", description: "Gai lớn, hông dày cho đường hỗn hợp và tải nặng.", art: "tyre-at" },
@@ -24,7 +24,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Êm ái, phanh ngắn trên đường ướt – lựa chọn phổ biến cho sedan hạng C.",
     specs: tyreSpecs("205/55R16", "91 (615 kg)", "V (240 km/h)", "Radial, không săm"),
     highlights: ["Quãng phanh ngắn trên mặt đường ướt", "Vận hành êm, giảm ồn cabin", "Mòn đều, tuổi thọ cao"],
-    description: ["Dòng lốp du lịch cân bằng giữa độ êm, độ bám và tuổi thọ, phù hợp các mẫu sedan và hatchback sử dụng hằng ngày trong phố lẫn đường trường."],
+    description: [
+      "Dòng lốp du lịch cân bằng giữa độ êm, độ bám và tuổi thọ, phù hợp các mẫu sedan và hatchback sử dụng hằng ngày trong phố lẫn đường trường.",
+      "Kiểm tra cỡ lốp in trên hông lốp đang dùng hoặc trên tem cửa tài xế trước khi đặt. Nên thay theo cặp trên cùng một trục để xe chạy cân và mòn đều.",
+    ],
   }),
   p({
     slug: "bridgestone-185-65r15", name: "Lốp Bridgestone 185/65R15", brand: "Bridgestone", categorySlug: "xe-du-lich", sku: "LX-BS-1856515",
@@ -32,7 +35,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Tiết kiệm nhiên liệu, bền bỉ cho xe đô thị và xe dịch vụ.",
     specs: tyreSpecs("185/65R15", "88 (560 kg)", "H (210 km/h)", "Radial, không săm"),
     highlights: ["Lực cản lăn thấp, tiết kiệm nhiên liệu", "Hông lốp cứng cáp, chống chém cạnh", "Phù hợp xe chạy dịch vụ"],
-    description: ["Kích thước thông dụng cho nhiều mẫu xe hạng B. Hợp chất cao su bền giúp kéo dài số ki-lô-mét sử dụng."],
+    description: [
+      "Kích thước thông dụng cho nhiều mẫu xe hạng B. Hợp chất cao su bền giúp kéo dài số ki-lô-mét sử dụng.",
+      "Phù hợp xe đi phố và xe dịch vụ chạy nhiều mỗi ngày. Nhớ kiểm tra áp suất lốp định kỳ theo khuyến cáo của nhà sản xuất xe để lốp bền và tiết kiệm nhiên liệu.",
+    ],
   }),
   p({
     slug: "kumho-215-60r17", name: "Lốp Kumho 215/60R17", brand: "Kumho", categorySlug: "xe-du-lich", sku: "LX-KU-2156017",
@@ -40,7 +46,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Lốp crossover đô thị: êm, bám tốt, giá hợp lý.",
     specs: tyreSpecs("215/60R17", "96 (710 kg)", "H (210 km/h)", "Radial, không săm"),
     highlights: ["Rãnh thoát nước rộng", "Độ ồn thấp ở tốc độ cao", "Chi phí sử dụng hợp lý"],
-    description: ["Dành cho các mẫu crossover 5 chỗ, cân bằng giữa sự êm ái khi đi phố và độ ổn định trên cao tốc."],
+    description: [
+      "Dành cho các mẫu crossover 5 chỗ, cân bằng giữa sự êm ái khi đi phố và độ ổn định trên cao tốc.",
+      "Trước khi đặt, đối chiếu cỡ lốp, chỉ số tải và chỉ số tốc độ với lốp theo xe. Gửi ảnh hông lốp đang dùng qua Zalo để được kiểm tra nhanh.",
+    ],
   }),
   p({
     slug: "bridgestone-265-65r17-at", name: "Lốp Bridgestone 265/65R17 A/T", brand: "Bridgestone", categorySlug: "suv-ban-tai", sku: "LX-BS-2656517AT",
@@ -48,7 +57,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Gai địa hình hỗn hợp cho bán tải và SUV khung rời.",
     specs: tyreSpecs("265/65R17", "112 (1.120 kg)", "S (180 km/h)", "Radial A/T, không săm"),
     highlights: ["Gai khối lớn bám đường đất, sỏi", "Hông lốp gia cường chống cắt", "Vẫn êm khi chạy đường nhựa"],
-    description: ["Dòng All-Terrain cho xe bán tải thường xuyên đi rẫy, công trình nhưng vẫn cần sự ổn định trên quốc lộ."],
+    description: [
+      "Dòng All-Terrain cho xe bán tải thường xuyên đi rẫy, công trình nhưng vẫn cần sự ổn định trên quốc lộ.",
+      "Gai lớn bám tốt trên đường đất, đá dăm; đổi lại sẽ ồn hơn lốp đường trường một chút. Phù hợp khi xe thường xuyên chở nặng hoặc chạy đường hỗn hợp.",
+    ],
   }),
   p({
     slug: "michelin-235-60r18-suv", name: "Lốp Michelin 235/60R18 SUV", brand: "Michelin", categorySlug: "suv-ban-tai", sku: "LX-MI-2356018",
@@ -56,7 +68,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Êm và chắc cho SUV 7 chỗ chạy đường trường.",
     specs: tyreSpecs("235/60R18", "107 (975 kg)", "V (240 km/h)", "Radial H/T, không săm"),
     highlights: ["Ổn định khi vào cua tốc độ cao", "Bám đường ướt tốt", "Tuổi thọ gai cao"],
-    description: ["Lốp Highway-Terrain dành cho SUV gia đình, ưu tiên sự êm ái và an toàn trên hành trình dài."],
+    description: [
+      "Lốp Highway-Terrain dành cho SUV gia đình, ưu tiên sự êm ái và an toàn trên hành trình dài.",
+      "Gai tối ưu cho đường nhựa, chạy êm và ít ồn. Nếu xe hay đi đường đất, nên cân nhắc dòng All-Terrain.",
+    ],
   }),
   p({
     slug: "casumina-650r16", name: "Lốp Casumina 6.50R16", brand: "Casumina", categorySlug: "xe-tai-nhe", sku: "LX-CA-650R16",
@@ -64,7 +79,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Lốp bố thép cho xe tải nhẹ 1,5–2,5 tấn, chịu tải tốt.",
     specs: tyreSpecs("6.50R16", "107/102", "L (120 km/h)", "Radial bố thép, có săm"),
     highlights: ["Chịu quá tải tốt", "Ít sinh nhiệt khi chạy đường dài", "Dễ đắp lại"],
-    description: ["Sản phẩm sản xuất trong nước, phù hợp điều kiện đường sá và tải trọng thực tế của xe tải nhẹ."],
+    description: [
+      "Sản phẩm sản xuất trong nước, phù hợp điều kiện đường sá và tải trọng thực tế của xe tải nhẹ.",
+      "Khi đặt, cho biết cỡ lốp, tải trọng xe và vị trí lắp (bánh dẫn hướng hay bánh kéo) để được tư vấn đúng loại.",
+    ],
   }),
   p({
     slug: "drc-700r16", name: "Lốp DRC 7.00R16", brand: "DRC", categorySlug: "xe-tai-nhe", sku: "LX-DR-700R16",
@@ -72,7 +90,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Gai dọc mòn đều, phù hợp bánh dẫn hướng xe tải 2,5–3,5 tấn.",
     specs: tyreSpecs("7.00R16", "118/114", "L (120 km/h)", "Radial bố thép, có săm"),
     highlights: ["Gai dọc dẫn hướng chính xác", "Thoát nhiệt nhanh", "Giá thành cạnh tranh"],
-    description: ["Lốp tải nhẹ bố thép toàn phần, tối ưu cho vận tải hàng hoá nội tỉnh và liên tỉnh."],
+    description: [
+      "Lốp tải nhẹ bố thép toàn phần, tối ưu cho vận tải hàng hoá nội tỉnh và liên tỉnh.",
+      "Phù hợp xe chạy đều trên đường nhựa. Đảo lốp định kỳ giúp lốp mòn đều và kéo dài tuổi thọ.",
+    ],
   }),
   p({
     slug: "bridgestone-1100r20", name: "Lốp Bridgestone 11.00R20", brand: "Bridgestone", categorySlug: "xe-tai-xe-khach", sku: "LX-BS-1100R20",
@@ -80,7 +101,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Lốp tải nặng cho xe ben, xe đầu kéo chạy đường hỗn hợp.",
     specs: tyreSpecs("11.00R20", "150/147", "K (110 km/h)", "Radial bố thép, có săm"),
     highlights: ["Chống cắt chém ở công trường", "Kết cấu bố thép chịu tải lớn", "Có thể đắp lại nhiều lần"],
-    description: ["Dành cho xe tải nặng hoạt động ở mỏ đá, công trình và đường hỗn hợp."],
+    description: [
+      "Dành cho xe tải nặng hoạt động ở mỏ đá, công trình và đường hỗn hợp.",
+      "Gai sâu, hông lốp dày chịu va đập tốt. Với đội xe, gửi số lượng và cỡ lốp để được báo giá theo đơn.",
+    ],
   }),
   p({
     slug: "casumina-1200r20", name: "Lốp Casumina 12.00R20", brand: "Casumina", categorySlug: "xe-tai-xe-khach", sku: "LX-CA-1200R20",
@@ -88,7 +112,10 @@ export const products: CatalogProduct[] = [
     shortDescription: "Tải nặng đường dài, tối ưu chi phí trên mỗi ki-lô-mét.",
     specs: tyreSpecs("12.00R20", "154/149", "K (110 km/h)", "Radial bố thép, có săm"),
     highlights: ["Chi phí/km thấp", "Gai sâu, tuổi thọ cao", "Mạng lưới bảo hành rộng"],
-    description: ["Lựa chọn kinh tế cho đội xe vận tải đường dài cần sự ổn định và dễ thay thế."],
+    description: [
+      "Lựa chọn kinh tế cho đội xe vận tải đường dài cần sự ổn định và dễ thay thế.",
+      "Cỡ thông dụng nên dễ tìm lốp thay thế dọc đường. Báo số lượng cần thay cho cả đội xe để được báo giá theo đơn hàng.",
+    ],
   }),
 ];
 
@@ -110,7 +137,7 @@ export const content: CatalogContent = {
     { title: "Tư vấn đúng cỡ", description: "Đối chiếu cỡ lốp theo đời xe, tải trọng và đường hay chạy trước khi báo giá." },
     { title: "Báo giá rõ ràng", description: "Báo giá trước khi chốt đơn, ghi rõ loại lốp và số lượng, không phát sinh thêm." },
   ],
-  /** khối 05 – ba bước nhận báo giá (admin: “Các bước”) */
+  /** block 05 – the three quote steps (admin: "Các bước") */
   services: [
     { title: "Gửi cỡ lốp hoặc đời xe", description: "Gọi điện, nhắn Zalo hoặc điền form bên cạnh. Chụp ảnh hông lốp đang dùng là nhanh nhất." },
     { title: "Nhận tư vấn và báo giá", description: "Nhân viên gọi lại, gợi ý mức lốp phù hợp và báo giá tại thời điểm hỏi." },

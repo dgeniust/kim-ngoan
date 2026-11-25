@@ -1,8 +1,9 @@
 import { realImage } from "@/lib/og";
-import { fitTitle, metaDescription } from "@/lib/seo";
+import { fitTitle, metaDescription, socialMeta } from "@/lib/seo";
 import type { Metadata } from "next";
-import { ArticleDetailPage } from "@/components/site/article-detail-page";
+import { ArticleDetailPage } from "@/components/phanbon/catalog/article-detail-page";
 import { getArticle, getArticles } from "@/lib/mock/articles";
+import { siteNameFor } from "@/lib/site-name";
 
 type Params = Promise<{ slug: string }>;
 
@@ -17,8 +18,16 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: fitTitle(a.title, "Kim Ngoan"),
     description: metaDescription([a.excerpt, "Kim Ngoan – đại lý phân bón & thuốc BVTV, tư vấn kỹ thuật cho nhà nông"]),
-    alternates: { canonical: url },
-    openGraph: { type: "article", url, title: a.title, description: a.excerpt, ...(realImage(a.cover) ? { images: [a.cover] } : {}), publishedTime: a.date, authors: [a.author] },
+    ...socialMeta({
+      title: a.title,
+      description: a.excerpt,
+      path: url,
+      siteName: await siteNameFor("phanbon"),
+      type: "article",
+      image: realImage(a.cover) ? a.cover : undefined,
+      publishedTime: a.date,
+      authors: [a.author],
+    }),
   };
 }
 

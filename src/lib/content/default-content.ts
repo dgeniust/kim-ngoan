@@ -1,4 +1,5 @@
 import type { SiteContent } from "./schema";
+import { CROP_PHOTOS } from "@/constants/phanbon-media";
 
 export const defaultContent: SiteContent = {
   site: {
@@ -81,20 +82,20 @@ export const defaultContent: SiteContent = {
     title: "Cây trồng tiêu biểu",
     subtitle: "Chúng tôi cung cấp giải pháp dinh dưỡng và bảo vệ cây trồng cho nhiều loại cây trồng chủ lực",
     items: [
-      { name: "Cây cà phê", description: "Năng suất cao - Chất lượng tốt", image: "/coffee.jpg" },
+      { name: "Cây cà phê", description: "Năng suất cao - Chất lượng tốt", image: CROP_PHOTOS.coffee },
       { name: "Cây cao su", description: "Bền vững - Hiệu quả lâu dài", image: "/caosu.jpg" },
-      { name: "Cây sầu riêng", description: "Trái to - Ngọt đậm", image: "/durian.jpg" },
-      { name: "Cây tiêu", description: "Phát triển mạnh - Ít sâu bệnh", image: "/tieu.webp" },
-      { name: "Cây lúa", description: "Xanh lá - Bội thu", image: "/lua.jpg" },
+      { name: "Cây sầu riêng", description: "Trái to - Ngọt đậm", image: "/photos/phanbon-vuon-sau-rieng.jpg" },
+      { name: "Cây tiêu", description: "Phát triển mạnh - Ít sâu bệnh", image: CROP_PHOTOS.pepper },
+      { name: "Cây lúa", description: "Xanh lá - Bội thu", image: CROP_PHOTOS.rice },
       { name: "Cây ăn trái", description: "Bưởi, cam, quýt - Trái đều, ngọt", image: "/hero-img.jpg" },
-      // TODO(khách hàng): thay ảnh vườn rau thật
-      { name: "Rau màu", description: "Lá xanh - Thu hoạch nhanh", image: "/garden.jpg" },
+      // TODO(client): replace with a real vegetable-garden photo
+      { name: "Rau màu", description: "Lá xanh - Thu hoạch nhanh", image: CROP_PHOTOS.vegetables },
     ],
   },
   about: {
     title: "Về chúng tôi",
     quote: "Nông nghiệp phát triển\nlà cuộc sống ấm no hơn",
-    image: "/garden.jpg",
+    image: "/hero-img.jpg",
     paragraphs: [
       "Công ty TNHH Kim Ngoan là đại lý phân bón uy tín tại khu vực Chơn Thành – Bình Phước, chuyên cung cấp các loại phân bón và thuốc bảo vệ thực vật chất lượng cao, phục vụ bà con nông dân.",
       "Với phương châm \"Chất lượng tạo nên niềm tin\", chúng tôi luôn nỗ lực mang đến những sản phẩm tốt nhất, dịch vụ chuyên nghiệp và giải pháp nông nghiệp hiệu quả cho mọi nhà nông.",
@@ -111,7 +112,7 @@ export const defaultContent: SiteContent = {
   stories: {
     title: "Vườn thật, người thật",
     subtitle: "Câu chuyện của bà con đang dùng phân, thuốc Kim Ngoan — ảnh thật, kết quả thật, được chủ vườn đồng ý đăng.",
-    // TODO(khách hàng): thêm câu chuyện thật trong admin › Nội dung phân bón › Vườn thật. Không đăng câu chuyện mẫu.
+    // TODO(client): add real stories in admin › Fertilizer content › Real gardens. Never publish sample stories.
     items: [],
   },
   contact: {

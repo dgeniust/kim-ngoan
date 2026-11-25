@@ -4,10 +4,10 @@ import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Container } from "@/components/shared/container";
-import { ArticleCard } from "@/components/site/article-card";
-import { EmptyState } from "@/components/site/empty-state";
-import { PageHero } from "@/components/site/page-hero";
-import { ProductCard } from "@/components/site/product-card";
+import { ArticleCard } from "@/components/phanbon/catalog/article-card";
+import { EmptyState } from "@/components/phanbon/catalog/empty-state";
+import { PageHero } from "@/components/phanbon/catalog/page-hero";
+import { ProductCard } from "@/components/phanbon/catalog/product-card";
 import { search } from "@/lib/mock/search";
 import { cn } from "@/lib/utils";
 

@@ -12,7 +12,7 @@ const buttonVariants = cva(
       variant: {
         default: "bg-brand-800 text-white hover:bg-brand-900",
         brand: "bg-brand-800 text-white hover:bg-brand-900",
-        /** nút hành động chính (gọi, báo giá) – cam đồng như landing tổng */
+        /** primary action (call, quote) – copper, as on the hub */
         sun: "bg-biz-copper text-white hover:bg-[#8c3d1c]",
         destructive: "bg-destructive text-white hover:bg-destructive/90",
         outline: "bg-transparent text-brand-900 ring-1 ring-inset ring-brand-900/70 hover:bg-brand-900 hover:text-white",

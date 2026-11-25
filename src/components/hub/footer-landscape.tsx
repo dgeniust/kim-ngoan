@@ -1,12 +1,12 @@
 /**
- * Dải đồi vườn cây ở chân footer landing tổng (SVG thuần, không ảnh → nhẹ, sắc nét mọi màn hình).
- * Ba lớp đồi: xa sáng – gần tối, hàng cây tán tròn trên đồi xa, luống cây trên đồi giữa.
- * Toạ độ sinh tất định (không random lúc chạy) để server/client khớp nhau.
+ * Rolling orchard hills at the foot of the hub footer (pure SVG, no image: light and sharp on any screen).
+ * Three hill layers – far/light to near/dark – a row of round trees on the far hill, crop rows on the middle one.
+ * Coordinates are deterministic (no runtime randomness) so server and client markup match.
  */
 const W = 1440;
 const H = 240;
 
-/** độ cao đồi tại x (tổng vài sóng sin) */
+/** Hill height at x (sum of a few sine waves). */
 const hill = (x: number, base: number, waves: [number, number, number][]) => waves.reduce((y, [amp, len, phase]) => y + amp * Math.sin((x / len) * Math.PI * 2 + phase), base);
 
 const FAR: [number, number, number][] = [[18, 900, 0.4], [9, 340, 1.7], [4, 130, 0.2]];
@@ -19,14 +19,14 @@ function ridge(base: number, waves: [number, number, number][]) {
   return `${d} L${W} ${H} Z`;
 }
 
-/** hàng cây tán tròn dọc đỉnh đồi xa (giả ngẫu nhiên tất định) */
+/** Row of round-canopy trees along the far ridge (deterministic pseudo-random). */
 function treeLine() {
   const out: { x: number; y: number; r: number }[] = [];
   let seed = 7;
   const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
   for (let x = -10; x < W + 10; ) {
     const r = 5 + rnd() * 9;
-    // cây mọc thành cụm: có quãng trống giữa các vườn
+    // trees grow in clusters, with gaps between orchards
     if (rnd() > 0.18) out.push({ x, y: hill(x, 118, FAR) - r * 0.55, r });
     x += r * (1.1 + rnd() * 0.9);
   }
@@ -34,7 +34,7 @@ function treeLine() {
 }
 const TREES = treeLine();
 
-/** vài cây lớn đứng riêng trên đồi giữa */
+/** A few large standalone trees on the middle hill. */
 const BIG_TREES = [
   { x: 210, r: 20 },
   { x: 236, r: 14 },
@@ -58,7 +58,7 @@ export function FooterLandscape({ className }: { className?: string }) {
         </linearGradient>
       </defs>
       <rect width={W} height={H} fill="url(#ft-glow)" />
-      {/* đồi xa + hàng cây */}
+      {/* far hill + tree row */}
       <path d={ridge(118, FAR)} fill="#174a30" />
       <g fill="#174a30">
         {TREES.map((t, i) => (
@@ -66,7 +66,7 @@ export function FooterLandscape({ className }: { className?: string }) {
         ))}
       </g>
       <rect y="90" width={W} height="90" fill="url(#ft-mist)" />
-      {/* đồi giữa + luống cây + cây lớn */}
+      {/* middle hill + crop rows + large trees */}
       <path d={ridge(160, MID)} fill="#0f3a24" />
       <g stroke="#1d5a38" strokeOpacity="0.55" strokeWidth="2" strokeLinecap="round" fill="none">
         {Array.from({ length: 7 }, (_, i) => {
@@ -86,7 +86,7 @@ export function FooterLandscape({ className }: { className?: string }) {
           </g>
         ))}
       </g>
-      {/* đồi gần – nền cho dòng bản quyền */}
+      {/* near hill – backdrop for the copyright line */}
       <path d={ridge(206, NEAR)} fill="#041a0f" />
     </svg>
   );

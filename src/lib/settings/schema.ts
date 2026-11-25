@@ -13,7 +13,7 @@ const companySchema = z.object({
   hotline: phone,
   email: text.email("Email không hợp lệ").or(z.literal("")),
   address: text.min(1, "Bắt buộc"),
-  // .default: settings.json lưu trước khi có trường này vẫn hợp lệ
+  // .default: settings.json files saved before this field existed stay valid
   area: text.min(2, "Bắt buộc").default(COMPANY.area),
   mapQuery: text,
   openingHours: text,
@@ -22,7 +22,7 @@ const companySchema = z.object({
   facebook: url,
 });
 
-/** Phần chỉnh sửa được của mỗi chuyên trang (đường dẫn, id, màu là cố định trong code). */
+/** Editable part of each sector site (paths, ids and colours are fixed in code). */
 const verticalEditableSchema = z.object({
   name: text.min(1, "Bắt buộc"),
   short: text.min(1, "Bắt buộc"),

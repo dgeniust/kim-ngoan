@@ -1,6 +1,6 @@
 import { realImage } from "@/lib/og";
 import { telHref } from "@/lib/verticals";
-import { fitTitle, metaDescription } from "@/lib/seo";
+import { fitTitle, metaDescription, socialMeta } from "@/lib/seo";
 import { getSettings } from "@/lib/settings/server";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -12,18 +12,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Container } from "@/components/shared/container";
 import { JsonLd } from "@/components/shared/json-ld";
 import { MoreLink } from "@/components/shared/more-link";
-import { SectionHeading } from "@/components/landing/section-heading";
-import { Breadcrumbs, type Crumb } from "@/components/site/breadcrumbs";
-import { ProductCard } from "@/components/site/product-card";
-import { ProductGallery } from "@/components/site/product-gallery";
+import { SectionHeading } from "@/components/phanbon/section-heading";
+import { Breadcrumbs, type Crumb } from "@/components/phanbon/catalog/breadcrumbs";
+import { ProductCard } from "@/components/phanbon/catalog/product-card";
+import { ProductGallery } from "@/components/phanbon/catalog/product-gallery";
 import { getContent } from "@/lib/content/store";
 import { getCategory } from "@/lib/mock/categories";
 import { getFertilizerProduct as getProduct, getFertilizerProducts } from "@/lib/products/server";
 import { absoluteUrl } from "@/lib/site";
+import { siteNameFor } from "@/lib/site-name";
 
 type Params = Promise<{ slug: string }>;
 
-/** Sản phẩm / bài mới thêm từ admin (chưa có lúc build) vẫn mở được. */
+/** Products / articles added from the admin after the build still resolve. */
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -39,8 +40,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: fitTitle(p.name, "Kim Ngoan"),
     description,
-    alternates: { canonical: url },
-    openGraph: { url, title: p.name, description, ...(realImage(p.images[0]) ? { images: [p.images[0]] } : {}) },
+    ...socialMeta({ title: p.name, description, path: url, siteName: await siteNameFor("phanbon"), image: realImage(p.images[0]) ? p.images[0] : undefined }),
   };
 }
 

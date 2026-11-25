@@ -1,13 +1,13 @@
 import "server-only";
-import { HUB_HERO, HUB_PRODUCTS, HUB_STATS } from "@/lib/content/hub-home";
+import { HUB_HERO, HUB_PRODUCTS, HUB_STATS } from "@/constants/hub-home";
 import { getCategories, getProducts } from "@/lib/data/catalog";
-import type { ArtKind, NewsItem } from "@/lib/data/types";
+import type { ArtKind, NewsItem } from "@/types/catalog";
 import { getCategory as getFertilizerCategory } from "@/lib/mock/categories";
-import type { Product } from "@/lib/mock/types";
+import type { Product } from "@/types/phanbon";
 import type { Settings } from "@/lib/settings/server";
 import { telHref, type VerticalId } from "@/lib/verticals";
 
-/** Dựng dữ liệu cho landing tổng từ cài đặt + kho sản phẩm + tin tức. Chỉ chạy trên server. */
+/** Builds the landing-hub data from settings + product store + news. Server only. */
 
 type Company = Settings["COMPANY"];
 type Verticals = Settings["VERTICALS"];
@@ -15,7 +15,7 @@ type Verticals = Settings["VERTICALS"];
 const PLACEHOLDER_IMAGE = /tmp-img/;
 const fill = (text: string, company: Company) => text.replace("{founded}", company.founded).replace("{area}", company.area);
 
-/** Bán chạy trước, rồi hàng mới. */
+/** Best sellers first, then newest. */
 const byHighlight = <T extends { featured?: boolean; isNew?: boolean }>(a: T, b: T) =>
   Number(!!b.featured) - Number(!!a.featured) || Number(!!b.isNew) - Number(!!a.isNew);
 
@@ -26,7 +26,7 @@ export type HeroSlide = (typeof HUB_HERO.slides)[number] & { label: string };
 export const buildHeroSlides = (verticals: Verticals, company: Company): HeroSlide[] =>
   HUB_HERO.slides.map((s) => ({ ...s, lead: fill(s.lead, company), label: verticals[s.id].short }));
 
-/* ------------------------------------------------------------------ số liệu (thanh neo đáy hero) */
+/* ------------------------------------------------------------------ figures (stats bar under the hero) */
 
 export type Stat = { value: string; label: string };
 
@@ -35,12 +35,12 @@ export function buildStats(company: Company): Stat[] {
   return HUB_STATS.map((s) => ({ ...s, value: s.value.replace("{years}", years) }));
 }
 
-/* ------------------------------------------------------------------ sản phẩm: không gian trưng bày từng ngành */
+/* ------------------------------------------------------------------ products: one showroom per sector */
 
-/** Một dòng sản phẩm tiêu biểu: ảnh thật nếu có, không thì hình vẽ `art`; `use` = ứng dụng (cây trồng). */
+/** One featured product line: real photo if available, else the `art` drawing; `use` = application (crops). */
 export type SpotlightLine = { name: string; group: string; spec?: string; use?: string; href: string; image?: string; art?: ArtKind };
 
-/** Ảnh cây trồng thật cho dòng phân bón (ảnh bao phân mẫu chưa có) – theo cây trồng đầu tiên của sản phẩm. */
+/** Real crop photo for fertilizer lines (no bag shots yet) – based on the product's first crop. */
 const CROP_IMAGE: Record<string, string> = {
   "Cà phê": "/coffee.jpg",
   "Sầu riêng": "/durian.jpg",
@@ -108,10 +108,10 @@ export async function buildSpotlights(verticals: Verticals, fertilizers: Product
   return { spotlights, productCount: fertilizers.length + tyres.length + steels.length };
 }
 
-/* ------------------------------------------------------------------ tin tức */
+/* ------------------------------------------------------------------ news */
 
 /**
- * 1 bài tiêu điểm (bài phân bón có ảnh, ưu tiên) + 3 bài xếp dọc: lốp xe, sắt thép và một bài phân bón khác.
+ * 1 lead story (a fertilizer article with a photo, preferred) + 3 stacked: tyres, steel and another fertilizer article.
  */
 export function pickHomeNews(all: NewsItem[]) {
   const fertilizer = all.filter((n) => n.site === "phanbon");

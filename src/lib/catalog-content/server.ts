@@ -2,7 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { content as lopxeDefault } from "@/lib/data/lopxe";
 import { content as satthepDefault } from "@/lib/data/satthep";
-import type { CatalogContent } from "@/lib/data/types";
+import type { CatalogContent } from "@/types/catalog";
 import { readJson, removeJson, writeJson } from "@/lib/store/json-file";
 import type { CatalogSite } from "@/lib/verticals";
 import { catalogContentSchema } from "./schema";
@@ -10,7 +10,7 @@ import { catalogContentSchema } from "./schema";
 export const CATALOG_CONTENT_DEFAULTS: Record<CatalogSite, CatalogContent> = { lopxe: lopxeDefault, satthep: satthepDefault };
 const file = (site: CatalogSite) => `content-${site}.json`;
 
-/** Nội dung trang chủ chuyên trang: file đã lưu (nếu hợp lệ) gộp với mặc định để khối mới thêm vẫn có chữ. */
+/** Sector-site home content: the saved file (if valid) merged with defaults so newly added blocks still have copy. */
 export const getCatalogContent = cache(async (site: CatalogSite): Promise<CatalogContent> => {
   const def = CATALOG_CONTENT_DEFAULTS[site];
   const raw = await readJson(file(site));

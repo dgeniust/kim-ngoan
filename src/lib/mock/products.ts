@@ -1,4 +1,4 @@
-import type { Product } from "./types";
+import type { Product } from "@/types/phanbon";
 
 const F = "/tmp-img.jpg";
 const P = "/tmp-img.jpg";

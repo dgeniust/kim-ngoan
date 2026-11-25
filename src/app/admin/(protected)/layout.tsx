@@ -6,7 +6,7 @@ import { getCatalogProducts, getFertilizerProducts } from "@/lib/products/server
 
 export const metadata: Metadata = { title: { absolute: "Quản trị · Kim Ngoan" }, robots: { index: false, follow: false } };
 
-// Hai lớp bảo vệ: proxy.ts đã chặn /admin, ở đây kiểm tra lại quyền trên server.
+// Two layers of protection: proxy.ts already guards /admin; the role is checked again here on the server.
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
   if (session?.role !== "ADMIN") redirect("/admin/login");

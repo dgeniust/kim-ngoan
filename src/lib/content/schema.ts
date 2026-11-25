@@ -19,7 +19,7 @@ export const siteContentSchema = z.object({
     companyPrefix: text,
     companyName: text.min(1),
     slogan: text,
-    logo: text, // empty string => default leaf logo
+    logo: text, // empty string => default Kim Ngoan lotus mark
     phone: text,
     email: text,
     address: text,
@@ -31,7 +31,7 @@ export const siteContentSchema = z.object({
   hero: z.object({
     autoplay: z.boolean(),
     slides: z.array(heroSlideSchema).min(1),
-    /** Số liệu tạo niềm tin dưới hero (VD: "10+" / "Năm hoạt động"). */
+    /** Trust figures under the hero (e.g. "10+" / "Năm hoạt động"). */
     stats: z.array(z.object({ value: text, label: text })).default([]),
   }),
   features: z.array(z.object({ icon: text, title: text, description: text })),
@@ -62,7 +62,7 @@ export const siteContentSchema = z.object({
     ctaHref: text,
     highlights: z.array(z.object({ icon: text, title: text })),
   }),
-  /** “Vườn thật, người thật” – CHỈ đăng câu chuyện thật, có ảnh, được chủ vườn đồng ý. Trống → khối mời gửi câu chuyện. */
+  /** "Real gardens, real people" – ONLY real stories with photos and the grower's consent. Empty → an invitation block. */
   stories: z
     .object({
       title: text,

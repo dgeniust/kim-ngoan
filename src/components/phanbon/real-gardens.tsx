@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 type Stories = SiteContent["stories"];
 
 /**
- * “Vườn thật, người thật” – câu chuyện khách hàng THẬT (nhập trong admin › Nội dung phân bón › Vườn thật).
- * Có câu chuyện: câu chuyện đầu hiện lớn (ảnh + câu nói + kết quả + phân đã dùng), các câu chuyện sau xếp hàng ngang.
- * Chưa có: khối mời bà con gửi câu chuyện, với các khung ảnh trống “dành cho vườn của bạn” — không dùng nội dung mẫu.
+ * "Real gardens, real people" – REAL customer stories (entered in admin › Fertilizer content › Real gardens).
+ * With stories: the first one is large (photo + quote + result + fertilizer used), the rest line up horizontally.
+ * Without: an invitation to send a story with empty "your garden here" frames – never sample content.
  */
 export function RealGardens({ stories, zalo, no }: { stories: Stories; zalo: string; no: string }) {
   const [lead, ...rest] = stories.items;
@@ -76,7 +76,7 @@ export function RealGardens({ stories, zalo, no }: { stories: Stories; zalo: str
           )}
         </>
       ) : (
-        /* chưa có câu chuyện thật → mời gửi, khung ảnh trống */
+        /* no real stories yet → invite submissions, empty photo frames */
         <Reveal className="mt-10 grid gap-6 overflow-hidden rounded-lg bg-white p-6 ring-1 ring-brand-900/10 sm:p-10 lg:grid-cols-12 lg:gap-10">
           <div aria-hidden className="relative grid min-h-[300px] grid-cols-2 gap-3 lg:col-span-6">
             {["Ảnh vườn trước", "Ảnh vườn sau", "Ảnh trái, sản phẩm", "Chủ vườn"].map((t, i) => (

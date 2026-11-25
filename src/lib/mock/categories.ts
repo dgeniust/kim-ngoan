@@ -1,4 +1,4 @@
-import type { Category } from "./types";
+import type { Category } from "@/types/phanbon";
 
 export const categories: Category[] = [
   { slug: "phan-bon", name: "Phân bón", description: "Dinh dưỡng cân đối cho cây trồng khoẻ, năng suất cao." },

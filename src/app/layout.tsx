@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import "@fontsource/be-vietnam-pro/vietnamese-400.css";
-import "@fontsource/be-vietnam-pro/vietnamese-500.css";
-import "@fontsource/be-vietnam-pro/vietnamese-600.css";
-import "@fontsource/be-vietnam-pro/vietnamese-700.css";
-import "@fontsource/be-vietnam-pro/latin-400.css";
-import "@fontsource/be-vietnam-pro/latin-500.css";
-import "@fontsource/be-vietnam-pro/latin-600.css";
-import "@fontsource/be-vietnam-pro/latin-700.css";
 import "./globals.css";
 import { RouteSplash, type SplashBrand } from "@/components/shared/route-splash";
 import { Toaster } from "@/components/ui/sonner";
+import { beVietnamLatin, beVietnamVi, dancingScript } from "@/lib/fonts";
 import { SITE_URL } from "@/lib/site";
 import { getSettings } from "@/lib/settings/server";
+import { socialMeta } from "@/lib/seo";
 
 
-/** Metadata gốc (landing tổng). Mỗi chuyên trang ghi đè title/description trong layout riêng. */
+/** Root metadata (landing hub). Each sector site overrides title/description in its own layout. */
 export async function generateMetadata(): Promise<Metadata> {
   const { COMPANY } = await getSettings();
   const TITLE = `${COMPANY.legalName} – Phân bón, lốp xe ô tô, tôn sắt thép`;
@@ -24,12 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
   title: { default: TITLE, template: "%s | Kim Ngoan" },
   description: DESCRIPTION,
   applicationName: COMPANY.legalName,
-  alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "vi_VN", siteName: COMPANY.legalName, title: TITLE, description: DESCRIPTION, url: "/" },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
+  ...socialMeta({ title: TITLE, description: DESCRIPTION, path: "/", siteName: COMPANY.legalName }),
   formatDetection: { telephone: false },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
-  // Sau khi xác minh Search Console: verification: { google: "..." },
+  // After verifying Search Console: verification: { google: "..." },
   };
 }
 
@@ -46,9 +38,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     },
   };
   return (
-    <html lang="vi">
+    <html lang="vi" className={`${beVietnamLatin.variable} ${beVietnamVi.variable} ${dancingScript.variable}`}>
       <body>
-        {/* Không có JS thì nội dung .reveal vẫn hiện đầy đủ */}
+        {/* Without JS, .reveal content is still fully visible */}
         <noscript>
           <style>{".reveal{opacity:1!important;transform:none!important}"}</style>
         </noscript>

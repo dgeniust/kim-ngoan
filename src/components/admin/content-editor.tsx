@@ -98,7 +98,7 @@ export function ContentEditor({ initial, user }: { initial: SiteContent; user: s
               </Link>
             </div>
             <Section title="Logo" description="Hiển thị ở header và footer trang phân bón.">
-              <ImageField label="Logo (để trống = logo lá mặc định)" value={site.logo} onChange={(v) => patch("site", { logo: v })} />
+              <ImageField label="Logo (để trống = logo hoa sen Kim Ngoan)" value={site.logo} onChange={(v) => patch("site", { logo: v })} />
             </Section>
             <Section title="Menu điều hướng" description="Href dạng #san-pham để cuộn tới section, hoặc URL đầy đủ.">
               <ListEditor

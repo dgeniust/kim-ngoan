@@ -4,18 +4,18 @@ import path from "path";
 import { DATA_DIR_SETTING } from "@/lib/env";
 
 /**
- * Kho dữ liệu dạng file JSON trong thư mục data/ (giống lib/content/store.ts).
- * Khi triển khai lên host không ghi được file (serverless), thay module này bằng DB
- * – phần còn lại của ứng dụng chỉ phụ thuộc readJson / writeJson.
+ * JSON-file data store in the data/ directory (like lib/content/store.ts).
+ * When deploying to a host without a writable filesystem (serverless), replace this module with a DB –
+ * the rest of the app only depends on readJson / writeJson.
  */
-// turbopackIgnore: thư mục dữ liệu do biến môi trường quyết định lúc chạy – không đưa vào gói build
+// turbopackIgnore: the data directory is decided by an env var at runtime – keep it out of the build bundle
 export const DATA_DIR = path.resolve(/* turbopackIgnore: true */ process.cwd(), DATA_DIR_SETTING);
 
 export async function readJson(file: string): Promise<unknown | undefined> {
   try {
     return JSON.parse(await fs.readFile(path.join(DATA_DIR, file), "utf8"));
   } catch {
-    return undefined; // chưa có file → dùng mặc định
+    return undefined; // no file yet → use defaults
   }
 }
 
@@ -24,7 +24,7 @@ export async function writeJson(file: string, data: unknown): Promise<void> {
   const target = path.join(DATA_DIR, file);
   const tmp = `${target}.tmp`;
   await fs.writeFile(tmp, JSON.stringify(data, null, 2), "utf8");
-  await fs.rename(tmp, target); // ghi nguyên tử
+  await fs.rename(tmp, target); // atomic write
 }
 
 export async function removeJson(file: string): Promise<void> {

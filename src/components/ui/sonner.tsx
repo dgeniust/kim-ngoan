@@ -2,7 +2,7 @@
 
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-/** Vùng hiển thị thông báo. Giao diện thẻ nằm ở components/shared/notify-toast – gọi qua hook `useNotify`. */
+/** Toast viewport. The card UI lives in components/shared/notify-toast – trigger via the `useNotify` hook. */
 const Toaster = (props: ToasterProps) => (
   <Sonner position="top-right" offset={16} mobileOffset={12} gap={10} visibleToasts={4} containerAriaLabel="Thông báo" {...props} />
 );

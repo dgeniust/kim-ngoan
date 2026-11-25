@@ -1,6 +1,6 @@
-import type { CatalogCategory, CatalogContent, CatalogProduct } from "./types";
+import type { CatalogCategory, CatalogContent, CatalogProduct } from "@/types/catalog";
 
-/** DỮ LIỆU MẪU – thay bằng API/CMS. Thương hiệu, quy cách chỉ để minh hoạ bố cục. */
+/** SAMPLE DATA – replace via API/CMS. Brands and specs only illustrate the layout. */
 export const categories: CatalogCategory[] = [
   { slug: "thep-xay-dung", name: "Thép xây dựng", description: "Thép thanh vằn, thép cuộn cho móng, cột, dầm, sàn.", art: "rebar" },
   { slug: "thep-hinh", name: "Thép hình", description: "Thép I, H, U, V cho kết cấu nhà xưởng, nhà tiền chế.", art: "ibeam" },
@@ -21,7 +21,10 @@ export const products: CatalogProduct[] = [
       { name: "Trọng lượng", value: "≈ 7,22 kg/cây" }, { name: "Tiêu chuẩn", value: "TCVN 1651-2:2018" },
     ],
     highlights: ["Gân đều, bám dính bê tông tốt", "Có chứng chỉ chất lượng theo lô", "Cắt, uốn theo bản vẽ"],
-    description: ["Thép thanh vằn dùng làm cốt thép cho bê tông trong nhà ở, nhà phố và công trình dân dụng."],
+    description: [
+      "Thép thanh vằn dùng làm cốt thép cho bê tông trong nhà ở, nhà phố và công trình dân dụng.",
+      "Đường kính 10 mm thường dùng cho thép sàn, thép mũ và đà kiềng nhà 1–3 tầng. Khi hỏi giá, gửi bảng thống kê thép hoặc số cây theo từng đường kính; giá báo theo cây hoặc theo kg tại thời điểm hỏi, giao tận chân công trình.",
+    ],
   }),
   p({
     slug: "thep-thanh-van-d16-cb400", name: "Thép thanh vằn D16 CB400-V", brand: "Pomina", categorySlug: "thep-xay-dung", sku: "ST-PM-D16CB400",
@@ -32,7 +35,10 @@ export const products: CatalogProduct[] = [
       { name: "Trọng lượng", value: "≈ 18,5 kg/cây" }, { name: "Tiêu chuẩn", value: "TCVN 1651-2:2018" },
     ],
     highlights: ["Giới hạn chảy ≥ 400 MPa", "Phù hợp nhà cao tầng, nhà xưởng", "Giao theo bó, có barem cân"],
-    description: ["Dòng thép cường độ cao dùng cho các cấu kiện chịu lực chính của công trình."],
+    description: [
+      "Dòng thép cường độ cao dùng cho các cấu kiện chịu lực chính của công trình.",
+      "Dùng cho cột, dầm và móng theo đúng mác thép ghi trong bản vẽ kết cấu – không nên tự đổi sang mác thấp hơn. Khi cần nghiệm thu, đề nghị kèm chứng chỉ chất lượng của lô hàng lúc đặt.",
+    ],
   }),
   p({
     slug: "thep-cuon-d6", name: "Thép cuộn trơn D6", brand: "Việt Nhật", categorySlug: "thep-xay-dung", sku: "ST-VN-D6",
@@ -43,7 +49,10 @@ export const products: CatalogProduct[] = [
       { name: "Tiêu chuẩn", value: "TCVN 1651-1:2018" },
     ],
     highlights: ["Dẻo, dễ uốn đai", "Bề mặt sạch, ít gỉ", "Xả cuộn theo yêu cầu"],
-    description: ["Thép tròn trơn dạng cuộn dùng làm cốt đai và các chi tiết gia công nguội."],
+    description: [
+      "Thép tròn trơn dạng cuộn dùng làm cốt đai và các chi tiết gia công nguội.",
+      "Bán theo kg. Cho biết tổng khối lượng cần dùng để được báo giá theo cuộn; thợ thường kéo thẳng và cắt tại công trình để làm đai cột, đai dầm.",
+    ],
   }),
   p({
     slug: "thep-hinh-i200", name: "Thép hình I200", brand: "Posco", categorySlug: "thep-hinh", sku: "ST-PS-I200",
@@ -54,7 +63,10 @@ export const products: CatalogProduct[] = [
       { name: "Trọng lượng", value: "≈ 21,3 kg/m" }, { name: "Tiêu chuẩn", value: "JIS G3101" },
     ],
     highlights: ["Chịu uốn tốt theo phương đứng", "Cắt theo chiều dài yêu cầu", "Có sẵn mạ kẽm nhúng nóng"],
-    description: ["Thép hình chữ I cán nóng dùng cho kết cấu khung nhà thép, dầm cầu trục và sàn thao tác."],
+    description: [
+      "Thép hình chữ I cán nóng dùng cho kết cấu khung nhà thép, dầm cầu trục và sàn thao tác.",
+      "Có cây 6 m và 12 m; chọn chiều dài theo nhịp để hạn chế mối nối. Gửi quy cách, chiều dài và số cây (hoặc bản vẽ khung) để được báo giá và sắp xếp xe giao phù hợp.",
+    ],
   }),
   p({
     slug: "thep-hinh-v50", name: "Thép hình V50 × 50 × 5", brand: "Hòa Phát", categorySlug: "thep-hinh", sku: "ST-HP-V50",
@@ -65,7 +77,10 @@ export const products: CatalogProduct[] = [
       { name: "Trọng lượng", value: "≈ 3,77 kg/m" },
     ],
     highlights: ["Dễ hàn, dễ gia công", "Đa dụng trong cơ khí", "Sẵn hàng nhiều quy cách"],
-    description: ["Thép góc V dùng làm khung, giằng, giá kệ và các kết cấu phụ trợ."],
+    description: [
+      "Thép góc V dùng làm khung, giằng, giá kệ và các kết cấu phụ trợ.",
+      "Quy cách 50 × 50 × 5 mm phù hợp khung mái nhẹ, giằng chéo và chân kệ. Có thể đặt kèm các cỡ V khác trong cùng một đơn để gom chuyến giao.",
+    ],
   }),
   p({
     slug: "thep-hop-vuong-40x40-ma-kem", name: "Thép hộp vuông 40 × 40 mạ kẽm", brand: "Hoa Sen", categorySlug: "thep-ong-hop", sku: "ST-HS-H4040",
@@ -76,7 +91,10 @@ export const products: CatalogProduct[] = [
       { name: "Bề mặt", value: "Mạ kẽm" },
     ],
     highlights: ["Chống gỉ ngoài trời", "Mối hàn kín, thẳng cây", "Nhiều độ dày lựa chọn"],
-    description: ["Thép hộp vuông mạ kẽm dùng phổ biến trong xà gồ mái, khung nhà dân và nội thất sắt."],
+    description: [
+      "Thép hộp vuông mạ kẽm dùng phổ biến trong xà gồ mái, khung nhà dân và nội thất sắt.",
+      "Lớp mạ kẽm giúp hạn chế gỉ ở mái và khu vực ngoài trời. Độ dày chọn theo nhịp và tải: hộp mỏng cho khung trang trí, hộp dày cho xà gồ và khung chịu lực.",
+    ],
   }),
   p({
     slug: "ong-thep-ma-kem-d60", name: "Ống thép mạ kẽm Ø60", brand: "Hòa Phát", categorySlug: "thep-ong-hop", sku: "ST-HP-O60",
@@ -87,7 +105,10 @@ export const products: CatalogProduct[] = [
       { name: "Bề mặt", value: "Mạ kẽm" },
     ],
     highlights: ["Thành ống đều", "Lớp mạ bám chắc", "Cắt ren theo yêu cầu"],
-    description: ["Ống thép tròn dùng cho kết cấu, giàn giáo và hệ thống dẫn nước, PCCC."],
+    description: [
+      "Ống thép tròn dùng cho kết cấu, giàn giáo và hệ thống dẫn nước, PCCC.",
+      "Đường kính ngoài 59,9 mm, độ dày từ 1,4 đến 3,0 mm, cây dài 6 m, bề mặt mạ kẽm. Với đường ống nước hoặc PCCC, chọn độ dày theo áp lực làm việc và yêu cầu của bản vẽ; gửi số cây và độ dày để được báo giá.",
+    ],
   }),
   p({
     slug: "ton-lanh-mau-045", name: "Tôn lạnh màu 0,45 mm", brand: "Hoa Sen", categorySlug: "ton-lop", sku: "ST-HS-TLM045",
@@ -98,7 +119,10 @@ export const products: CatalogProduct[] = [
       { name: "Lớp mạ", value: "AZ100" }, { name: "Màu", value: "Xanh ngọc, đỏ đậm, xám lông chuột" },
     ],
     highlights: ["Cán sóng theo chiều dài mái", "Phản xạ nhiệt tốt", "Bền màu ngoài trời"],
-    description: ["Tôn lạnh màu dùng lợp mái và ốp vách cho nhà ở, nhà xưởng, chuồng trại."],
+    description: [
+      "Tôn lạnh màu dùng lợp mái và ốp vách cho nhà ở, nhà xưởng, chuồng trại.",
+      "Cắt theo chiều dài mái thực tế nên hạn chế nối tấm. Khi hỏi giá, cho biết độ dày, màu, kiểu sóng và kích thước từng mái (hoặc tổng m²) để được tính số tấm và phụ kiện đi kèm.",
+    ],
   }),
   p({
     slug: "thep-tam-ss400-5ly", name: "Thép tấm SS400 5 ly", brand: "Posco", categorySlug: "thep-tam-cuon", sku: "ST-PS-T5",
@@ -109,7 +133,10 @@ export const products: CatalogProduct[] = [
       { name: "Trọng lượng", value: "≈ 353 kg/tấm" },
     ],
     highlights: ["Cắt CNC, chấn theo bản vẽ", "Phẳng, ít cong vênh", "Có chứng chỉ xuất xưởng"],
-    description: ["Thép tấm kết cấu dùng làm bản mã, bồn bể, sàn xe và các chi tiết cơ khí."],
+    description: [
+      "Thép tấm kết cấu dùng làm bản mã, bồn bể, sàn xe và các chi tiết cơ khí.",
+      "Khổ tiêu chuẩn 1500 × 6000 mm. Gửi độ dày, khổ và số tấm cần dùng; nếu cần cắt theo bản vẽ, gửi kèm kích thước chi tiết để được tư vấn.",
+    ],
   }),
 ];
 

@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { ProductListing } from "@/components/site/product-listing";
+import { ProductListing } from "@/components/phanbon/catalog/product-listing";
+import { socialMeta } from "@/lib/seo";
+import { siteNameFor } from "@/lib/site-name";
 
-export const metadata: Metadata = {
-  title: "Sản phẩm phân bón & thuốc bảo vệ thực vật",
-  description: "Phân bón NPK, hữu cơ, vi sinh và thuốc bảo vệ thực vật chính hãng tại Kim Ngoan – Chơn Thành – Bình Phước. Tư vấn kỹ thuật miễn phí.",
-  alternates: { canonical: "/phanbon/san-pham" },
-};
+const TITLE = "Sản phẩm phân bón & thuốc bảo vệ thực vật";
+const DESCRIPTION = "Phân bón NPK, hữu cơ, vi sinh và thuốc bảo vệ thực vật chính hãng tại Kim Ngoan – Chơn Thành – Bình Phước. Tư vấn kỹ thuật miễn phí.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: TITLE,
+    description: DESCRIPTION,
+    ...socialMeta({ title: TITLE, description: DESCRIPTION, path: "/phanbon/san-pham", siteName: await siteNameFor("phanbon") }),
+  };
+}
 
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ page?: string; "sap-xep"?: string }> }) {
   return (

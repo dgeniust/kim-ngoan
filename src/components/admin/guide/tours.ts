@@ -8,15 +8,15 @@ export const GUIDE_SITES: { id: GuideSite; label: string; dot: string }[] = [
 ];
 
 export type TourStep = {
-  /** giá trị thuộc tính data-tour của phần tử cần chỉ vào; bỏ trống = thẻ ở giữa màn hình */
+  /** data-tour attribute of the element to point at; empty = card centred on screen */
   target?: string;
   title: string;
   body: string;
   tips?: string[];
   placement?: "right" | "left" | "top" | "bottom";
-  /** thao tác giao diện trước khi hiện bước: mở khung thêm mới / mở sản phẩm đầu tiên / đóng khung */
+  /** UI action before showing the step: open the add form / open the first product / close the editor */
   open?: "peek-new" | "peek-first" | "close-peek";
-  /** chỉ hiện với các chuyên trang này */
+  /** only shown for these sites */
   only?: GuideSite[];
 };
 
@@ -26,13 +26,13 @@ export type Guide = {
   summary: string;
   icon: LucideIcon;
   minutes: number;
-  /** cần chọn nhóm sản phẩm trước khi bắt đầu */
+  /** a product group must be selected before starting */
   needsSite?: boolean;
   route?: (site: GuideSite) => string;
   steps: TourStep[];
-  /** đóng khung sửa khi kết thúc */
+  /** close the editor when the tour ends */
   cleanup?: "close-peek";
-  /** hướng dẫn chỉ đọc (không có tour tương tác) */
+  /** read-only guide (no interactive tour) */
   faq?: { q: string; a: string }[];
 };
 
@@ -73,7 +73,7 @@ export const GUIDES: Guide[] = [
       { target: "peek-props", placement: "bottom", title: "3. Danh mục & mã sản phẩm", body: "Chọn Danh mục (bắt buộc) để sản phẩm hiện đúng nhóm, rồi nhập Mã sản phẩm.", only: ["phanbon"] },
       { target: "peek-props", placement: "bottom", title: "3. Thuộc tính chính", body: "Chọn Danh mục, nhập Mã sản phẩm, Thương hiệu (chọn có sẵn hoặc gõ mới) và Thông số chính – thông số này hiện ngay trên thẻ sản phẩm.", tips: ["Lốp xe: 205/55R16 · Sắt thép: Ø10 – CB300"], only: ["lopxe", "satthep"] },
       { target: "peek-flags", placement: "bottom", title: "4. Nhãn Bán chạy & Mới", body: "Bật “Bán chạy” để sản phẩm lên khối nổi bật ở trang chủ chuyên trang và landing tổng. “Hàng mới” gắn nhãn Mới lên thẻ sản phẩm." },
-      { target: "peek-short", placement: "top", title: "5. Mô tả ngắn", body: "1–2 câu giới thiệu hiện dưới tên sản phẩm. Ô có dấu * màu đỏ là bắt buộc." },
+      { target: "peek-short", placement: "top", title: "5. Hai phần mô tả", body: "Mô tả ngắn (bắt buộc, 1–2 câu) hiện trên thẻ sản phẩm và đầu trang chi tiết. Mô tả chi tiết (dài) hiện ở khối “Chi tiết sản phẩm” cuối trang, mỗi dòng là một đoạn." },
       { target: "peek-art", placement: "top", title: "6. Hình minh hoạ", body: "Khi chưa có ảnh chụp thật, website dùng hình minh hoạ này. Chọn hình gần nhất với loại sản phẩm.", only: ["lopxe", "satthep"] },
       { target: "peek-images", placement: "top", title: "7. Ảnh sản phẩm", body: "Bấm ô có biểu tượng tải lên để chọn ảnh từ máy (JPG, PNG, WEBP – tối đa 5MB) hoặc dán đường dẫn ảnh. Ảnh đầu tiên là ảnh chính.", tips: ["Phân bón: bắt buộc ít nhất 1 ảnh", "Nên dùng ảnh vuông hoặc 4:3, rộng từ 800px"] },
       { target: "peek-details", placement: "top", title: "8. Thông tin chi tiết", body: "Bảng thông số / thành phần: mỗi dòng gồm tên và giá trị, bấm “Thêm dòng” để thêm. Các ô danh sách nhập mỗi dòng một mục." },

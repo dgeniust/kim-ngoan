@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/shared/container";
-import { EmptyState } from "@/components/site/empty-state";
+import { EmptyState } from "@/components/phanbon/catalog/empty-state";
 
 export default function NotFound() {
   return (

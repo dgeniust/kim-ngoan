@@ -31,12 +31,12 @@ function groupLabel(at: number, now: number) {
   return "Trước đó";
 }
 
-/** Chuông thông báo: lịch sử lưu / thêm / xoá của admin trên trình duyệt này. */
+/** Notification bell: history of admin saves / adds / deletes in this browser. */
 export function NotifyCenter({ variant = "sidebar" }: { variant?: "sidebar" | "icon" }) {
   const { items, seenAt } = useSyncExternalStore(activityStore.subscribe, activityStore.getSnapshot, activityStore.getServerSnapshot);
   const [open, setOpen] = useState(false);
   const [now, setNow] = useState(0);
-  // mốc “đã đọc” tại lúc mở bảng: mục mới vẫn được tô sáng trong lần mở này, nhưng đã tính là đã đọc
+  // "read" marker taken when the panel opens: new items stay highlighted this time but already count as read
   const [seenAtOpen, setSeenAtOpen] = useState(0);
   const btnRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);

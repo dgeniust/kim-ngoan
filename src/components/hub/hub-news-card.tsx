@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ProductArt } from "@/components/nganh/product-art";
-import type { NewsItem } from "@/lib/data/types";
+import { ProductArt } from "@/components/shared/product-art";
+import type { NewsItem } from "@/types/catalog";
 import { formatDate } from "@/lib/format";
 import { getSettings } from "@/lib/settings/server";
 import { cn } from "@/lib/utils";

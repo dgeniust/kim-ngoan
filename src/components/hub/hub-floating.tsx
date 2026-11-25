@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { ArrowUp, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FacebookIcon } from "@/components/shared/social-icons";
 
-/** Cụm nút nổi góc phải dưới: lên đầu trang, Facebook (fanpage), Zalo, gọi hotline. */
+/** Floating buttons, bottom right: back to top, Facebook page, Zalo, hotline. */
 export function HubFloating({ phone, phoneHref, zalo, facebook }: { phone: string; phoneHref: string; zalo: string; facebook?: string }) {
   const [deep, setDeep] = useState(false);
 
@@ -30,9 +31,7 @@ export function HubFloating({ phone, phoneHref, zalo, facebook }: { phone: strin
       </button>
       {facebook && (
         <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Fanpage Facebook Kim Ngoan" className={cn(circle, "bg-[#1877f2] text-white")}>
-          <svg viewBox="0 0 24 24" aria-hidden className="size-5" fill="currentColor">
-            <path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21h3Z" />
-          </svg>
+          <FacebookIcon className="size-5" />
         </a>
       )}
       <a href={zalo} target="_blank" rel="noopener noreferrer" aria-label="Chat Zalo" className={cn(circle, "bg-white text-[11px] font-bold text-[#0068ff]")}>

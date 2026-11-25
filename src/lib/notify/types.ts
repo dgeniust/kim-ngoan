@@ -4,18 +4,18 @@ export type NotifyLink = { label: string; href: string; external?: boolean };
 export type NotifyAction = { label: string; onClick: () => void | Promise<void> };
 
 export type NotifyOptions = {
-  /** Cùng id = cập nhật thông báo đang hiện (VD: “Đang lưu…” → “Đã lưu”). */
+  /** Same id = update the toast already shown (e.g. "Đang lưu…" → "Đã lưu"). */
   id?: string | number;
   description?: string;
   action?: NotifyAction;
   link?: NotifyLink;
-  /** ms; mặc định 4.5s, lỗi 7s, đang xử lý = đến khi được cập nhật. */
+  /** ms; default 4.5 s, errors 7 s, loading = until updated. */
   duration?: number;
-  /** Ghi vào lịch sử hoạt động (chuông thông báo của admin). Mặc định theo hook. */
+  /** Record in the activity history (admin notification bell). Defaults to the hook's setting. */
   record?: boolean;
 };
 
-/** Nội dung cho từng trạng thái của `promise()`. */
+/** Content for each state of `promise()`. */
 export type NotifyMessage = string | ({ title: string } & Omit<NotifyOptions, "id">);
 
 export type Activity = {

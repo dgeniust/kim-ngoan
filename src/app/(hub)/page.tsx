@@ -1,21 +1,21 @@
-import { AboutSection } from "@/components/business/about-section";
-import { ContactSection } from "@/components/business/contact-section";
-import { GardenBackdrop } from "@/components/business/garden-backdrop";
-import { BizHero } from "@/components/business/hero";
-import { NewsSection } from "@/components/business/news-section";
-import { QuoteBanner } from "@/components/business/quote-banner";
-import { ProductsSection } from "@/components/business/products-section";
-import { SlideArrow, bizButton } from "@/components/business/ui";
-import { HUB_HERO } from "@/lib/content/hub-home";
+import { AboutSection } from "@/components/hub/sections/about-section";
+import { ContactSection } from "@/components/hub/sections/contact-section";
+import { GardenBackdrop } from "@/components/shared/garden/garden-backdrop";
+import { BizHero } from "@/components/hub/sections/hero";
+import { NewsSection } from "@/components/hub/sections/news-section";
+import { QuoteBanner } from "@/components/hub/sections/quote-banner";
+import { ProductsSection } from "@/components/hub/sections/products-section";
+import { SlideArrow, bizButton } from "@/components/hub/ui";
+import { HUB_HERO } from "@/constants/hub-home";
 import { getNews } from "@/lib/data/news";
 import { buildHeroSlides, buildSpotlights, buildStats, pickHomeNews } from "@/lib/hub/home";
 import { getFertilizerProducts } from "@/lib/products/server";
 import { getSettings } from "@/lib/settings/server";
 
 /**
- * Landing tổng `/` – phong cách Business / Editorial Industrial (nhánh fe/bussiness-style-v1), xem design.md §16.
- * Hero (ảnh nền 3 ngành + thanh chỉ số) → Giới thiệu → Sản phẩm (tab trưng bày) → Tin tức → Liên hệ (form + bản đồ).
- * Server Component; chỉ hero, tab sản phẩm, form và bản đồ chạy phía trình duyệt.
+ * Landing hub `/` – Business / Editorial Industrial style (design.md §16).
+ * Hero (three-sector photos + stats bar) → About → Products (showcase tabs) → News → Contact (form + map).
+ * Server Component; only the hero, the product tabs, the form and the map run in the browser.
  */
 export default async function HubHome() {
   const [{ COMPANY, VERTICALS, VERTICAL_LIST }, fertilizers, allNews] = await Promise.all([getSettings(), getFertilizerProducts(), getNews()]);
@@ -33,7 +33,7 @@ export default async function HubHome() {
           </a>
         </div>
       </BizHero>
-      {/* nền chung “vườn xanh”: lớp ảnh dính đứng yên sau các khối, khung lá đổi nhẹ theo khối (design.md §6) */}
+      {/* shared "green garden" backdrop: a sticky image layer behind the sections, leaf frames change per section (design.md §6) */}
       <div className="biz-garden relative isolate overflow-x-clip">
         <GardenBackdrop />
         <AboutSection company={COMPANY} />

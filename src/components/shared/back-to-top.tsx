@@ -5,9 +5,9 @@ import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Nút “Lên đầu trang” cho các chuyên trang – cùng hành vi với nút ở landing tổng (hub-floating):
- * hiện khi đã cuộn sâu, bấm thì cuộn mượt về đầu. Trên di động nằm phía trên thanh thao tác cố định.
- * Màu truyền qua `className` để khớp theme từng ngành.
+ * "Back to top" button for the sector sites – same behaviour as the hub's floating button:
+ * appears after scrolling far, scrolls smoothly to the top. On phones it sits above the fixed action bar.
+ * Colours come in via `className` to match each site's theme.
  */
 export function BackToTop({ className }: { className?: string }) {
   const [deep, setDeep] = useState(false);

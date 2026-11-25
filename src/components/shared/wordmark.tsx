@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 
 /* =====================================================================
- * Logo chữ “kim ngoan” – nét đơn, đầu tròn. Dùng chung cho splash, header và masthead trang chủ.
- * Toạ độ: đường cơ sở y=100, chiều cao chữ x = 100, nét 24. Màu theo `currentColor`.
- * Khi `animate`: nét bút vẽ liền cụm “ng”, rồi m-i-k bật vào từ trái, o-a-n từ phải
+ * "kim ngoan" wordmark – single-line strokes with round caps. Shared by the splash, headers and the home masthead.
+ * Coordinates: baseline y=100, x-height 100, stroke 24. Colour follows `currentColor`.
+ * With `animate`: the pen draws the joined "ng", then m-i-k pop in from the left and o-a-n from the right
  * (keyframes .splash-draw / .splash-letter-* trong globals.css).
  * ===================================================================== */
 const STROKE = 24;
@@ -16,7 +16,7 @@ const GLYPHS: Glyph[] = [
   { x: 750, d: "M112,50 A50,50 0 1 1 12,50 A50,50 0 1 1 112,50 M112,0 V100", side: "r", order: 1 }, // a
   { x: 892, d: "M12,100 V44 Q12,0 52,0 Q92,0 92,44 V100", side: "r", order: 2 }, // n
 ];
-// “ng” vẽ liền: thân n → vòm → chân phải → nối vòng lên bầu g → đi trọn vòng → thân g → móc đuôi
+// joined "ng": n stem → arch → right leg → loop up into the g bowl → full circle → g stem → tail hook
 const NG =
   "M12,100 V44 Q12,0 52,0 Q92,0 92,44 V80 Q92,102 106,102 Q120,102 120,82 V50 A50,50 0 0 1 170,0 A50,50 0 0 1 220,50 A50,50 0 0 1 170,100 A50,50 0 0 1 120,50 A50,50 0 0 1 170,0 A50,50 0 0 1 220,50 V125 Q220,170 176,170 Q142,170 126,152";
 const NG_X = 362;
@@ -29,9 +29,9 @@ export function Wordmark({
 }: {
   className?: string;
   animate?: boolean;
-  /** độ trễ (ms) trước khi bắt đầu vẽ, khi animate */
+  /** Delay (ms) before drawing starts, when animated. */
   delay?: number;
-  /** có nhãn → role="img"; không có → trang trí (aria-hidden) */
+  /** With a label → role="img"; without → decorative (aria-hidden). */
   label?: string;
 }) {
   return (

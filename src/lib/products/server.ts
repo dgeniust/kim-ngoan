@@ -3,16 +3,16 @@ import { cache } from "react";
 import { z } from "zod";
 import * as lopxe from "@/lib/data/lopxe";
 import * as satthep from "@/lib/data/satthep";
-import type { CatalogProduct } from "@/lib/data/types";
+import type { CatalogProduct } from "@/types/catalog";
 import { products as fertilizerSeed } from "@/lib/mock/products";
-import type { Product } from "@/lib/mock/types";
+import type { Product } from "@/types/phanbon";
 import { readJson, writeJson } from "@/lib/store/json-file";
 import type { CatalogSite } from "@/lib/verticals";
 import { catalogProductSchema, fertilizerProductSchema } from "./schema";
 
 /**
- * Kho sản phẩm cho 3 chuyên trang: data/products-{phanbon|lopxe|satthep}.json.
- * Chưa có file → dùng dữ liệu mẫu trong code. Admin ghi đè toàn bộ danh sách của 1 ngành.
+ * Product store for the three sector sites: data/products-{phanbon|lopxe|satthep}.json.
+ * No file yet → the sample data in code is used. The admin overwrites a sector's whole list.
  */
 export type ProductSite = "phanbon" | CatalogSite;
 

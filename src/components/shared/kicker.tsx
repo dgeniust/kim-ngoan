@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Đầu khối kiểu tạp chí – dùng chung landing tổng & chuyên trang:
- * đường kẻ (màu chữ hiện tại) + số thứ tự bên trái + tên mục bên phải.
+ * Magazine-style section kicker shared by the hub and the sector sites:
+ * a rule (current text colour) + number on the left + section name on the right.
  */
 export function Kicker({ no, children, className }: { no: string; children: React.ReactNode; className?: string }) {
   return (

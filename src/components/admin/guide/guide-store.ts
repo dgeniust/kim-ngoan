@@ -1,4 +1,4 @@
-/* Ghi nhớ hướng dẫn đã xem + lời chào lần đầu (localStorage). */
+/* Remembers which guides were seen and the first-visit welcome (localStorage). */
 const KEY = "kn-admin-guides";
 type State = { done: string[]; welcomeDismissed: boolean };
 const SERVER: State = { done: [], welcomeDismissed: true };

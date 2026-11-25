@@ -1,4 +1,4 @@
-import type { Article, ArticleSection } from "./types";
+import type { Article, ArticleSection } from "@/types/phanbon";
 
 export const articleSections: Record<ArticleSection, { title: string; description: string }> = {
   "gioi-thieu": { title: "Giới thiệu", description: "Câu chuyện, sứ mệnh và đội ngũ Công ty TNHH Kim Ngoan." },

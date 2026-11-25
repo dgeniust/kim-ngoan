@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getSettings } from "@/lib/settings/server";
 import { CATALOG_SITES, isCatalogSite } from "@/lib/verticals";
 
-/** Dùng trong mọi route `[site]`: xác thực tham số và trả về cấu hình chuyên trang (đã gộp thông tin chung từ admin). */
+/** Used by every `[site]` route: validates the param and returns that site's config (merged with the admin settings). */
 export async function resolveSite(site: string) {
   if (!isCatalogSite(site)) notFound();
   const { VERTICALS } = await getSettings();

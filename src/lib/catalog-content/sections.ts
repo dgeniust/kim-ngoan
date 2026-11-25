@@ -1,6 +1,6 @@
 import type { CatalogSite } from "@/lib/verticals";
 
-/** Mô tả các khối tiêu đề của từng chuyên trang – dùng cho trình sửa trong admin (thứ tự = thứ tự trên trang). */
+/** Describes each sector site's section headings – drives the admin editor (order = order on the page). */
 type SectionSpec = { key: string; label: string; where: string; fields: ("highlight" | "after" | "subtitle")[] };
 
 export const SECTION_SPECS: Record<CatalogSite, SectionSpec[]> = {

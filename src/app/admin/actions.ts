@@ -12,10 +12,10 @@ import { settingsSchema, type SiteSettings } from "@/lib/settings/schema";
 import { defaultSettings, resetSettings, saveSettings } from "@/lib/settings/server";
 import { catalogProductSchema, fertilizerProductSchema } from "@/lib/products/schema";
 import { getCatalogProducts, getFertilizerProducts, saveCatalogProducts, saveFertilizerProducts, type ProductSite } from "@/lib/products/server";
-import type { CatalogContent, CatalogProduct } from "@/lib/data/types";
+import type { CatalogContent, CatalogProduct } from "@/types/catalog";
 import { catalogContentSchema } from "@/lib/catalog-content/schema";
 import { CATALOG_CONTENT_DEFAULTS, resetCatalogContent, saveCatalogContent } from "@/lib/catalog-content/server";
-import type { Product } from "@/lib/mock/types";
+import type { Product } from "@/types/phanbon";
 
 type ActionResult = { ok: true } | { ok: false; error: string; code?: "FORBIDDEN" };
 
@@ -77,7 +77,7 @@ export async function resetContentAction(): Promise<ActionResult> {
 }
 
 /* =====================================================================
- * Thông tin chung (công ty + 3 chuyên trang)
+ * Shared settings (company + three sector sites)
  * ===================================================================== */
 
 export type FieldErrors = Record<string, string>;
@@ -120,9 +120,9 @@ export async function resetSettingsAction(): Promise<FormResult & { settings?: S
 }
 
 /* =====================================================================
- * Sản phẩm – CRUD theo từng chuyên trang
+ * Products – CRUD per sector site
  * ===================================================================== */
-/** `insertAt`: vị trí chèn khi thêm mới (dùng cho “Hoàn tác” sau khi xoá – trả sản phẩm về đúng chỗ cũ). */
+/** `insertAt`: insertion index for new items (used by "Undo" after a delete to restore the original position). */
 export async function upsertProductAction(site: ProductSite, input: unknown, originalSlug: string | null, insertAt?: number): Promise<FormResult & { slug?: string }> {
   const denied = await guard();
   if (denied) return denied;
@@ -173,7 +173,7 @@ export async function deleteProductAction(site: ProductSite, slug: string): Prom
 }
 
 /* =====================================================================
- * Nội dung trang chủ chuyên trang lốp xe / sắt thép
+ * Home-page content of the tyre / steel sites
  * ===================================================================== */
 
 const CONTENT_SITES = ["lopxe", "satthep"] as const;

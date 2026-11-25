@@ -15,7 +15,7 @@ import { siteContentSchema, type SiteContent } from "./schema";
  */
 const CONTENT_FILE = path.join(DATA_DIR, "content.json");
 
-/** Bản ghi thô của trình sửa nội dung trang phân bón (admin). */
+/** Raw record behind the fertilizer content editor (admin). */
 export async function getRawContent(): Promise<SiteContent> {
   try {
     const raw = await fs.readFile(CONTENT_FILE, "utf8");
@@ -40,8 +40,8 @@ export async function resetContent(): Promise<void> {
 }
 
 /**
- * Nội dung trang phân bón cho website: thông tin công ty, liên hệ và SEO luôn lấy từ
- * “Thông tin chung” (nguồn duy nhất) – content.json chỉ còn giữ logo, menu và các khối nội dung.
+ * Fertilizer-site content for the website: company info, contact and SEO always come from the
+ * shared settings (single source of truth) – content.json only keeps the logo, menu and content blocks.
  */
 export const getContent = cache(async (): Promise<SiteContent> => {
   const [raw, { COMPANY, VERTICALS }] = await Promise.all([getRawContent(), getSettings()]);

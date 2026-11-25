@@ -13,7 +13,7 @@ const visible = (el: HTMLElement) => {
   return r.width > 0 && r.height > 0 && r.right > 0 && r.left < window.innerWidth;
 };
 
-/** Chờ phần tử xuất hiện. Phần tử đã có nhưng bị ẩn (VD: mục lục trên điện thoại) → bỏ qua sau 0,4s, thẻ hiện giữa màn hình. */
+/** Waits for an element. If it exists but is hidden (e.g. the TOC on phones), gives up after 0.4 s and centres the card. */
 async function waitFor(target: string, timeout = 3000) {
   const end = Date.now() + timeout;
   let hiddenSince = 0;
@@ -29,7 +29,7 @@ async function waitFor(target: string, timeout = 3000) {
   return null;
 }
 
-/** Trạng thái khung sửa sản phẩm mà bước hiện tại cần (tính dồn từ các bước trước) – để “Quay lại” cũng đúng. */
+/** Product-editor state the current step needs (accumulated over previous steps) – so "Back" works too. */
 function peekNeed(steps: TourStep[], i: number): "new" | "first" | null {
   let need: "new" | "first" | null = null;
   for (let k = 0; k <= i; k++) {
@@ -66,7 +66,7 @@ const holePath = ({ x, y, w, h }: Rect) => {
 const fill = (s: string, site: GuideSite) => s.replaceAll("{site}", siteLabel(site));
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
-/** Vị trí thẻ hướng dẫn quanh vùng được chỉ (rect đã cộng PAD). */
+/** Card position around the highlighted area (rect already includes PAD). */
 function place(rect: Rect | null, W: number, H: number, vw: number, vh: number, placement: TourStep["placement"]) {
   if (!rect) return { x: (vw - W) / 2, y: (vh - H) / 2 };
   if (vw < 640) return { x: M, y: rect.y + rect.h / 2 > vh / 2 ? M + 48 : vh - H - M };
@@ -97,12 +97,12 @@ export function TourRunner({ guide, site, steps, index, onNext, onPrev, onClose 
   const primaryRef = useRef<HTMLButtonElement>(null);
   const anim = useRef<{ f: Frame | null; last: number }>({ f: null, last: 0 });
 
-  // Thẻ luôn hiển thị nội dung của bước đã sẵn sàng gần nhất → không bị tắt/bật giữa các bước.
+  // The card always shows the latest ready step → it never blinks off between steps.
   const shownIndex = resolved?.index ?? -1;
   const shown = shownIndex >= 0 ? steps[shownIndex] : null;
   const busy = shownIndex !== index;
 
-  // 1) đúng trang → 2) mở/đóng khung sửa → 3) chờ phần tử → 4) cuộn tới
+  // 1) right page → 2) open/close the editor → 3) wait for the element → 4) scroll to it
   useEffect(() => {
     if (route && pathname !== route) {
       router.push(route);
@@ -124,7 +124,7 @@ export function TourRunner({ guide, site, steps, index, onNext, onPrev, onClose 
     };
   }, [index, pathname, route, router, step.target, steps]);
 
-  // Một vòng rAF duy nhất: vùng khoanh, viền, vị trí và chiều cao thẻ cùng trượt (nội suy mũ, theo thời gian thực)
+  // One rAF loop: spotlight hole, outline, card position and height all glide together (exponential easing, real time)
   useEffect(() => {
     let raf = 0;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -145,7 +145,7 @@ export function TourRunner({ guide, site, steps, index, onNext, onPrev, onClose 
       const W = Math.min(360, vw - M * 2);
       const ch = contentRef.current?.offsetHeight ?? 220;
       const pos = place(target, W, ch, vw, vh, placement);
-      // không có phần tử: “lỗ” thu về giữa thẻ → cả màn hình tối dần đều
+      // no element: the "hole" shrinks into the card centre → the whole screen dims evenly
       const hole = target ?? { x: pos.x + W / 2, y: pos.y + ch / 2, w: 0, h: 0 };
       const goal: Frame = { hole, ring: target ? 1 : 0, cx: pos.x, cy: pos.y, ch, vw, vh };
       const p = a.f;
@@ -168,7 +168,7 @@ export function TourRunner({ guide, site, steps, index, onNext, onPrev, onClose 
     if (shownIndex >= 0) primaryRef.current?.focus({ preventScroll: true });
   }, [shownIndex]);
 
-  // bàn phím (bắt ở pha capture để đi trước phím tắt của trang, VD: Esc đóng khung sửa, Ctrl+S)
+  // keyboard (capture phase so it runs before page shortcuts such as Esc closing the editor or Ctrl+S)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const card = cardRef.current;
@@ -187,7 +187,7 @@ export function TourRunner({ guide, site, steps, index, onNext, onPrev, onClose 
         stop();
         if (index > 0) onPrev();
       } else if (e.key === "Tab" && card) {
-        // giữ focus vòng trong thẻ hướng dẫn
+        // keep focus trapped inside the guide card
         const items = [...card.querySelectorAll<HTMLElement>("button")];
         const i = items.indexOf(document.activeElement as HTMLElement);
         stop();
@@ -203,11 +203,11 @@ export function TourRunner({ guide, site, steps, index, onNext, onPrev, onClose 
 
   return (
     <div className="theme-hub" data-tour-runner>
-      {/* chặn thao tác với trang trong lúc hướng dẫn */}
+      {/* block interaction with the page during the tour */}
       <div aria-hidden className="fixed inset-0 z-[70]" onClick={() => primaryRef.current?.focus()} />
       {frame && (
         <>
-          {/* lớp làm tối có “lỗ” quanh phần được chỉ */}
+          {/* dimming layer with a "hole" around the highlighted element */}
           <svg aria-hidden data-spotlight={frame.ring > 0.5 ? "on" : "off"} className="pointer-events-none fixed inset-0 z-[71] animate-fade" width={frame.vw} height={frame.vh}>
             <path fillRule="evenodd" fill="rgb(15 15 15 / 0.5)" d={`M0 0H${frame.vw}V${frame.vh}H0Z${frame.hole.w > 0.5 ? holePath(frame.hole) : ""}`} />
           </svg>

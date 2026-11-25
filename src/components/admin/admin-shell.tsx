@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 import { SECTOR_DOT } from "@/lib/verticals";
 import { GuideButton, GuideProvider } from "./guide/guide-provider";
 import { NotifyCenter } from "./notify-center";
+import { BrandText } from "@/components/shared/brand-text";
+import { BrandMark } from "@/components/shared/brand-mark";
 
 type AdminNavCounts = {
   phanbon: number;
@@ -26,7 +28,7 @@ type AdminNavCounts = {
 };
 
 
-/** Khung admin kiểu thanh bên Notion: không gian làm việc · trang · cơ sở dữ liệu sản phẩm. */
+/** Notion-style admin shell with a sidebar: workspace · pages · product databases. */
 export function AdminShell({
   user,
   counts,
@@ -38,7 +40,7 @@ export function AdminShell({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  // eslint-disable-next-line react-hooks/set-state-in-effect -- đóng menu di động khi chuyển trang
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- close the mobile menu on navigation
   useEffect(() => setOpen(false), [pathname]);
 
   const pages = [
@@ -84,9 +86,7 @@ export function AdminShell({
           href="/admin"
           className="flex min-w-0 flex-1 items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-hub-ink/[0.04]"
         >
-          <span className="grid size-7 place-items-center rounded-md bg-hub-ink text-[13px] font-bold text-white">
-            K
-          </span>
+          <BrandMark className="h-7" />
           <span className="min-w-0 leading-tight">
             <span className="block truncate text-[14px] font-semibold text-hub-ink">
               Kim Ngoan
@@ -184,7 +184,7 @@ export function AdminShell({
   return (
     <GuideProvider>
       <div className="theme-hub min-h-screen bg-hub-paper text-hub-ink">
-        {/* thanh trên cho điện thoại */}
+        {/* top bar on phones */}
         <div className="sticky top-0 z-40 flex h-12 items-center gap-2 border-b border-hub-line bg-hub-paper/95 px-3 backdrop-blur lg:hidden">
           <button
             type="button"
@@ -196,7 +196,7 @@ export function AdminShell({
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
           <span className="flex-1 text-sm font-semibold">
-            Quản trị Kim Ngoan
+            Quản trị <BrandText text="Kim Ngoan" />
           </span>
           <NotifyCenter variant="icon" />
         </div>

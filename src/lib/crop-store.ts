@@ -3,9 +3,9 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * Cây trồng bà con đã chọn – dùng chung cho cả trang phân bón (hero lát cắt, bảng tin, bác sĩ cây trồng…).
- * Lưu trong localStorage để lần sau mở sẵn đúng vườn; đổi ở một khối thì mọi khối cập nhật theo
- * (sự kiện “kn-vuon” trong cùng tab + “storage” giữa các tab).
+ * The crop the grower picked on the fertilizer page (section "Theo cây trồng").
+ * Stored in localStorage so the next visit opens on the same garden; changing it in one block updates
+ * every block (a "kn-vuon" event within the tab + "storage" across tabs).
  */
 const KEY = "kn-vuon";
 const EVENT = "kn-vuon";
@@ -33,15 +33,8 @@ export function setCrop(key: string) {
   window.dispatchEvent(new Event(EVENT));
 }
 
-/** Khoá cây đang chọn; chưa chọn / không hợp lệ → cây đầu danh sách. */
+/** Selected crop key; nothing selected / invalid → the first crop in the list. */
 export function useCrop(keys: string[]) {
   const stored = useSyncExternalStore(subscribe, read, () => null);
   return stored && keys.includes(stored) ? stored : keys[0];
-}
-
-/** Tháng hiện tại phía client (số nguyên → ổn định giữa các lần gọi). */
-const getMonth = () => new Date().getMonth() + 1;
-const noop = () => () => {};
-export function useMonth(serverMonth: number) {
-  return useSyncExternalStore(noop, getMonth, () => serverMonth);
 }

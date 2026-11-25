@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, BookOpenText, FileText, PackagePlus, Package, PencilLine, Play, Settings2, Sprout } from "lucide-react";
 import { GuideLauncher } from "@/components/admin/guide/guide-provider";
-import { ProductArt } from "@/components/nganh/product-art";
+import { ProductArt } from "@/components/shared/product-art";
 import { getSession } from "@/lib/auth/server";
 import { getCatalogProducts, getFertilizerProducts } from "@/lib/products/server";
 import { getRawSettings } from "@/lib/settings/server";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-/** Trang giới thiệu khu quản trị: chào, lối vào từng mục, hướng dẫn ngắn. */
+/** Admin landing page: welcome, entry points to each area, short guides. */
 export default async function AdminOverview() {
   const [session, settings, pb, lx, st] = await Promise.all([getSession(), getRawSettings(), getFertilizerProducts(), getCatalogProducts("lopxe"), getCatalogProducts("satthep")]);
   const hour = new Date().getHours();
@@ -23,7 +23,7 @@ export default async function AdminOverview() {
 
   return (
     <div className="mx-auto max-w-5xl px-5 pb-24 pt-10 sm:px-10 lg:pt-16">
-      {/* dấu tròn kiểu Notion */}
+      {/* Notion-style round mark */}
       <ul aria-hidden className="flex gap-2">
         {(["border-hub-signal", "border-hub-coral", "border-hub-marigold", "border-hub-sky"] as const).map((ring, i) => (
           <li key={ring} style={{ animationDelay: `${i * 0.3}s` }} className={cn("grid size-11 animate-bob place-items-center rounded-full border-2 bg-hub-paper", ring)}>
@@ -40,7 +40,7 @@ export default async function AdminOverview() {
         Mọi thay đổi ở đây được lưu và cập nhật lên website ngay sau khi bấm <strong className="font-semibold text-hub-ink">Lưu</strong>. Chọn một mục bên dưới hoặc ở thanh bên trái để bắt đầu.
       </p>
 
-      {/* lối vào chính */}
+      {/* main entry points */}
       <div data-tour="overview-shortcuts" className="mt-10 grid gap-3 md:grid-cols-2">
         <Link href="/admin/thong-tin-chung" className="group relative overflow-hidden rounded-xl bg-hub-marigold p-6 sm:p-7">
           <Settings2 className="size-7 transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-12 group-hover:scale-110" strokeWidth={1.75} aria-hidden />
@@ -69,7 +69,7 @@ export default async function AdminOverview() {
         </div>
       </div>
 
-      {/* 3 cơ sở dữ liệu sản phẩm */}
+      {/* the 3 product databases */}
       <h2 className="mt-12 flex items-center gap-2 text-[13px] font-medium text-hub-ink/50">
         <Package className="size-4" aria-hidden /> Cơ sở dữ liệu sản phẩm
       </h2>
@@ -93,7 +93,7 @@ export default async function AdminOverview() {
         ))}
       </ul>
 
-      {/* hướng dẫn – mở trung tâm hướng dẫn / chạy tour tương tác */}
+      {/* guides – open the guide centre / run an interactive tour */}
       <section id="huong-dan" className="mt-12 scroll-mt-16 overflow-hidden rounded-xl border border-hub-line">
         <div className="flex flex-wrap items-center justify-between gap-4 bg-hub-canvas/70 p-6 sm:p-7">
           <div className="flex gap-3.5">

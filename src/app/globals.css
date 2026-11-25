@@ -6,26 +6,26 @@
 
 /*
  * Kim Ngoan – design tokens
- * Giữ bảng màu cũ (xanh lá + vàng nắng) nhưng tiết chế:
- *  - forest (brand-900) cho các dải nhấn, footer
- *  - sage (surface) thay cho viền để tách khối
- *  - vàng chỉ dùng cho hành động chính (gọi điện) và gạch dưới tiêu đề
+ * Keeps the original palette (leaf green + sun yellow) but restrained:
+ *  - forest (brand-900) for accent bands and footers
+ *  - sage (surface) instead of borders to separate blocks
+ *  - yellow only for the primary action (call) and heading underlines
  */
 @theme {
   /* ===================================================================
-   * THANG CHỮ DUY NHẤT cho toàn website (dùng: text-display, text-h1 … text-micro)
-   * Tiêu đề co giãn theo màn hình (clamp), chữ thường cố định để dễ đọc.
-   *   display  hero của mỗi trang chủ          40 → 72px
-   *   h1       tiêu đề trang con (H1)          36 → 56px
-   *   h2       tiêu đề khối (H2)               30 → 44px
-   *   h3       tiêu đề phụ / số liệu lớn       24 → 30px
-   *   h4       tiêu đề thẻ lớn                 20px
-   *   title    tiêu đề thẻ, tên sản phẩm       18px
-   *   lead     đoạn mở đầu dưới tiêu đề        17 → 19px
-   *   body     chữ thường                      16px
-   *   small    chữ phụ, nút nhỏ, menu          14px
-   *   caption  nhãn, ngày tháng, chú thích     13px
-   *   micro    huy hiệu rất nhỏ                12px (nhỏ nhất)
+  * SINGLE type scale for the whole site (text-display, text-h1 … text-micro).
+  * Headings scale with the viewport (clamp); body sizes are fixed for readability.
+  *   display  home-page hero                 40 → 72px
+  *   h1       sub-page title (H1)            36 → 56px
+  *   h2       section title (H2)             30 → 44px
+  *   h3       sub-heading / large figure     24 → 30px
+  *   h4       large card title               20px
+  *   title    card title, product name       18px
+  *   lead     intro paragraph under a title  17 → 19px
+  *   body     body text                      16px
+  *   small    secondary text, small buttons  14px
+  *   caption  labels, dates, captions        13px
+  *   micro    tiny badges                    12px (smallest)
    * =================================================================== */
   --text-display: clamp(2.5rem, 5.4vw, 4.5rem);
   --text-display--line-height: 1.05;
@@ -74,23 +74,23 @@
   --color-sun-400: #dcae6a;
   --color-sun-500: #cf9950;
 
-  /* Bề mặt phụ: xanh xám rất nhạt, dùng thay viền */
+  /* Secondary surface: very light grey-green, used instead of borders */
   --color-surface: #f4f5f7;
   --color-surface-strong: #eceef1;
-  /* Nền trang landing "Vườn Xanh" – trắng ngả xanh lá */
+  /* Fertilizer landing background: white with a hint of green */
   --color-paper: #f8f9fa;
 
   --color-ink: #18181b;
   --color-ink-muted: #52525b;
-  --color-ink-subtle: #5b5b63; /* ≥ 4.5:1 trên nền trắng & surface */
+  --color-ink-subtle: #5b5b63; /* ≥ 4.5:1 on white and on surface */
 
-  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
-  --font-script: "Dancing Script", cursive;
+  --font-sans: var(--font-be-vietnam-vi), var(--font-be-vietnam-latin), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-dancing-script), cursive;
 
-  /* Landing tổng (hub) – phong cách "sổ giấy dưới nắng chiều" (Notion):
-   * nền giấy ấm, thẻ trắng viền mảnh không đổ bóng, MỘT màu xanh cho hành động chính,
-   * các mảng màu phẳng (vàng, xanh trời, đào, xanh đêm) như giấy note. Không dùng gradient. */
-  --color-hub-ink: #18181b; /* xám than – business v1 */
+  /* Landing hub base tokens ("paper notebook" style): warm paper background, thin-bordered white
+   * cards without shadows, ONE action colour, flat colour fields. No gradients.
+   * The hub's current palette overrides these inside .theme-hub (see the end of this file). */
+  --color-hub-ink: #18181b; /* charcoal */
   --color-hub-graphite: #37352f;
   --color-hub-ink-soft: #52525b;
   --color-hub-muted: #a1a1aa;
@@ -99,20 +99,18 @@
   --color-hub-sand: #f6f5f4;
   --color-hub-stone: #eceef1;
   --color-hub-line: rgb(24 24 27 / 0.1);
-  /* v1.2: màu hành động chính của landing tổng chuyển từ xanh dương sang xanh rừng (brand-700) để trang
-     mang chất nông nghiệp, nghiêng về phân bón. Giữ tên token cũ để không phải đổi hàng trăm chỗ dùng. */
-  /* business v1 (Editorial Industrial): màu hành động = cam đồng; giữ tên token cũ để không sửa hàng trăm chỗ dùng */
-  --color-hub-blue: #a84b24; /* 5.6:1 trên nền trắng */
+  /* Action colour (copper). The historical token name is kept to avoid touching hundreds of usages. */
+  --color-hub-blue: #a84b24; /* 5.6:1 on white */
   --color-hub-blue-hover: #8c3d1c;
   --color-hub-blue-tint: #f8ece5;
-  /* màu nhận diện từng ngành trong landing business */
-  --color-biz-moss: #2f5d3a; /* phân bón */
+  /* Per-sector identity colours used by the hub sections */
+  --color-biz-moss: #2f5d3a; /* fertilizer */
   --color-biz-moss-tint: #ecf2ec;
-  --color-biz-graphite: #26272b; /* lốp xe */
-  --color-biz-copper: #a84b24; /* sắt thép & nút hành động */
-  --color-biz-mist: #f4f5f7; /* nền khối tin tức */
-  /* Bảng màu “mùa vụ” cho landing tổng – sặc sỡ vừa đủ: mỗi màu có bản đặc (chấm, vạch),
-   * bản chữ (≥4.5:1 trên trắng và trên nền nhạt của chính nó) và bản nền nhạt. */
+  --color-biz-graphite: #26272b; /* tyres */
+  --color-biz-copper: #a84b24; /* steel & action buttons */
+  --color-biz-mist: #f4f5f7; /* news block background */
+  /* "Seasonal" tone palette for the hub: each tone has a solid (dots, rules), an ink variant
+   * (≥ 4.5:1 on white and on its own tint) and a light tint. */
   --color-c-leaf: #16a34a;
   --color-c-leaf-ink: #0b5d36;
   --color-c-leaf-tint: #dcf2e3;
@@ -125,23 +123,23 @@
   --color-c-ember: #ea580c;
   --color-c-ember-ink: #c2410c;
   --color-c-ember-tint: #ffedd5;
-  /* “Mùa Vàng & Đại Ngàn” – landing tổng (design.md §2.5) */
-  --color-mv-ivory: #faf9f5; /* nền khối sáng */
-  --color-mv-mint: #eff6f1; /* nền khối xen kẽ */
-  --color-mv-emerald: #0b5d36; /* thương hiệu chính, tab chọn, thanh chỉ số */
-  --color-mv-green: #16a34a; /* xanh lá tươi: vạch, chấm, mảng (không dùng làm chữ trên nền sáng) */
-  --color-mv-green-deep: #15803d; /* điểm cuối gradient banner */
-  --color-mv-gold: #f59e0b; /* vàng lúa chín: nút trên nền xanh, badge */
-  --color-mv-gold-soft: #fbbf24; /* chữ nhấn / số liệu trên nền tối */
-  --color-mv-amber: #ea580c; /* cam hổ phách: CTA (mảng lớn) */
-  --color-mv-amber-ink: #c2410c; /* cam hổ phách đậm: nền nút chữ trắng & chữ cam (≥4.5:1) */
-  --color-mv-night: #082919; /* xanh rừng đêm: overlay hero, footer */
-  --color-mv-ink: #132a1e; /* chữ chính */
-  --color-mv-ink-soft: #4b5d52; /* chữ phụ */
-  --color-mv-mist: #d1fae5; /* chữ phụ trên nền xanh */
-  --color-mv-slate: #1e293b; /* lốp xe */
-  --color-mv-steel: #0f4c81; /* sắt thép */
-  --color-mv-brick: #dc2626; /* sắt thép – nhấn */
+  /* "Golden Harvest & Great Forest" palette (Mùa Vàng & Đại Ngàn) – landing hub, design.md §2.5 */
+  --color-mv-ivory: #faf9f5; /* light block background */
+  --color-mv-mint: #eff6f1; /* alternating block background */
+  --color-mv-emerald: #0b5d36; /* primary brand, selected tab, stats bar */
+  --color-mv-green: #16a34a; /* fresh green: rules, dots, fields (never text on light backgrounds) */
+  --color-mv-green-deep: #15803d; /* end stop of the banner gradient */
+  --color-mv-gold: #f59e0b; /* ripe-rice gold: buttons on green, badges */
+  --color-mv-gold-soft: #fbbf24; /* accent text / figures on dark backgrounds */
+  --color-mv-amber: #ea580c; /* amber: large CTA fields */
+  --color-mv-amber-ink: #c2410c; /* dark amber: white-text buttons and orange text (≥ 4.5:1) */
+  --color-mv-night: #082919; /* night forest: hero overlay, footer */
+  --color-mv-ink: #132a1e; /* body text */
+  --color-mv-ink-soft: #4b5d52; /* secondary text */
+  --color-mv-mist: #d1fae5; /* secondary text on green */
+  --color-mv-slate: #1e293b; /* tyres */
+  --color-mv-steel: #0f4c81; /* steel */
+  --color-mv-brick: #dc2626; /* steel accent */
   --color-hub-marigold: #ffb110;
   --color-hub-marigold-soft: #fff4d9;
   --color-hub-coral: #f64932;
@@ -169,8 +167,8 @@
     from { opacity: 0; transform: translateY(0.35em) scale(0.92); }
     to { opacity: 1; transform: none; }
   }
-  /* Màu đại diện ngành trên trang tổng – khớp theme chuyên trang:
-   * phân bón = xanh lá; lốp xe = cam (màu nhấn chuyên trang lốp); sắt thép = xanh thép. */
+  /* Sector colours on the hub, matching each sector site's theme:
+   * fertilizer = green; tyres = orange (the tyre site's accent); steel = steel blue. */
   --color-sector-phanbon: #3a9a4f;
   --color-sector-lopxe: #e07a3f;
   --color-sector-satthep: #3d7fc2;
@@ -251,7 +249,7 @@
   --color-ring: var(--ring);
   --font-heading: var(--font-sans);
 
-  /* Token theo theme chuyên trang (.theme-lopxe / .theme-satthep) */
+  /* Sector-site theme tokens (.theme-lopxe / .theme-satthep) */
   --color-v-bg: var(--v-bg);
   --color-v-raise: var(--v-raise);
   --color-v-sunk: var(--v-sunk);
@@ -277,7 +275,7 @@
 }
 
 :root {
-  --radius: 0.375rem; /* business: bo góc nhẹ 6px (2xl ≈ 10px) */
+  --radius: 0.375rem; /* subtle 6px corners (2xl ≈ 10px) */
   --background: #ffffff;
   --foreground: #18181b;
   --card: #ffffff;
@@ -304,12 +302,12 @@
   }
   html {
     scroll-behavior: smooth;
-    /* KHÔNG dùng scroll-padding-top trên <html>: router Next coi trang mới “nằm ngoài màn hình”
-       khi nội dung bắt đầu cao hơn giá trị này → tự cuộn xuống giữa trang sau khi chuyển trang. */
+    /* Do NOT use scroll-padding-top on <html>: the Next router then treats a new page as "off screen"
+       when content starts below that offset and scrolls to the middle of the page after navigation. */
     -webkit-text-size-adjust: 100%;
     @apply font-sans;
   }
-  /* Chừa chỗ cho header dính khi nhảy tới neo #… (thay cho scroll-padding-top của html) */
+  /* Leave room for the sticky header when jumping to #anchors (replaces html scroll-padding-top) */
   [id] {
     scroll-margin-top: 6rem;
   }
@@ -350,11 +348,11 @@
 }
 
 @layer utilities {
-  /* Tiêu đề lớn kiểu "Vườn Xanh": nét vừa, chữ khít */
+  /* Large "Vườn Xanh" headings: medium weight, tight tracking */
   .display {
     @apply font-medium text-brand-900;
   }
-  /* Khối logo (chữ “CÔNG TY TNHH / KIM NGOAN”): cỡ cố định, giống nhau ở mọi header/footer */
+  /* Logo block ("CÔNG TY TNHH / KIM NGOAN"): fixed size, identical in every header/footer */
   .logo-prefix {
     font-size: 0.6875rem;
     line-height: 1;
@@ -369,53 +367,55 @@
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
-  /* Nội dung bài viết dễ đọc */
+  /* Readable article body */
   .prose-kn {
     @apply max-w-[68ch] text-[1.0625rem] leading-[1.8] text-ink;
   }
 }
 
 /* =====================================================================
- * THEME CHUYÊN TRANG
- * Nguyên tắc chung cho lốp xe & sắt thép: không viền card, tách khối bằng
- * mảng màu + khoảng trắng; một font Be Vietnam Pro; gần như không animation.
+ * SECTOR-SITE THEMES
+ * Shared rules for tyres & steel: no card borders, blocks separated by colour fields
+ * and white space; one font (Be Vietnam Pro); almost no animation.
  * ===================================================================== */
-/* Hai chuyên trang dùng chung cấu trúc Notion (thẻ bo 12px viền mảnh, nút bo 8px, viên màu bọc chữ,
- * mảng màu phẳng, không gradient, không đổ bóng thẻ); chỉ khác bảng màu. */
+/* Both sites share one structure (12px cards with hairline borders, 8px buttons, colour pills,
+ * flat colour fields, no gradients, no card shadows); only the palette differs. */
 .theme-lopxe {
-  /* Lốp xe: nền đen, chữ trắng, điểm nhấn cam */
-  --v-bg: #17181b;
-  --v-card: #202125;
-  --v-raise: #202125;
-  --v-sunk: #1b1c1f;
-  --v-fg: #f4f4f5;
-  --v-mute: #a1a1aa;
-  --v-accent: #e07a3f;
-  --v-on-accent: #17181b;
-  --v-accent-hover: #e98f58;
-  --v-tint: rgb(224 122 63 / 0.14);
-  --v-on-tint: #f0a476;
-  --v-invert: #e07a3f;
-  --v-on-invert: #17181b;
-  --v-mark: #e07a3f;
+  /* Tyres: white background, warm greys, orange accent (light since fe/demo-v2).
+     --v-accent is a deeper orange so white button text passes 4.5:1; #e07a3f stays for marks/decoration. */
+  --v-bg: #ffffff;
+  --v-card: #ffffff;
+  --v-raise: #faf5ef;
+  --v-sunk: #f4e9dd;
+  --v-fg: #17181b;
+  --v-mute: #5b5b63;
+  --v-accent: #b9531c;
+  --v-on-accent: #ffffff;
+  --v-accent-hover: #9e4515;
+  --v-tint: #fbeee5;
+  --v-on-tint: #8f3f12;
+  --v-invert: #17181b;
+  --v-on-invert: #ffffff;
+  --v-mark: #c8621f;
   --v-spark: #e07a3f;
-  --v-line: rgb(255 255 255 / 0.1);
+  --v-line: rgb(0 0 0 / 0.08);
   --v-pill: #e07a3f;
   --v-on-pill: #17181b;
-  --v-chip: rgb(255 255 255 / 0.07);
+  --v-chip: #faf5ef;
   --v-ring-1: #e07a3f;
-  --v-ring-2: rgb(255 255 255 / 0.55);
-  --v-island: #f4f4f5;
+  --v-ring-2: #a1a1aa;
+  --v-island: #fbeee5;
   --v-on-island: #17181b;
-  --v-art-bg: #26272b;
-  --heading: #f4f4f5;
-  --focus: #e07a3f;
-  --selection-bg: #e07a3f;
+  --v-art-bg: #faf5ef;
+  --heading: #17181b;
+  --focus: #b9531c;
+  --selection-bg: #fbeee5;
   --selection-fg: #17181b;
-  color-scheme: dark;
+  /* inner-page title band: warm sand → peach */
+  --v-head-bg: linear-gradient(115deg, #fbf5ee 0%, #f6e8da 55%, #fbe3cf 100%);
 }
 .theme-satthep {
-  /* Sắt thép: nền trắng, phối xám, chữ đen */
+  /* Steel: white background, greys, black text */
   --v-bg: #ffffff;
   --v-card: #ffffff;
   --v-raise: #f4f5f7;
@@ -444,6 +444,25 @@
   --focus: #a84b24;
   --selection-bg: #f8ece5;
   --selection-fg: #18181b;
+  /* inner-page title band: cool steel greys with a hint of blue */
+  --v-head-bg: linear-gradient(115deg, #f6f8fa 0%, #e9eef3 55%, #dfe7ef 100%);
+}
+/* Tyres: accent band – deep orange gradient with white text. Tokens are remapped so every component inside
+   (section heads, buttons, lines) turns light-on-orange; nest `.theme-lopxe` on a card to get back the light palette. */
+.theme-lopxe .v-band-accent {
+  --v-fg: #ffffff;
+  --v-mute: rgb(255 255 255 / 0.85);
+  --v-mark: #ffd9bd;
+  --v-line: rgb(255 255 255 / 0.24);
+  --v-accent: #ffffff;
+  --v-on-accent: #9e4515;
+  --v-accent-hover: #fff1e6;
+  --v-tint: rgb(255 255 255 / 0.16);
+  --v-on-tint: #ffffff;
+  --heading: #ffffff;
+  --focus: #ffffff;
+  color: var(--v-fg);
+  background: linear-gradient(135deg, #9f4419 0%, #b2501c 55%, #c2581f 100%); /* white text ≥ 4.5:1 across the gradient */
 }
 .theme-lopxe,
 .theme-satthep {
@@ -462,7 +481,7 @@
   --v-zoom: scale(1.04);
   --v-rule-style: solid;
 }
-/* Lốp xe & sắt thép: bỏ hiệu ứng hiện dần / trượt vào – chỉ giữ chuyển màu khi hover */
+/* Tyres & steel: no fade/slide-in effects – keep hover colour transitions only */
 .theme-lopxe .reveal,
 .theme-satthep .reveal {
   opacity: 1;
@@ -481,19 +500,19 @@
 }
 
 @layer utilities {
-  /* Tiêu đề lớn của chuyên trang – kiểu chữ đổi theo theme */
+  /* Large sector-site headings – typeface follows the theme */
   .v-display {
     font-family: var(--v-display);
     font-style: var(--v-display-style);
     font-weight: var(--v-display-weight);
-    /* cỡ chữ, line-height, letter-spacing: theo token text-display / text-h1 … */
+    /* size, line-height, letter-spacing come from text-display / text-h1 … tokens */
     text-transform: var(--v-display-case, uppercase);
   }
   .v-art {
     background: var(--v-art-bg);
     border-radius: var(--v-radius-lg, 0);
   }
-  /* Phóng nhẹ hình khi hover thẻ – mức độ theo theme */
+  /* Subtle image zoom on card hover – strength depends on the theme */
   .v-hover-zoom {
     transition: transform 0.7s var(--ease-soft);
   }
@@ -501,7 +520,7 @@
     transform: var(--v-zoom);
   }
 
-  /* Hiện dần khi cuộn tới – xem components/shared/reveal.tsx */
+  /* Fade in on scroll – see components/shared/reveal.tsx */
   .reveal {
     opacity: 0;
     transform: translateY(24px);
@@ -529,7 +548,7 @@
 }
 
 /* =====================================================================
- * SPLASH chuyển khu (components/shared/route-splash.tsx) + SKELETON tải trang
+ * Section-change SPLASH (components/shared/route-splash.tsx) + page-loading SKELETONS
  * ===================================================================== */
 @keyframes splash-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes splash-out { from { opacity: 1; } to { opacity: 0; } }
@@ -538,7 +557,7 @@
 
 .splash { animation: splash-in 180ms ease-out both; }
 .splash[data-state="out"] { animation: splash-out 260ms ease-in both; }
-/* logo chữ kim ngoan: vẽ nét → lùi camera → chữ bật vào → tag */
+/* "kim ngoan" wordmark: draw strokes → pull the camera back → letters pop in → tag */
 @keyframes splash-stroke { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes splash-zoom { from { transform: scale(2.6); } to { transform: scale(1); } }
 @keyframes splash-letter-l { from { opacity: 0; transform: translateX(-48px) scale(0.45); } 70% { opacity: 1; transform: translateX(3px) scale(1.06); } to { opacity: 1; transform: none; } }
@@ -548,11 +567,15 @@
 .splash-letter-l, .splash-letter-r { transform-box: fill-box; transform-origin: 50% 100%; animation: splash-letter-l 320ms cubic-bezier(0.3, 0.7, 0.4, 1) both; }
 .splash-letter-r { animation-name: splash-letter-r; }
 .splash-tag { animation: splash-rise 300ms 620ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes splash-mark { from { opacity: 0; transform: translateY(12px) scale(0.82); } to { opacity: 1; transform: none; } }
+.splash-mark { animation: splash-mark 340ms 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes splash-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.splash-progress { animation: splash-progress 1100ms cubic-bezier(0.4, 0, 0.2, 1) both; }
 
-/* khối skeleton: màu nền theo theme đang đứng (phân bón mặc định, hub/lốp xe/sắt thép ghi đè) */
+/* Skeleton blocks: colour follows the current theme (fertilizer by default; hub/tyres/steel override) */
 :root { --skel: #e6ede0; --skel-shine: rgb(255 255 255 / 0.65); }
 .theme-hub { --skel: #e9e8e5; --skel-shine: rgb(255 255 255 / 0.7); }
-.theme-lopxe { --skel: #1d1d1d; --skel-shine: rgb(255 255 255 / 0.07); }
+.theme-lopxe { --skel: #f1f0ee; --skel-shine: rgb(255 255 255 / 0.7); }
 .theme-satthep { --skel: #e9e9ec; --skel-shine: rgb(255 255 255 / 0.75); }
 .skel { position: relative; overflow: hidden; background: var(--skel); }
 .skel::after {
@@ -568,7 +591,7 @@
   .skel::after { display: none; }
 }
 
-/* Nền “giấy kẻ ô bản vẽ” cho trang sắt thép (ô lớn 120px + ô nhỏ 24px, nét rất mảnh) */
+/* "Drafting paper" background for the steel site (120px major + 24px minor grid, hairlines) */
 .blueprint {
   background-color: var(--v-bg);
   background-image:
@@ -580,7 +603,7 @@
   background-position: -1px -1px;
 }
 
-/* hiện ra nhẹ (thẻ gợi ý, kết quả bác sĩ cây trồng…) */
+/* Gentle pop-in (suggestion cards, plant-doctor results…) */
 @keyframes kn-pop { from { opacity: 0; transform: translateY(6px) scale(0.98); } to { opacity: 1; transform: none; } }
 .kn-pop { animation: kn-pop 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @media (prefers-reduced-motion: reduce) {
@@ -588,11 +611,11 @@
 }
 
 
-/* Hero landing tổng: thanh thời gian 6s của ảnh nền */
+/* Landing hub hero: progress bar for the current slide (duration set inline, 5s) */
 @keyframes biz-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes biz-panel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-/* Landing tổng dùng bảng màu “Mùa Vàng & Đại Ngàn”: đổi các token hub-* trong phạm vi .theme-hub
-   (admin và chuyên trang không bị ảnh hưởng). */
+/* The hub uses the "Golden Harvest & Great Forest" palette by re-valuing hub-* tokens inside .theme-hub
+   (admin and sector sites are unaffected). */
 .theme-hub {
   --color-hub-ink: #132a1e;
   --color-hub-ink-soft: #4b5d52;
@@ -604,9 +627,9 @@
   --color-biz-moss: #0b5d36;
 }
 .biz-garden { background-color: #faf9f5; }
-/* Chuyên trang phân bón – bảng màu “Mùa Vàng & Đại Ngàn” (cùng landing tổng, design.md §2.4/§6b).
- * Đổi giá trị token nên mọi component dùng brand-*, sun-*, ink-* tự đổi theo, không sửa từng chỗ.
- * brand-500 (#16A34A) chỉ cho mảng/vạch; chữ xanh dùng brand-700 (#0B5D36 ≥ 7:1 trên ngà). */
+/* Fertilizer site – "Golden Harvest & Great Forest" palette (same as the hub, design.md §2.4/§6b).
+ * Re-values tokens, so every component using brand-*, sun-*, ink-* follows without per-file edits.
+ * brand-500 (#16A34A) is for fields/rules only; green text uses brand-700 (#0B5D36, ≥ 7:1 on ivory). */
 .theme-pb {
   --color-brand-50: #eff6f1;
   --color-brand-100: #dcefe2;
@@ -634,3 +657,10 @@
   --heading: #082919;
 }
 @keyframes biz-drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* =====================================================================
+ * Brand mark (components/shared/brand-mark.tsx): the plain lotus on light backgrounds, the white-oval
+ * badge on dark ones. Mark a dark area with `.brand-dark` (the hub header uses `[data-dark]`). Unlayered on purpose so it wins over display utilities.
+ * ===================================================================== */
+.brand-badge:not(:is(.brand-dark, [data-dark]) .brand-badge) { display: none; }
+:is(.brand-dark, [data-dark]) .brand-plain { display: none; }

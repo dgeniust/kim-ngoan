@@ -24,7 +24,7 @@ function errorsOf(input: SiteSettings): FieldErrors {
   return out;
 }
 
-/** Xem trước kết quả tìm kiếm Google cho phần SEO. */
+/** Google search-result preview for the SEO fields. */
 function SerpPreview({ title, description, url }: { title: string; description: string; url: string }) {
   return (
     <div className="rounded-lg border border-hub-line bg-hub-canvas/50 p-4">

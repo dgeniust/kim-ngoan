@@ -8,7 +8,7 @@ import { absoluteUrl } from "@/lib/site";
 import { CATALOG_SITES, VERTICALS } from "@/lib/verticals";
 
 type Entry = MetadataRoute.Sitemap[number];
-/** lastModified chỉ đặt khi biết ngày thật (bài viết) – để trống tốt hơn “luôn là hôm nay”, Google sẽ bỏ qua tín hiệu sai. */
+/** lastModified is only set when the real date is known (articles) – omitting it beats a misleading "always today" that Google learns to ignore. */
 const entry = (path: string, priority: number, changeFrequency: Entry["changeFrequency"], lastModified?: Date): Entry => ({
   url: absoluteUrl(path),
   ...(lastModified ? { lastModified } : {}),

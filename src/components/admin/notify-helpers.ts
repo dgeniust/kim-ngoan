@@ -1,6 +1,6 @@
 import type { NotifyMessage } from "@/lib/notify/types";
 
-/** Nội dung thông báo lỗi cho kết quả server action `{ ok: false, error, code }` hoặc lỗi mạng. */
+/** Error toast content for a server-action result `{ ok: false, error, code }` or a network error. */
 export const failure =
   (title: string) =>
   (e: unknown): NotifyMessage => {

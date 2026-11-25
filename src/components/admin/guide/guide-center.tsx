@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { guideStore } from "./guide-store";
 import { GUIDE_SITES, GUIDES, siteLabel, stepsFor, type GuideSite } from "./tours";
 
-/** Trung tâm hướng dẫn: danh sách hướng dẫn bên trái, nội dung từng bước bên phải, nút chạy tour tương tác. */
+/** Guide centre: list of guides on the left, step-by-step content on the right, button to run the interactive tour. */
 export function GuideCenter({ initial, defaultSite, onStart, onClose }: { initial?: string; defaultSite: GuideSite; onStart: (id: string, site: GuideSite) => void; onClose: () => void }) {
   const { done } = useSyncExternalStore(guideStore.subscribe, guideStore.getSnapshot, guideStore.getServerSnapshot);
   const [active, setActive] = useState(() => initial ?? GUIDES.find((g) => !done.includes(g.id) && !g.faq)?.id ?? GUIDES[0].id);
@@ -35,7 +35,7 @@ export function GuideCenter({ initial, defaultSite, onStart, onClose }: { initia
         aria-labelledby="guide-center-title"
         className="relative flex h-[min(700px,calc(100dvh-24px))] w-full max-w-[940px] animate-pop flex-col overflow-hidden rounded-xl bg-hub-paper text-hub-ink shadow-[0_24px_64px_rgb(0_0_0/0.22)] outline-none md:flex-row"
       >
-        {/* danh sách hướng dẫn */}
+        {/* guide list */}
         <nav aria-label="Danh sách hướng dẫn" className="shrink-0 border-b border-hub-line bg-hub-canvas p-3 md:w-[300px] md:overflow-y-auto md:border-b-0 md:border-r">
           <div className="flex items-center gap-2.5 px-2 pt-1">
             <span className="grid size-8 place-items-center rounded-lg bg-hub-ink text-white">
@@ -77,7 +77,7 @@ export function GuideCenter({ initial, defaultSite, onStart, onClose }: { initia
           </ul>
         </nav>
 
-        {/* nội dung */}
+        {/* content */}
         <section key={active} className="relative flex-1 animate-fade overflow-y-auto overscroll-contain px-6 pb-8 pt-6 sm:px-9 sm:pt-9">
           <button type="button" onClick={onClose} aria-label="Đóng" className="absolute right-3 top-3 grid size-9 place-items-center rounded-md text-hub-ink/45 hover:bg-hub-ink/5 hover:text-hub-ink">
             <X className="size-[18px]" />

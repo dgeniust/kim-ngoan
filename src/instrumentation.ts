@@ -1,4 +1,4 @@
-/** Chạy một lần khi server khởi động: báo lỗi cấu hình môi trường ngay trong log thay vì đợi tới lúc đăng nhập. */
+/** Runs once at server start-up: reports env misconfiguration in the log instead of waiting for the first login. */
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") return;
   const { checkEnv } = await import("@/lib/env");

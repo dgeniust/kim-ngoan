@@ -15,7 +15,7 @@ export default async function ProductsAdminPage({ params }: { params: Promise<{ 
 
   if (s === "phanbon") {
     const products = (await getFertilizerProducts()) as AdminProduct[];
-    // chỉ danh mục lá (có parent) mới gán được cho sản phẩm; nhóm cha để ghép tên cho dễ chọn
+    // only leaf categories (with a parent) can be assigned; parent groups prefix the name for easier picking
     const parents = new Map(fertilizerCategories.filter((c) => !c.parent).map((c) => [c.slug, c.name]));
     const used = new Set(products.map((p) => p.categorySlug));
     const categories = fertilizerCategories

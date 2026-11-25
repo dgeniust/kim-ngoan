@@ -4,7 +4,7 @@ import { AlertTriangle, ArrowUpRight, CheckCircle2, Info, Loader2, X, XCircle } 
 import type { NotifyAction, NotifyLink, NotifyStatus } from "@/lib/notify/types";
 import { cn } from "@/lib/utils";
 
-/* Màu cố định (không theo theme) để thẻ đọc rõ trên cả nền sáng của landing/sắt thép lẫn nền đen của lốp xe. */
+/* Fixed colours (not theme-driven) so the toast reads well on the light hub/steel pages and the black tyre site alike. */
 const TONE: Record<NotifyStatus, { icon: typeof Info; fg: string; bg: string; label: string }> = {
   success: { icon: CheckCircle2, fg: "text-[#1a8a3a]", bg: "bg-[#e6f6ea]", label: "Thành công" },
   error: { icon: XCircle, fg: "text-[#d1242f]", bg: "bg-[#fdecec]", label: "Lỗi" },

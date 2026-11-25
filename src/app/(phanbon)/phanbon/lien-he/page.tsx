@@ -2,17 +2,25 @@ import { getSettings } from "@/lib/settings/server";
 import type { Metadata } from "next";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/shared/container";
-import { ContactForm } from "@/components/site/contact-form";
-import { PageHero } from "@/components/site/page-hero";
+import { ContactForm } from "@/components/phanbon/catalog/contact-form";
+import { PageHero } from "@/components/phanbon/catalog/page-hero";
 import { getContent } from "@/lib/content/store";
 import { getFertilizerProduct } from "@/lib/products/server";
+import { socialMeta } from "@/lib/seo";
+import { siteNameFor } from "@/lib/site-name";
+import { BrandText } from "@/components/shared/brand-text";
+import { PB_PAGE_IMAGES } from "@/constants/page-heads";
 
-export const metadata: Metadata = {
-  title: "Liên hệ",
-  description:
-    "Liên hệ Kim Ngoan để đặt hàng và được tư vấn kỹ thuật miễn phí. Địa chỉ, số điện thoại, giờ làm việc và bản đồ chỉ đường.",
-  alternates: { canonical: "/phanbon/lien-he" },
-};
+const TITLE = "Liên hệ";
+const DESCRIPTION = "Liên hệ Kim Ngoan để đặt hàng và được tư vấn kỹ thuật miễn phí. Địa chỉ, số điện thoại, giờ làm việc và bản đồ chỉ đường.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: TITLE,
+    description: DESCRIPTION,
+    ...socialMeta({ title: TITLE, description: DESCRIPTION, path: "/phanbon/lien-he", siteName: await siteNameFor("phanbon") }),
+  };
+}
 
 const WORKING_HOURS = "Thứ 2 – Chủ nhật, 7:00 – 17:00";
 
@@ -34,11 +42,12 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
         title="Liên hệ"
         description="Gọi trực tiếp để được tư vấn ngay, hoặc để lại lời nhắn – kỹ thuật viên sẽ gọi lại cho bạn trong vòng 24 giờ."
         crumbs={[{ label: "Liên hệ" }]}
+        image={PB_PAGE_IMAGES["lien-he"]}
       />
 
       <Container className="grid gap-12 py-14 md:py-20 lg:grid-cols-[360px_1fr] lg:gap-16">
         <div>
-          <h2 className="text-h4 font-semibold text-brand-900">{companyName}</h2>
+          <h2 className="text-h4 font-semibold text-brand-900"><BrandText text={companyName} /></h2>
           <address className="mt-6 space-y-6 not-italic">
             {info.map(({ icon: Icon, label, value, href, strong }) => (
               <div key={label} className="flex items-start gap-4">

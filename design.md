@@ -47,10 +47,12 @@ Nguyên tắc kiểm tra nhanh: *nếu bỏ đường viền mà khối vẫn đ
 ### 2.3 Theme chuyên trang (`.theme-lopxe`, `.theme-satthep`, biến `--v-*`)
 | | Lốp xe | Sắt thép |
 |---|---|---|
-| Nền | than chì `#17181b`, thẻ `#202125` | trắng / `#f4f5f7`, nền kẻ ô bản vẽ |
-| Chữ | `#f4f4f5` / phụ `#a1a1aa` | `#18181b` / phụ `#5b5b63` |
-| Hành động | cam `#e07a3f` | đồng `#a84b24` |
+| Nền | trắng / xám ấm `#f6f5f3` (từ fe/demo-v2) | trắng / `#f4f5f7`, nền kẻ ô bản vẽ |
+| Chữ | `#17181b` / phụ `#5b5b63` | `#18181b` / phụ `#5b5b63` |
+| Hành động | cam đậm `#b9531c` (chữ trắng đạt 4.5:1); cam `#e07a3f` cho chấm, nhãn | đồng `#a84b24` |
 | Màu nhấn tiêu đề | cam | xám `#5b5b63` |
+
+Trang chủ lốp xe dùng ảnh và video thật (cấu hình ở `src/constants/lopxe-media.ts`): hero video toàn màn hình, khối video “Đường nào, gai nấy”, ảnh theo loại xe, lưới ảnh cửa hàng.
 
 Mỗi trang chỉ có **một** màu hành động (nút đặc màu đồng). Màu ngành dùng cho chấm/tag: phân bón `#3a9a4f`, lốp xe `#e07a3f`, sắt thép `#3d7fc2`.
 
@@ -146,7 +148,7 @@ Thứ tự: **Hero → Về Kim Ngoan (ngà) → Sản phẩm (bạc hà) → Ba
 
 - Khung trang: `theme-pb biz-garden relative isolate overflow-x-clip` + `GardenBackdrop` (khung lá dính hai mép), mỗi khối có `data-garden` 1/2/3 và nền `SECTION_BG` (ngà / bạc hà) như landing tổng.
 - `theme-pb` (globals.css) đổi `--color-paper` thành ngà `#FAF9F5`, `--color-surface` thành `#E3EFE6`, `--color-surface-strong` thành `#D3E6D9` để ô, thẻ, vùng chọn ngả xanh thay vì xám lạnh.
-- Nhịp màu: hero (bạc hà) → 01 Bảng tin (xanh rừng `brand-900`) → 02 Bác sĩ cây trồng (ngà) → 03 Sản phẩm (bạc hà) → 04 Vườn thật (ngà) → 05 Về Kim Ngoan (xanh rừng, chữ trắng, nút vàng) → 06 Kiến thức (bạc hà) → form gọi lại (ngà).
+- Nhịp màu (fe/demo-v2): hero video toàn màn hình (phủ xanh rừng) → 01 Theo cây trồng (bạc hà: nhãn hàng + ảnh cây + gợi ý) → 02 Bác sĩ cây trồng (ngà) → 03 Sản phẩm (bạc hà) → 04 Bón đúng cách (xanh rừng, video) → 05 Vườn thật (ngà) → 06 Về Kim Ngoan (xanh rừng, chữ trắng, nút vàng) → 07 Kiến thức (bạc hà) → form gọi lại (ngà).
 - Khối xanh rừng là dải đặc nên che khung lá; tiêu đề trên nền đó dùng `!text-white` (màu heading mặc định là xanh rừng).
 
 ## 6c. Chỉnh sửa sau buổi họp (nhánh `fe/demo-v1`)
@@ -172,7 +174,7 @@ Thứ tự: **Hero → Về Kim Ngoan (ngà) → Sản phẩm (bạc hà) → Ba
 
 ## 7. Phân bón `/phanbon`
 
-Trang chủ: hero cửa hàng (tìm kiếm + nhóm hàng + ảnh theo cây trồng) → bản tin nhà nông (thời tiết, việc nên làm) → nhãn bao NPK → bác sĩ cây trồng → vườn thật → tư vấn nhanh → tin tức.
+Trang chủ: hero video (công ty, tìm kiếm, nhóm sản phẩm đang bán, cam kết) → theo cây trồng (nhãn hàng + ảnh vườn + gợi ý) → bác sĩ cây trồng → nhãn bao NPK → video bón đúng cách → vườn thật → về Kim Ngoan → tin tức → tư vấn nhanh.
 Trang con: sản phẩm (sidebar danh mục + lưới), chi tiết (thư viện ảnh, bảng thông số, gọi/Zalo), danh mục, tin tức & bài viết, giới thiệu, dịch vụ, liên hệ, tìm kiếm.
 Đầu trang con: `page-hero` nền `surface`, breadcrumb, h1, mô tả; nội dung trên nền trắng.
 
@@ -200,10 +202,11 @@ Nền giấy kẻ ô + **bảng giá thép hôm nay** → **danh sách vật tư
 ## 12. Cấu trúc code
 | Thư mục | Nội dung |
 |---|---|
-| `components/business/` | landing tổng: `ui.tsx` (BIZ_WRAP, nút, Eyebrow, SectionTitle), hero, các section, form, bản đồ |
-| `components/hub/` | header/footer/nút nổi landing tổng |
-| `components/landing/`, `components/phanbon/`, `components/site/` | chuyên trang phân bón |
-| `components/nganh/` | lốp xe & sắt thép (dùng biến `--v-*`) |
+| `components/hub/` | landing tổng: header (`nav/`), footer, nút nổi, `sections/` (hero, giới thiệu, sản phẩm, tin tức, liên hệ, form), `ui.tsx` (BIZ_WRAP, nút, Eyebrow, SectionTitle) |
+| `components/phanbon/` (+ `catalog/`) | chuyên trang phân bón |
+| `components/verticals/` | lốp xe & sắt thép (dùng biến `--v-*`) |
+| `components/shared/` | dùng chung: nền vườn (`garden/`), bản đồ, hình minh hoạ sản phẩm, error view… |
+| `constants/`, `types/`, `hooks/` | nội dung tĩnh, kiểu dữ liệu, hook phía client |
 | `components/ui/` | shadcn (button bo 6px) |
 Chỉ phần tương tác là client component; còn lại server component.
 
@@ -211,4 +214,4 @@ Chỉ phần tương tác là client component; còn lại server component.
 `npx tsc --noEmit` · `npx eslint src` · `next build` · bộ test CDP (landing, nội dung, chuyên trang, admin) · chụp so sánh 25 route × 2 khổ · kiểm tra SEO từng route · Lighthouse · tràn ngang 390px.
 
 ## 14. Cần xác nhận
-Số liệu cam kết, hệ số thép 35–45 kg/m², mốc bậc giá, cách chia mức lốp (`lib/data/vertical-extras.ts`). Các form (báo giá, đặt lịch, danh sách vật tư, liên hệ) hiện chỉ có giao diện – cần nối API.
+Số liệu cam kết, hệ số thép 35–45 kg/m², mốc bậc giá, cách chia mức lốp (`constants/vertical-extras.ts`). Các form (báo giá, đặt lịch, danh sách vật tư, liên hệ) hiện chỉ có giao diện – cần nối API.

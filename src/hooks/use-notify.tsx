@@ -6,7 +6,6 @@ import { NotifyToast } from "@/components/shared/notify-toast";
 import { activityStore } from "@/lib/notify/activity-store";
 import type { NotifyMessage, NotifyOptions, NotifyStatus } from "@/lib/notify/types";
 
-export type { NotifyMessage, NotifyOptions } from "@/lib/notify/types";
 
 const DURATION: Record<NotifyStatus, number> = { success: 4500, info: 4500, warning: 6000, error: 7000, loading: Infinity };
 let seq = 0;
@@ -33,9 +32,9 @@ function createNotifier({ record: recordDefault = false }: { record?: boolean })
     loading: (title: string, opts?: NotifyOptions) => show("loading", title, opts),
     dismiss: (id?: string | number) => toast.dismiss(id),
     /**
-     * Hiện “đang xử lý” rồi chuyển sang thành công / lỗi trên cùng một thẻ.
-     * Kết quả dạng `{ ok: false, error }` (server action) cũng được coi là lỗi.
-     * Trả về chính kết quả để nơi gọi xử lý tiếp; không ném lỗi ra ngoài.
+     * Shows "working…" and then turns the same toast into success / error.
+     * A `{ ok: false, error }` result (server action) also counts as an error.
+     * Returns the result itself for the caller; never throws.
      */
     async promise<T>(
       task: Promise<T>,
@@ -66,13 +65,13 @@ function createNotifier({ record: recordDefault = false }: { record?: boolean })
 
 type Notifier = ReturnType<typeof createNotifier>;
 
-/** Dùng ngoài React (VD: trong hàm tiện ích). Không ghi lịch sử. */
+/** For use outside React (e.g. in utility functions). Not recorded in the history. */
 export const notify: Notifier = createNotifier({});
 
 /**
- * Hook thông báo dùng chung cho toàn website.
- * - Trang công khai: `useNotify()` – chỉ hiện thông báo.
- * - Trang quản trị: `useNotify({ record: true })` – đồng thời ghi vào lịch sử ở chuông thông báo.
+ * Site-wide notification hook.
+ * - Public pages: `useNotify()` – shows toasts only.
+ * - Admin: `useNotify({ record: true })` – also records them in the notification-bell history.
  */
 export function useNotify(options: { record?: boolean } = {}): Notifier {
   const record = options.record ?? false;

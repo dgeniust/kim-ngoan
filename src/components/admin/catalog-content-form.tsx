@@ -6,7 +6,7 @@ import { resetCatalogContentAction, saveCatalogContentAction, type FieldErrors }
 import { useNotify } from "@/hooks/use-notify";
 import { catalogContentSchema } from "@/lib/catalog-content/schema";
 import { SECTION_SPECS } from "@/lib/catalog-content/sections";
-import type { CatalogContent, SectionHeading } from "@/lib/data/types";
+import type { CatalogContent, SectionHeading } from "@/types/catalog";
 import { cn } from "@/lib/utils";
 import { failure } from "./notify-helpers";
 import { BTN_TEXT, Card, Grid, ItemsField, LinesField, PageHeader, SaveBar, TextField } from "./notion-ui";
@@ -26,7 +26,7 @@ function errorsOf(c: CatalogContent): FieldErrors {
   return out;
 }
 
-/** Xem trước tiêu đề theo màu chuyên trang: “title [highlight] after” – chữ nổi bật đổi màu nhấn. */
+/** Heading preview in the site's colours: "title [highlight] after" – the highlight takes the accent colour. */
 function HeadlinePreview({ site, h, large }: { site: Site; h: Partial<SectionHeading>; large?: boolean }) {
   const p = META[site].preview;
   const after = h.after ? (/^[,.;:!?…]/.test(h.after) ? h.after : ` ${h.after}`) : "";
@@ -54,7 +54,7 @@ export function CatalogContentForm({ site, initial }: { site: Site; initial: Cat
   const meta = META[site];
   const [data, setData] = useState(initial);
   const [saved, setSaved] = useState(JSON.stringify(initial));
-  const [version, setVersion] = useState(0); // đổi key để các ô danh sách nhận lại giá trị khi huỷ / khôi phục
+  const [version, setVersion] = useState(0); // bumping the key re-seeds list fields after cancel / restore
   const [showErrors, setShowErrors] = useState(false);
   const [serverErrors, setServerErrors] = useState<FieldErrors>({});
   const [pending, start] = useTransition();
@@ -116,7 +116,7 @@ export function CatalogContentForm({ site, initial }: { site: Site; initial: Cat
     });
   }
 
-  /* ---------- các khối, theo đúng thứ tự trên trang ---------- */
+  /* ---------- blocks, in the same order as on the page ---------- */
   const heroBlock: Block = {
     id: "banner",
     label: "Banner đầu trang",
@@ -319,7 +319,7 @@ export function CatalogContentForm({ site, initial }: { site: Site; initial: Cat
       />
 
       <div className="mx-auto grid max-w-5xl gap-8 px-5 pb-32 sm:px-10 lg:grid-cols-[180px_minmax(0,1fr)]">
-        {/* mục lục kiểu Notion */}
+        {/* Notion-style table of contents */}
         <nav aria-label="Các khối trên trang" data-tour="content-outline" className="hidden lg:block">
           <div className="sticky top-6">
             <p className="px-2 text-[12px] font-medium text-hub-ink/45">Các khối trên trang</p>

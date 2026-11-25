@@ -1,10 +1,10 @@
 /**
- * THANG KÍCH THƯỚC NÚT DUY NHẤT cho toàn website (landing tổng, phân bón, lốp xe, sắt thép).
- *   sm   36px – nút phụ trong thẻ, bộ lọc
- *   md   44px – mặc định (đạt chuẩn vùng chạm 44px)
- *   lg   52px – hành động chính ở hero / khối kêu gọi
+ * SINGLE button size scale for the whole site (hub, fertilizer, tyres, steel).
+ *   sm   36px – secondary buttons in cards, filters
+ *   md   44px – default (meets the 44px touch-target guideline)
+ *   lg   52px – primary hero / call-to-action buttons
  *   icon 44×44px
- * Chữ: sm = text-small (14px), md/lg = text-body (16px). Bo góc do từng thương hiệu quyết định.
+ * Text: sm = text-small (14px), md/lg = text-body (16px). Corner radius is up to each brand.
  */
 export const BUTTON_SIZES = {
   sm: "h-9 px-4 text-small",

@@ -17,7 +17,7 @@ export const defaultSettings: SiteSettings = {
   ) as SiteSettings["verticals"],
 };
 
-/** Bản ghi thô (để hiện trong form admin). */
+/** Raw record (shown in the admin form). */
 export const getRawSettings = cache(async (): Promise<SiteSettings> => {
   const raw = await readJson(FILE);
   if (raw === undefined) return defaultSettings;
@@ -28,7 +28,7 @@ export const getRawSettings = cache(async (): Promise<SiteSettings> => {
 });
 
 /**
- * Thông tin chung đã gộp với phần cố định – dùng trong mọi server component:
+ * Shared settings merged with the fixed parts – used by every server component:
  *   const { COMPANY, VERTICALS, VERTICAL_LIST } = await getSettings();
  */
 export const getSettings = cache(async () => {

@@ -1,14 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { BookOpenText, Sparkles } from "lucide-react";
 import { notify } from "@/hooks/use-notify";
 import { cn } from "@/lib/utils";
-import { GuideCenter } from "./guide-center";
 import { guideStore } from "./guide-store";
-import { TourRunner } from "./tour-runner";
 import { getGuide, stepsFor, type Guide, type GuideSite, type TourStep } from "./tours";
+
+// Both panels render only after the admin opens the guide, so their code is split out of the admin bundle.
+const GuideCenter = dynamic(() => import("./guide-center").then((m) => m.GuideCenter), { ssr: false });
+const TourRunner = dynamic(() => import("./tour-runner").then((m) => m.TourRunner), { ssr: false });
 
 type GuideCtx = { openCenter: (id?: string) => void; start: (id: string, site?: GuideSite) => void };
 const Ctx = createContext<GuideCtx | null>(null);
@@ -59,7 +62,7 @@ export function GuideProvider({ children }: { children: React.ReactNode }) {
   const next = useCallback(() => setTour((t) => (t ? { ...t, index: Math.min(t.index + 1, t.steps.length - 1) } : t)), []);
   const prev = useCallback(() => setTour((t) => (t ? { ...t, index: Math.max(t.index - 1, 0) } : t)), []);
 
-  // phím ? mở trung tâm hướng dẫn (trừ khi đang gõ)
+  // the ? key opens the guide centre (unless typing)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "?" || tour || center) return;
@@ -105,7 +108,7 @@ export function GuideProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Nút “Hướng dẫn sử dụng” trên thanh bên. */
+/** "User guide" button in the sidebar. */
 export function GuideButton({ className }: { className?: string }) {
   const { openCenter } = useGuide();
   return (
@@ -117,7 +120,7 @@ export function GuideButton({ className }: { className?: string }) {
   );
 }
 
-/** Nút mở/chạy hướng dẫn dùng trong trang (VD: trang Tổng quan). */
+/** In-page button that opens / runs a guide (e.g. on the Overview page). */
 export function GuideLauncher({ guide, children, className, mode = "start" }: { guide?: string; children: React.ReactNode; className?: string; mode?: "start" | "open" }) {
   const { openCenter, start } = useGuide();
   return (

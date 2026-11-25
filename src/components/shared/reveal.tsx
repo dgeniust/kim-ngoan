@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Hiện dần (fade + trượt nhẹ) khi phần tử vào khung nhìn. Chỉ chạy một lần,
- * dùng CSS transition (.reveal trong globals.css) nên không cần thư viện animation.
+ * Fades in (and slides slightly) when the element enters the viewport. Runs once and uses a
+ * CSS transition (.reveal in globals.css), so no animation library is needed.
  */
 export function Reveal({
   children,
@@ -38,8 +38,10 @@ export function Reveal({
 
   return (
     <Tag
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={ref as any}
+      // A callback ref typed on HTMLElement fits every tag in the `as` union without a cast.
+      ref={(el: HTMLElement | null) => {
+        ref.current = el;
+      }}
       className={cn("reveal", className)}
       style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
     >

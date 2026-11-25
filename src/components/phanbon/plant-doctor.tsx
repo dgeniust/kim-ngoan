@@ -3,12 +3,12 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Camera, Check, Cherry, Leaf as LeafIcon, Phone, Shovel, Sprout, type LucideIcon } from "lucide-react";
-import { SYMPTOMS, ZONES, type SymptomIcon, type ZoneId } from "@/lib/content/plant-doctor";
+import { SYMPTOMS, ZONES, type SymptomIcon, type ZoneId } from "@/constants/plant-doctor";
 import { telHref } from "@/lib/verticals";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-/* ---------------------------------------------------------------- hình minh hoạ từng triệu chứng */
+/* ---------------------------------------------------------------- symptom illustrations */
 const LEAF = "M32 5 C 53 15 57 41 32 59 C 7 41 11 15 32 5 Z";
 const VEINS = "M32 9 V 56 M32 20 L 20 14 M32 20 L 44 14 M32 30 L 17 24 M32 30 L 47 24 M32 40 L 19 35 M32 40 L 45 35 M32 49 L 23 46 M32 49 L 41 46";
 
@@ -45,12 +45,12 @@ const IMAGE_SYMPTOMS: Partial<Record<SymptomIcon, string>> = {
   knots: "/knots.jpg",
   "hard-soil": "/hard-soil.jpg",
 
-  // ví dụ sau này thêm: scorch: "/scorch.png",
+  // e.g. add later: scorch: "/scorch.png",
 };
 function SymptomArt({ kind, className }: { kind: SymptomIcon; className?: string }) {
    const imageSrc = IMAGE_SYMPTOMS[kind];
 
-  // Nếu kind có trong danh sách ảnh thật -> Render <Image> độc lập (không bọc <svg>)
+  // Symptoms with a real photo render a standalone <Image> (not wrapped in <svg>)
   if (imageSrc) {
     return (
       <Image
@@ -175,14 +175,14 @@ function SymptomArt({ kind, className }: { kind: SymptomIcon; className?: string
 }
 
 const ZONE_ICON: Record<ZoneId, LucideIcon> = { "la-non": Sprout, "la-gia": LeafIcon, trai: Cherry, re: Shovel };
-/** dấu hiệu hay gặp nhất – bấm một lần ra kết quả */
+/** Most common symptoms – one tap shows the result. */
 const COMMON = ["vang-deu", "chay-mep", "rung-trai", "thoi-re"];
 
 /**
- * “Bác sĩ cây trồng” – phiếu khám 3 cột, không hình minh hoạ cây:
- *  1) bị ở đâu (lá non, lá già, hoa trái, rễ gốc) → 2) dấu hiệu nào (thẻ có hình nhỏ)
- *  → 3) nguyên nhân thường gặp, việc nên làm, nhóm phân/thuốc, gửi ảnh cho kỹ thuật viên.
- * Mở sẵn “Lá già” để thấy ngay danh sách; cột 3 lúc đầu là các dấu hiệu hay gặp + lối tắt gửi ảnh.
+ * "Plant doctor" – a 3-column check-up form, no plant illustration:
+ *  1) where (young leaves, old leaves, flowers/fruit, roots) → 2) which symptom (cards with small pictures)
+ *  → 3) common causes, what to do, fertilizer/pesticide group, send a photo to a technician.
+ * "Old leaves" is open by default so a list shows immediately; column 3 starts with common symptoms + a photo shortcut.
  */
 export function PlantDoctor({ phone, zalo }: { phone: string; zalo: string }) {
   const [zone, setZone] = useState<ZoneId>("la-gia");
@@ -203,7 +203,7 @@ export function PlantDoctor({ phone, zalo }: { phone: string; zalo: string }) {
 
   return (
     <div className="grid grid-cols-1 gap-2 rounded-lg bg-white p-2 ring-1 ring-brand-900/10 lg:grid-cols-[15rem_minmax(0,1fr)_minmax(0,1.15fr)] [&>*]:min-w-0">
-      {/* 1. bị ở đâu */}
+      {/* 1. where */}
       <div className="rounded-md bg-surface p-4 sm:p-5">
         <p className="flex items-center gap-2 text-caption font-semibold text-brand-600">
           <span className="grid size-6 place-items-center rounded-full bg-brand-900 text-[11px] text-white">1</span> Bị ở đâu?
@@ -237,7 +237,7 @@ export function PlantDoctor({ phone, zalo }: { phone: string; zalo: string }) {
         </div>
       </div>
 
-      {/* 2. dấu hiệu */}
+      {/* 2. symptoms */}
       <div className="rounded-md p-4 sm:p-5">
         <p className="flex items-center gap-2 text-caption font-semibold text-brand-600">
           <span className="grid size-6 place-items-center rounded-full bg-brand-900 text-[11px] text-white">2</span> Dấu hiệu nào giống nhất?
@@ -266,7 +266,7 @@ export function PlantDoctor({ phone, zalo }: { phone: string; zalo: string }) {
         </div>
       </div>
 
-      {/* 3. kết quả */}
+      {/* 3. result */}
       <div ref={result} aria-live="polite" className="scroll-mt-24">
         {s ? (
           <div key={s.id} className="kn-pop flex h-full flex-col rounded-md bg-brand-900 p-5 text-white sm:p-7">

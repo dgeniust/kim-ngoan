@@ -5,8 +5,8 @@ import * as lopxe from "./lopxe";
 import * as satthep from "./satthep";
 
 /**
- * Lớp truy cập dữ liệu cho /lopxe và /satthep.
- * Danh mục & nội dung trang là cố định trong code; SẢN PHẨM đọc từ kho (admin chỉnh được).
+ * Data access for /lopxe and /satthep.
+ * Categories and page copy are fixed in code; PRODUCTS come from the store (editable in the admin).
  */
 const SOURCES = { lopxe, satthep } as const;
 

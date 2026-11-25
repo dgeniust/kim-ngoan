@@ -1,22 +1,22 @@
-/** Tên miền mặc định khi production chưa đặt NEXT_PUBLIC_SITE_URL (không bao giờ để lộ localhost lên Google). */
+/** Default domain when production has no NEXT_PUBLIC_SITE_URL (localhost must never leak to Google). */
 const PRODUCTION_FALLBACK = "https://kimngoan.com";
 
-/** URL public của website – đặt NEXT_PUBLIC_SITE_URL (xem .env.example). */
+/** Public URL of the website – set NEXT_PUBLIC_SITE_URL (see .env.example). */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "production" ? PRODUCTION_FALLBACK : "http://localhost:3000")).replace(/\/$/, "");
-/** Tên miền hiển thị, VD: kimngoan.com */
+/** Display host, e.g. kimngoan.com */
 export const SITE_HOST = new URL(SITE_URL).host.replace(/^www\./, "");
 
 export const absoluteUrl = (path = "/") =>
   /^https?:\/\//.test(path) ? path : `${SITE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
 
-/** Chuyên trang phân bón sống dưới /phanbon (xem src/lib/verticals.ts). */
+/** The fertilizer site lives under /phanbon (see src/lib/verticals.ts). */
 const PHANBON_BASE = "/phanbon";
 const PHANBON_ROUTES = /^\/(san-pham|danh-muc|dich-vu|tin-tuc|gioi-thieu|lien-he|tim-kiem)(\/|\?|#|$)/;
 
 /**
- * Links saved in the CMS của chuyên trang phân bón:
- *  - "#san-pham"  -> "/phanbon#san-pham" (anchor chỉ có ở trang chủ chuyên trang)
- *  - "/san-pham"  -> "/phanbon/san-pham" (link cũ trước khi tách chuyên trang)
+ * Links saved in the fertilizer-site CMS:
+ *  - "#san-pham"  -> "/phanbon#san-pham" (anchors only exist on the site's home page)
+ *  - "/san-pham"  -> "/phanbon/san-pham" (old links from before the sites were split)
  *  - "/"          -> "/phanbon"
  */
 export const resolveHref = (href: string) => {

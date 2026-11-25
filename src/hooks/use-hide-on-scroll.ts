@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 
 /**
- * Ẩn header khi cuộn xuống, hiện lại khi cuộn lên.
- * - Chỉ ẩn khi đã cuộn qua `offset` (không ẩn ở đầu trang).
- * - Cần cuộn liên tục `delta` px theo một hướng mới đổi trạng thái → tránh giật khi rê chuột/cuộn nhẹ.
- * - `lock` = true (ví dụ đang mở menu di động) thì luôn hiện.
+ * Hides the header while scrolling down and shows it again when scrolling up.
+ * - Only hides past `offset` (never at the top of the page).
+ * - Needs `delta` px of continuous scrolling in one direction before switching → no jitter on small scrolls.
+ * - `lock` = true (e.g. while the mobile menu is open) keeps it visible.
  */
 export function useHideOnScroll({ offset = 120, delta = 8, lock = false } = {}) {
   const [hidden, setHidden] = useState(false);

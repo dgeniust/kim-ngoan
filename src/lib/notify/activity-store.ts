@@ -1,6 +1,6 @@
 import type { Activity } from "./types";
 
-/* Lịch sử thông báo của admin – lưu localStorage của trình duyệt, đồng bộ giữa các tab. */
+/* Admin notification history – stored in the browser's localStorage and synced across tabs. */
 
 const KEY = "kn-admin-activity";
 const SEEN_KEY = "kn-admin-activity-seen";
@@ -28,7 +28,7 @@ function commit(next: State) {
     localStorage.setItem(KEY, JSON.stringify(next.items));
     localStorage.setItem(SEEN_KEY, String(next.seenAt));
   } catch {
-    /* chế độ ẩn danh / hết dung lượng: vẫn giữ trong bộ nhớ */
+    /* private mode / quota exceeded: keep it in memory only */
   }
   listeners.forEach((l) => l());
 }

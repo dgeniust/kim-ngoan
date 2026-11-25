@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
     qualities: [75, 90],
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
+
   //block trang lốp xe và sắt thép khi deploy lên Vercel (chỉ cho phép truy cập trang phân bón)
   // async rewrites() {
   //   if (process.env.VERCEL === "1") {

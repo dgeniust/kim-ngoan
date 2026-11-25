@@ -6,12 +6,20 @@ import { getNews } from "@/lib/data/news";
 import { type VerticalId } from "@/lib/verticals";
 import { getSettings } from "@/lib/settings/server";
 import { cn } from "@/lib/utils";
+import { socialMeta } from "@/lib/seo";
+import { siteNameFor } from "@/lib/site-name";
+import { BrandText } from "@/components/shared/brand-text";
 
-export const metadata: Metadata = {
-  title: "Tin tức",
-  description: "Tin tức, kiến thức về phân bón, lốp xe ô tô và tôn sắt thép từ Công ty TNHH Kim Ngoan.",
-  alternates: { canonical: "/tin-tuc" },
-};
+const TITLE = "Tin tức";
+const DESCRIPTION = "Tin tức, kiến thức về phân bón, lốp xe ô tô và tôn sắt thép từ Công ty TNHH Kim Ngoan.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: TITLE,
+    description: DESCRIPTION,
+    ...socialMeta({ title: TITLE, description: DESCRIPTION, path: "/tin-tuc", siteName: await siteNameFor("hub") }),
+  };
+}
 
 export default async function HubNews({ searchParams }: { searchParams: Promise<{ nganh?: string }> }) {
   const { VERTICALS, VERTICAL_LIST } = await getSettings();
@@ -23,7 +31,7 @@ export default async function HubNews({ searchParams }: { searchParams: Promise<
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-12 sm:px-6 md:py-20 lg:px-10">
       <p className="text-small text-hub-ink-soft">Tin tức</p>
-      <h1 className="text-h1 animate-rise mt-2 font-semibold text-hub-ink">Mới nhất từ Kim Ngoan</h1>
+      <h1 className="text-h1 animate-rise mt-2 font-semibold text-hub-ink">Mới nhất từ <BrandText text="Kim Ngoan" /></h1>
       <nav aria-label="Lọc theo lĩnh vực" className="mt-8 flex flex-wrap gap-2">
         {chips.map((c) => (
           <Link

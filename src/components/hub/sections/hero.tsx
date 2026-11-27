@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CalendarCheck, ChevronLeft, ChevronRight, Clock, Layers, Package, Pause, Play, type LucideIcon } from "lucide-react";
 import type { HeroSlide, Stat } from "@/lib/hub/home";
 import { cn } from "@/lib/utils";
-import { BIZ_WRAP } from "@/components/hub/ui";
+import { BIZ_WRAP, SlideArrow, bizButton } from "@/components/hub/ui";
 
 /** Icons for the stats bar, in buildStats() order. */
 const STAT_ICONS: LucideIcon[] = [CalendarCheck, Package, Layers, Clock];
@@ -14,10 +14,10 @@ const AUTOPLAY = 5000;
 
 /**
  * Full-bleed hero: one background photo per sector, changing every 5 s; the eyebrow, slogan and lead change with it.
- * A night-forest overlay (left → right) keeps the text readable. `children` = the CTA buttons. A stats bar is pinned to the bottom.
+ * A night-forest overlay (left → right) keeps the text readable. CTA row = `primaryCta` + the current slide's `cta`. A stats bar is pinned to the bottom.
  * The timer keeps the "remaining time" while paused (hover/focus on the content or controls, hidden tab, pause button).
  */
-export function BizHero({ slides, stats, children }: { slides: HeroSlide[]; stats: Stat[]; children: ReactNode }) {
+export function BizHero({ slides, stats, primaryCta }: { slides: HeroSlide[]; stats: Stat[]; primaryCta: { label: string; href: string } }) {
   const n = slides.length;
   const [index, setIndex] = useState(0);
   const [hold, setHold] = useState(false);
@@ -112,7 +112,7 @@ export function BizHero({ slides, stats, children }: { slides: HeroSlide[]; stat
 
       {/* content */}
       <div className={cn(BIZ_WRAP, "flex flex-1 flex-col pb-8 pt-4 md:justify-center md:pb-14 md:pt-32")}>
-        <div className="max-w-[700px]" {...holdProps}>
+        <div className="max-w-[780px]" {...holdProps}>
           {/* every slide's text is stacked in one grid cell → stable height; only the visible slide is the <h1> */}
           <div className="grid">
             {slides.map((s, i) => {
@@ -132,15 +132,23 @@ export function BizHero({ slides, stats, children }: { slides: HeroSlide[]; stat
                     <span aria-hidden className="size-2 rounded-full bg-mv-gold-soft" />
                     {s.eyebrow}
                   </p>
-                  <Title id={on ? "hero-title" : undefined} className="mt-6 text-[clamp(2.3rem,4.4vw,4rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+                  <Title id={on ? "hero-title" : undefined} className="mt-6 text-[clamp(2.1rem,3.9vw,3.625rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
                     <span className="block">{s.titleLines[0]}</span> <span className="block text-mv-gold-soft">{s.titleLines[1]}</span>
                   </Title>
-                  <p className="mt-6 max-w-[34rem] text-lead leading-relaxed text-white/85">{s.lead}</p>
+                  <p className="mt-6 max-w-[36rem] text-lead leading-relaxed text-white/85">{s.lead}</p>
                 </div>
               );
             })}
           </div>
-          {children}
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <a href={primaryCta.href} className={bizButton.solid}>
+              {primaryCta.label} <SlideArrow />
+            </a>
+            {/* second button follows the slide: "Liên hệ ngay" for fertilizer, "Nhận báo giá" for tyres / steel */}
+            <a href={slides[index].cta.href} className={bizButton.ghostDark}>
+              {slides[index].cta.label}
+            </a>
+          </div>
         </div>
 
         {/* slide controls – one row at every width: arrows/pause keep 44px, the slide tabs share the rest

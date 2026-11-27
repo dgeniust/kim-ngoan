@@ -17,6 +17,7 @@ export const catalogContentSchema = z.object({
     title: req(),
     highlight: req("Thiếu chữ nổi bật"),
     after: text.optional(),
+    note: text.optional(),
     description: req(),
     stats: z.array(z.object({ value: req("Thiếu số"), label: req("Thiếu nhãn") })).min(1, "Cần ít nhất 1 số liệu").max(3, "Tối đa 3 số liệu"),
   }),

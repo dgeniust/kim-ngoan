@@ -5,7 +5,7 @@ import Link from "next/link";
 import { BrandMark } from "@/components/shared/brand-mark";
 import { usePathname } from "next/navigation";
 import { Menu, Phone, Search, X } from "lucide-react";
-import { telHref, type Vertical } from "@/lib/verticals";
+import { sectorPhones, telHref, type Vertical } from "@/lib/verticals";
 import { cn } from "@/lib/utils";
 import { useHideOnScroll } from "@/hooks/use-hide-on-scroll";
 import { useModalMenu } from "@/hooks/use-modal-menu";
@@ -29,6 +29,7 @@ export function VHeader({ vertical, company: COMPANY }: { vertical: Vertical; co
     { label: "Tin tức", href: `${vertical.base}/tin-tuc` },
     { label: "Liên hệ", href: `${vertical.base}/lien-he` },
   ];
+  const phones = sectorPhones(vertical);
   const isActive = (href: string) => (href === vertical.base ? pathname === href : pathname.startsWith(href));
 
   useModalMenu(open, close);
@@ -83,13 +84,27 @@ export function VHeader({ vertical, company: COMPANY }: { vertical: Vertical; co
               <Link href={`${vertical.base}/san-pham#tim-kiem`} aria-label="Tìm sản phẩm" className="grid size-11 place-items-center rounded-full text-v-fg transition-colors duration-200 hover:bg-v-raise">
                 <Search className="size-5" />
               </Link>
-              <a
-                href={telHref(vertical.phone)}
-                aria-label={`Gọi ${vertical.phone}`}
-                className="hidden h-11 items-center gap-2 rounded-md bg-v-accent px-5 text-body font-medium text-v-on-accent transition-colors duration-200 hover:bg-v-accent-hover lg:inline-flex"
-              >
-                <Phone className="size-4" /> <span className="tabular-nums">{vertical.phone}</span>
-              </a>
+              {phones.length > 1 ? (
+                // two lines (tyres): both numbers stacked inside one call button, each its own tel: link
+                <div className="hidden h-11 items-center gap-2.5 rounded-md bg-v-accent pl-4 pr-3 text-v-on-accent lg:inline-flex">
+                  <Phone className="size-4 shrink-0" aria-hidden />
+                  <span className="flex flex-col">
+                    {phones.map((p) => (
+                      <a key={p} href={telHref(p)} aria-label={`Gọi ${p}`} className="text-[13px] font-semibold leading-[1.3] tabular-nums hover:underline">
+                        {p}
+                      </a>
+                    ))}
+                  </span>
+                </div>
+              ) : (
+                <a
+                  href={telHref(vertical.phone)}
+                  aria-label={`Gọi ${vertical.phone}`}
+                  className="hidden h-11 items-center gap-2 rounded-md bg-v-accent px-5 text-body font-medium text-v-on-accent transition-colors duration-200 hover:bg-v-accent-hover lg:inline-flex"
+                >
+                  <Phone className="size-4" /> <span className="tabular-nums">{vertical.phone}</span>
+                </a>
+              )}
               <button
                 type="button"
                 className="grid size-11 place-items-center rounded-full text-v-fg transition-colors hover:bg-v-raise lg:hidden"
@@ -121,9 +136,11 @@ export function VHeader({ vertical, company: COMPANY }: { vertical: Vertical; co
                   </Link>
                 );
               })}
-              <a href={telHref(vertical.phone)} className="mt-6 flex h-13 items-center justify-center gap-2 rounded-md bg-v-accent text-body font-medium text-v-on-accent">
-                <Phone className="size-4" /> Gọi {vertical.phone}
-              </a>
+              {phones.map((p, i) => (
+                <a key={p} href={telHref(p)} className={cn(i ? "mt-2" : "mt-6", "flex h-13 items-center justify-center gap-2 rounded-md bg-v-accent text-body font-medium text-v-on-accent")}>
+                  <Phone className="size-4" /> Gọi <span className="tabular-nums">{p}</span>
+                </a>
+              ))}
             </nav>
           </div>
         )}

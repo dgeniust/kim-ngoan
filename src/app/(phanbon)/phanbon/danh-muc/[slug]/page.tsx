@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const category = getCategory((await params).slug);
   if (!category) return { title: "Danh mục" };
   const { COMPANY } = await getSettings();
-  const description = metaDescription([category.description, `${category.name} chính hãng tại đại lý Kim Ngoan – ${COMPANY.area}`, "Báo giá theo số lượng, tư vấn kỹ thuật miễn phí, giao tận vườn"]);
+  const description = metaDescription([category.description, `${category.name} chính hãng tại đại lý Kim Ngoan – ${COMPANY.area}`, "Tư vấn kỹ thuật miễn phí, giao tận vườn"]);
   return {
     title: fitTitle(category.name, "Kim Ngoan"),
     description,

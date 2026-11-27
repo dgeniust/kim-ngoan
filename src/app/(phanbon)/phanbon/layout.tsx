@@ -57,7 +57,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       </main>
       <PbFooter site={site} footer={content.footer} />
       <MobileActionBar phone={site.phone} />
-      <BackToTop className="bg-white text-brand-900 shadow-lift" />
+      <BackToTop className="bg-white text-brand-900" zalo={COMPANY.zalo} facebook={COMPANY.facebook} />
     </div>
   );
 }

@@ -49,7 +49,7 @@ export function QuoteForm({ sectors }: { sectors: { id: string; name: string }[]
     setStatus("sending");
     await new Promise((r) => setTimeout(r, 900));
     setStatus("sent");
-    notify.success("Đã gửi yêu cầu báo giá", { description: `Kim Ngoan sẽ gọi lại số ${values.phone} trong giờ làm việc.` });
+    notify.success("Đã gửi yêu cầu liên hệ", { description: `Kim Ngoan sẽ gọi lại số ${values.phone} sớm nhất.` });
   }
 
   if (status === "sent")
@@ -57,7 +57,7 @@ export function QuoteForm({ sectors }: { sectors: { id: string; name: string }[]
       <div role="status" className="animate-rise py-6">
         <CheckCircle2 className="size-10 text-biz-moss" aria-hidden />
         <p className="mt-4 text-title font-bold text-hub-ink">Đã nhận yêu cầu của {values.name}</p>
-        <p className="mt-2 text-body text-hub-ink-soft">Chúng tôi sẽ gọi lại số {values.phone} trong giờ làm việc.</p>
+        <p className="mt-2 text-body text-hub-ink-soft">Chúng tôi sẽ gọi lại số {values.phone} sớm nhất.</p>
       </div>
     );
 
@@ -120,7 +120,7 @@ export function QuoteForm({ sectors }: { sectors: { id: string; name: string }[]
       <div className="sm:col-span-2">
         <button type="submit" disabled={status === "sending"} className={cn(bizButton.solid, "disabled:opacity-70")}>
           {status === "sending" ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
-          Gửi yêu cầu báo giá
+          Gửi yêu cầu liên hệ
           {status !== "sending" && <SlideArrow />}
         </button>
       </div>

@@ -44,7 +44,7 @@ function Chips({ label, options, value, onChange }: { label: string; options: st
  * Kim Ngoan does not book fitting appointments or publish prices (they vary by brand and batch), so customers leave a number and staff call back with a quote.
  * UI only, like the other forms: client-side validation and a pre-written message copied for Zalo. Wire to an API when a backend exists.
  */
-export function TyreQuote({ phone, zalo }: { phone: string; zalo: string }) {
+export function TyreQuote({ phones, zalo }: { phones: string[]; zalo: string }) {
   const id = useId();
   const n = useNotify();
   const remembered = useSyncExternalStore(noop, readSize, () => "");
@@ -72,7 +72,7 @@ export function TyreQuote({ phone, zalo }: { phone: string; zalo: string }) {
         try {
           navigator.clipboard?.writeText(message).catch(() => {});
         } catch {}
-        n.success("Đã nhận yêu cầu báo giá", { description: `Nhân viên Kim Ngoan sẽ gọi số ${tel} trong giờ làm việc (7:00 – 17:00).` });
+        n.success("Đã nhận yêu cầu báo giá", { description: `Nhân viên Kim Ngoan sẽ gọi số ${tel} sớm nhất.` });
       }}
       className="rounded-2xl border-t-4 border-v-spark bg-v-raise p-6 ring-1 ring-v-line sm:p-8"
     >
@@ -125,9 +125,11 @@ export function TyreQuote({ phone, zalo }: { phone: string; zalo: string }) {
             <a href={zalo} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-2 rounded-full bg-v-tint px-4 font-medium text-v-on-tint">
               <MessageCircle className="size-4" aria-hidden /> Gửi qua Zalo
             </a>
-            <a href={telHref(phone)} className="inline-flex h-10 items-center gap-2 rounded-md bg-v-raise px-4 font-medium text-v-fg">
-              <Phone className="size-4" aria-hidden /> {phone}
-            </a>
+            {phones.map((p) => (
+              <a key={p} href={telHref(p)} className="inline-flex h-10 items-center gap-2 rounded-md bg-v-raise px-4 font-medium tabular-nums text-v-fg">
+                <Phone className="size-4" aria-hidden /> {p}
+              </a>
+            ))}
           </div>
         </div>
       )}

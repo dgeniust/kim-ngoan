@@ -1,15 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Pause, Play } from "lucide-react";
 import type { MediaVideo as Video } from "@/constants/media";
 import { cn } from "@/lib/utils";
+
+const SMALL = "(max-width: 767px)";
+const subscribeSmall = (cb: () => void) => {
+  const mq = window.matchMedia(SMALL);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const isSmall = () => window.matchMedia(SMALL).matches;
 
 /**
  * Muted, looping background-style video with a visible pause/play button (WCAG 2.2.2).
  * - Plays only while on screen (saves data and CPU), pauses when scrolled away.
  * - prefers-reduced-motion: never autoplays – the poster stays, the button can still start it.
  * - If every source fails to load, the poster simply remains.
+ * - Phones (< 768 px wide) get the lighter 360p files first, larger screens the 720p ones: the <source>s are
+ *   attached after mount, once the screen size is known (the poster covers that first moment).
  */
 export function MediaVideo({
   video,
@@ -36,10 +46,22 @@ export function MediaVideo({
   const [playing, setPlaying] = useState(false);
   /** null = follow visibility/motion preference; true/false = the visitor pressed the button. */
   const [choice, setChoice] = useState<boolean | null>(null);
+  // null until hydrated (server render has no sources), then true on phones
+  const small = useSyncExternalStore(subscribeSmall, isSmall, () => null);
+  const sources = useMemo(() => {
+    if (small === null) return [];
+    const lo = (s: string) => /-360\.mp4$/.test(s);
+    const [first, second] = small ? [video.sources.filter(lo), video.sources.filter((s) => !lo(s))] : [video.sources.filter((s) => !lo(s)), video.sources.filter(lo)];
+    return [...first, ...second];
+  }, [small, video.sources]);
+
+  useEffect(() => {
+    if (sources.length) ref.current?.load();
+  }, [sources]);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !sources.length) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -51,7 +73,7 @@ export function MediaVideo({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [choice]);
+  }, [choice, sources]);
 
   const toggle = () => {
     const el = ref.current;
@@ -79,7 +101,7 @@ export function MediaVideo({
         onPause={() => setPlaying(false)}
         className={cn("size-full object-cover", bg && "absolute inset-0 -z-10", videoClassName)}
       >
-        {video.sources.map((src) => (
+        {sources.map((src) => (
           <source key={src} src={src} type="video/mp4" />
         ))}
       </video>

@@ -5,7 +5,6 @@ import { BizHero } from "@/components/hub/sections/hero";
 import { NewsSection } from "@/components/hub/sections/news-section";
 import { QuoteBanner } from "@/components/hub/sections/quote-banner";
 import { ProductsSection } from "@/components/hub/sections/products-section";
-import { SlideArrow, bizButton } from "@/components/hub/ui";
 import { HUB_HERO } from "@/constants/hub-home";
 import { getNews } from "@/lib/data/news";
 import { buildHeroSlides, buildSpotlights, buildStats, pickHomeNews } from "@/lib/hub/home";
@@ -23,22 +22,13 @@ export default async function HubHome() {
 
   return (
     <>
-      <BizHero slides={buildHeroSlides(VERTICALS, COMPANY)} stats={buildStats(COMPANY)}>
-        <div className="mt-9 flex flex-wrap items-center gap-3">
-          <a href={HUB_HERO.primaryCta.href} className={bizButton.solid}>
-            {HUB_HERO.primaryCta.label} <SlideArrow />
-          </a>
-          <a href={HUB_HERO.secondaryCta.href} className={bizButton.ghostDark}>
-            {HUB_HERO.secondaryCta.label}
-          </a>
-        </div>
-      </BizHero>
+      <BizHero slides={buildHeroSlides(VERTICALS, COMPANY)} stats={buildStats(COMPANY)} primaryCta={HUB_HERO.primaryCta} />
       {/* shared "green garden" backdrop: a sticky image layer behind the sections, leaf frames change per section (design.md §6) */}
       <div className="biz-garden relative isolate overflow-x-clip">
         <GardenBackdrop />
         <AboutSection company={COMPANY} />
         <ProductsSection spotlights={spotlights} />
-        <QuoteBanner hotline={COMPANY.hotline} />
+        <QuoteBanner verticalList={VERTICAL_LIST} />
         <NewsSection news={pickHomeNews(allNews)} verticals={VERTICALS} />
         <ContactSection company={COMPANY} verticalList={VERTICAL_LIST} />
       </div>

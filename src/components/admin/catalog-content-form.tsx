@@ -131,6 +131,7 @@ export function CatalogContentForm({ site, initial }: { site: Site; initial: Cat
         </Grid>
         <HeadlinePreview site={site} h={data.hero} large />
         <TextField label="Mô tả" required multiline value={data.hero.description} onChange={setHero("description")} error={e("hero.description")} />
+        {site === "lopxe" && <TextField label="Câu khẩu hiệu dưới mô tả (tuỳ chọn)" value={data.hero.note ?? ""} onChange={setHero("note")} />}
         <ItemsField
           key={`stats-${version}`}
           label={site === "lopxe" ? "Điểm nhấn dưới nút (có dấu ✓)" : "Hàng số liệu dưới banner"}

@@ -660,7 +660,9 @@
 
 /* =====================================================================
  * Brand mark (components/shared/brand-mark.tsx): the plain lotus on light backgrounds, the white-oval
- * badge on dark ones. Mark a dark area with `.brand-dark` (the hub header uses `[data-dark]`). Unlayered on purpose so it wins over display utilities.
+ * badge on dark blocks (`.brand-dark`), the original pink logo with no background in the transparent hub header (`[data-dark]`). Unlayered on purpose so it wins over display utilities.
  * ===================================================================== */
-.brand-badge:not(:is(.brand-dark, [data-dark]) .brand-badge) { display: none; }
+/* plain: light backgrounds · badge: dark blocks (.brand-dark) · light (original pink, no background): transparent header at the top ([data-dark]) */
 :is(.brand-dark, [data-dark]) .brand-plain { display: none; }
+.brand-badge:not(.brand-dark .brand-badge), [data-dark] .brand-badge { display: none; }
+.brand-light:not([data-dark] .brand-light) { display: none; }

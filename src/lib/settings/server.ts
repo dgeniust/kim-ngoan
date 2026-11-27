@@ -11,8 +11,8 @@ export const defaultSettings: SiteSettings = {
   company: { ...DEFAULT_COMPANY },
   verticals: Object.fromEntries(
     IDS.map((id) => {
-      const { name, short, tagline, description, contactLabel, phone, seoTitle, seoDescription } = DEFAULT_VERTICALS[id];
-      return [id, { name, short, tagline, description, contactLabel, phone, seoTitle, seoDescription }];
+      const { name, short, tagline, description, contactLabel, phone, phone2 = "", address = "", seoTitle, seoDescription } = DEFAULT_VERTICALS[id];
+      return [id, { name, short, tagline, description, contactLabel, phone, phone2, address, seoTitle, seoDescription }];
     }),
   ) as SiteSettings["verticals"],
 };

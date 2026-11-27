@@ -113,7 +113,7 @@ export async function PbFooter({ site, footer }: { site: SiteContent["site"]; fo
             href="/phanbon/lien-he"
             className="group mt-5 inline-flex h-12 items-center gap-2 rounded-md bg-sun-400 px-6 text-body font-bold text-brand-900 shadow-[0_8px_20px_-8px_rgb(0_0_0/0.5)] transition-colors duration-200 hover:bg-sun-300"
           >
-            Nhận báo giá <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+            Liên hệ ngay <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
           </Link>
         </div>
       </div>

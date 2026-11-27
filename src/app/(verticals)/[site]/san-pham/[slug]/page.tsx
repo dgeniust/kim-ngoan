@@ -14,7 +14,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { getCategory, getProduct, getProducts } from "@/lib/data/catalog";
 import { absoluteUrl } from "@/lib/site";
 import { resolveSite } from "@/lib/site-params";
-import { CATALOG_SITES, isCatalogSite, telHref } from "@/lib/verticals";
+import { CATALOG_SITES, isCatalogSite, sectorPhones, telHref } from "@/lib/verticals";
 import { getSettings } from "@/lib/settings/server";
 import { Container } from "@/components/shared/container";
 import { siteNameFor } from "@/lib/site-name";
@@ -109,9 +109,11 @@ export default async function ProductDetail({ params }: { params: Params }) {
             <p className="v-display mt-1 text-h3 text-v-fg">Liên hệ báo giá</p>
             <p className="mt-2 text-small text-v-mute">Giá thay đổi theo thời điểm và số lượng nên không ghi sẵn. Gọi hoặc nhắn Zalo để nhận báo giá.</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <VButton asChild size="lg">
-                <a href={telHref(vertical.phone)}><Phone /> <span className="tabular-nums">{vertical.phone}</span></a>
-              </VButton>
+              {sectorPhones(vertical).map((p) => (
+                <VButton key={p} asChild size="lg">
+                  <a href={telHref(p)}><Phone /> <span className="tabular-nums">{p}</span></a>
+                </VButton>
+              ))}
               <VButton asChild size="lg" variant="solid">
                 <a href={COMPANY.zalo} target="_blank" rel="noopener noreferrer"><MessageCircle /> Zalo</a>
               </VButton>

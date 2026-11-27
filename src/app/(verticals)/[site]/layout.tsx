@@ -7,7 +7,7 @@ import { JsonLd } from "@/components/shared/json-ld";
 import { SectorSwitcher } from "@/components/shared/sector-switcher";
 import { absoluteUrl } from "@/lib/site";
 import { resolveSite, siteStaticParams } from "@/lib/site-params";
-import { isCatalogSite } from "@/lib/verticals";
+import { isCatalogSite, sectorAddress } from "@/lib/verticals";
 import { getSettings } from "@/lib/settings/server";
 import { socialMeta } from "@/lib/seo";
 import { siteNameFor } from "@/lib/site-name";
@@ -49,7 +49,7 @@ export default async function VerticalLayout({ children, params }: { children: R
     url: absoluteUrl(vertical.base),
     telephone: vertical.phone,
     email: COMPANY.email,
-    address: { "@type": "PostalAddress", streetAddress: COMPANY.address, addressCountry: "VN" },
+    address: { "@type": "PostalAddress", streetAddress: sectorAddress(vertical, COMPANY.address), addressCountry: "VN" },
     openingHours: COMPANY.openingHours,
     parentOrganization: { "@id": absoluteUrl("/#to-chuc") },
   };
@@ -64,7 +64,7 @@ export default async function VerticalLayout({ children, params }: { children: R
       </main>
       <VFooter vertical={vertical} />
       <VMobileBar vertical={vertical} />
-      <BackToTop className="bg-v-card text-v-fg shadow-[0_6px_20px_rgb(0_0_0/0.16)]" />
+      <BackToTop className="bg-v-card text-v-fg" zalo={COMPANY.zalo} facebook={COMPANY.facebook} />
     </div>
   );
 }

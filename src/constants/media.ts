@@ -6,7 +6,7 @@
 export type MediaImage = { src: string; alt: string; credit?: string };
 export type MediaVideo = {
   /** Tried in order – the browser plays the first one it can load. */
-  sources: string[];
+  sources: readonly string[];
   poster: string;
   /** Short description for screen readers. */
   label: string;

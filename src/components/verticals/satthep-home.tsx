@@ -7,7 +7,7 @@ import { SATTHEP_COPY, SATTHEP_MEDIA } from "@/constants/satthep-media";
 import type { CatalogCategory, CatalogContent, CatalogProduct, NewsItem } from "@/types/catalog";
 import { formatDate, formatOpeningHours } from "@/lib/format";
 import { getSettings } from "@/lib/settings/server";
-import { telHref, type Vertical } from "@/lib/verticals";
+import { telHref, type Vertical, sectorAddress } from "@/lib/verticals";
 import { cn } from "@/lib/utils";
 import { Headline } from "./headline";
 import { MediaVideo } from "@/components/shared/media-video";
@@ -87,12 +87,13 @@ export async function SatThepHome({
         <MediaVideo
           priority
           video={M.heroVideo}
+          videoClassName="brightness-[1.12] saturate-[1.06]"
           buttonClassName="bottom-5 right-4 sm:right-6 md:bottom-7 lg:right-8"
           overlay={
             <>
-              {/* steel-grey wash: even on phones, darker on the text side from lg; a bottom band under the figures */}
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,21,26,0.72)_0%,rgba(18,21,26,0.6)_40%,rgba(18,21,26,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(18,21,26,0.9)_0%,rgba(18,21,26,0.66)_45%,rgba(18,21,26,0.25)_100%)]" />
-              <div className="absolute inset-x-0 bottom-0 hidden h-56 bg-[linear-gradient(0deg,rgba(18,21,26,0.88),rgba(18,21,26,0))] lg:block" />
+              {/* light steel-grey wash so the video stays bright: only the text side (lg: left, phones: top + bottom) is darkened */}
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,21,26,0.62)_0%,rgba(18,21,26,0.52)_45%,rgba(18,21,26,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(18,21,26,0.82)_0%,rgba(18,21,26,0.5)_40%,rgba(18,21,26,0)_75%)]" />
+              <div className="absolute inset-x-0 bottom-0 hidden h-48 bg-[linear-gradient(0deg,rgba(18,21,26,0.82),rgba(18,21,26,0))] lg:block" />
             </>
           }
         >
@@ -264,7 +265,7 @@ export async function SatThepHome({
             <p className="flex gap-3 text-body text-v-fg">
               <MapPin className="mt-0.5 size-5 shrink-0 text-v-accent" aria-hidden />
               <span>
-                {COMPANY.address}
+                {sectorAddress(vertical, COMPANY.address)}
                 <span className="block text-small text-v-mute">{hours}</span>
               </span>
             </p>

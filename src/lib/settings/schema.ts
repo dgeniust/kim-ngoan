@@ -30,6 +30,8 @@ const verticalEditableSchema = z.object({
   description: text,
   contactLabel: text,
   phone,
+  phone2: phone.or(z.literal("")).optional(),
+  address: z.string().trim().max(200).optional(),
   seoTitle: text.min(10, "Tối thiểu 10 ký tự").max(100, "Tối đa 100 ký tự (Google thường chỉ hiện ~60–70)"),
   seoDescription: text.min(20, "Tối thiểu 20 ký tự").max(220, "Tối đa 220 ký tự (Google thường chỉ hiện ~160)"),
 });

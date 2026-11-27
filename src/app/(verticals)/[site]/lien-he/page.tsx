@@ -1,12 +1,12 @@
 import { metaDescription, socialMeta } from "@/lib/seo";
 import type { Metadata } from "next";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone, type LucideIcon } from "lucide-react";
 import { VContactForm } from "@/components/verticals/v-contact-form";
 import { VPageHead } from "@/components/verticals/v-page-head";
 
 import { getProduct } from "@/lib/data/catalog";
 import { resolveSite } from "@/lib/site-params";
-import { isCatalogSite, telHref } from "@/lib/verticals";
+import { isCatalogSite, sectorPhones, telHref, sectorAddress } from "@/lib/verticals";
 import { getSettings } from "@/lib/settings/server";
 import { Container } from "@/components/shared/container";
 import { siteNameFor } from "@/lib/site-name";
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isCatalogSite(site)) return {};
   const v = VERTICALS[site];
   const title = `Liên hệ báo giá ${v.short.toLowerCase()}`;
-  const description = metaDescription([`${v.contactLabel}: ${v.phone}`, `Địa chỉ: ${COMPANY.address}`, "Báo giá nhanh qua điện thoại hoặc Zalo, phản hồi trong giờ làm việc"]);
+  const description = metaDescription([`${v.contactLabel}: ${v.phone}`, `Địa chỉ: ${sectorAddress(v, COMPANY.address)}`, "Báo giá nhanh qua điện thoại hoặc Zalo"]);
   return { title, description, ...socialMeta({ title, description, path: `${v.base}/lien-he`, siteName: await siteNameFor(site) }) };
 }
 
@@ -30,11 +30,11 @@ export default async function Contact({ params, searchParams }: Props) {
   const slug = (await searchParams)["san-pham"];
   const product = slug ? await getProduct(site, slug) : undefined;
 
-  const rows = [
-    { icon: Phone, label: "Điện thoại", value: vertical.phone, href: telHref(vertical.phone) },
+  const rows: { icon: LucideIcon; label: string; value: string; href?: string }[] = [
+    ...sectorPhones(vertical).map((p, i) => ({ icon: Phone, label: i ? "Điện thoại 2" : "Điện thoại", value: p, href: telHref(p) })),
     { icon: MessageCircle, label: "Zalo", value: "Nhắn Zalo báo giá", href: COMPANY.zalo },
     { icon: Mail, label: "Email", value: COMPANY.email, href: `mailto:${COMPANY.email}` },
-    { icon: MapPin, label: "Địa chỉ", value: COMPANY.address },
+    { icon: MapPin, label: "Địa chỉ", value: sectorAddress(vertical, COMPANY.address) },
     { icon: Clock, label: "Giờ mở cửa", value: "07:00 – 17:00, tất cả các ngày" },
   ];
 
@@ -43,7 +43,9 @@ export default async function Contact({ params, searchParams }: Props) {
       <VPageHead vertical={vertical} image={V_PAGE_IMAGES[site]["lien-he"]} crumbs={[{ label: "Liên hệ" }]} title="Liên hệ báo giá" lead={`${vertical.contactLabel}. Gửi quy cách và số lượng, chúng tôi sẽ gọi lại.`} />
       <Container className="grid gap-12 py-12 md:py-20 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
         <address className="not-italic">
-          <a href={telHref(vertical.phone)} className="v-display block whitespace-nowrap text-h2 tabular-nums text-v-fg transition-colors hover:text-v-accent">{vertical.phone}</a>
+          {sectorPhones(vertical).map((p) => (
+            <a key={p} href={telHref(p)} className="v-display block whitespace-nowrap text-h2 tabular-nums text-v-fg transition-colors hover:text-v-accent">{p}</a>
+          ))}
           <ul className="mt-10 space-y-6">
             {rows.map((r) => (
               <li key={r.label} className="flex gap-4">

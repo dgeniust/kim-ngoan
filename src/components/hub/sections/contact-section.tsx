@@ -11,7 +11,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { HUB_CONTACT } from "@/constants/hub-home";
 import { formatOpeningHours } from "@/lib/format";
 import type { Settings } from "@/lib/settings/server";
-import { telHref } from "@/lib/verticals";
+import { sectorPhones, telHref } from "@/lib/verticals";
 import { cn } from "@/lib/utils";
 import { MapEmbed } from "@/components/shared/map-embed";
 import { QuoteForm } from "./quote-form";
@@ -81,22 +81,22 @@ export function ContactSection({
             {verticalList.map((v) => {
               const t = TONE[SECTOR_TONE[v.id]];
               return (
-                <li key={v.id}>
-                  <a
-                    href={telHref(v.phone)}
-                    className={cn(
-                      "group block rounded-md border-l-4 px-4 py-3 transition-shadow duration-300 hover:shadow-[0_10px_24px_-14px_rgb(24_24_27/0.35)]",
-                      t.tint,
-                      t.border,
-                    )}
-                  >
-                    <span className={cn("text-caption font-semibold", t.ink)}>
-                      {v.short}
-                    </span>
-                    <span className="mt-0.5 block text-body font-semibold tabular-nums text-hub-ink">
-                      {v.phone}
-                    </span>
-                  </a>
+                <li
+                  key={v.id}
+                  className={cn("rounded-md border-l-4 px-4 py-3", t.tint, t.border)}
+                >
+                  <span className={cn("text-caption font-semibold", t.ink)}>
+                    {v.name}
+                  </span>
+                  {sectorPhones(v).map((p) => (
+                    <a
+                      key={p}
+                      href={telHref(p)}
+                      className="mt-0.5 block text-body font-semibold tabular-nums text-hub-ink transition-colors hover:text-hub-blue"
+                    >
+                      {p}
+                    </a>
+                  ))}
                 </li>
               );
             })}

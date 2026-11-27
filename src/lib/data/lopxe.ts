@@ -5,7 +5,7 @@ export const categories: CatalogCategory[] = [
   { slug: "xe-du-lich", name: "Lốp xe du lịch", description: "Sedan, hatchback 4–7 chỗ: êm, tiết kiệm nhiên liệu, bám đường ướt.", art: "tyre" },
   { slug: "suv-ban-tai", name: "Lốp SUV – bán tải", description: "Gai lớn, hông dày cho đường hỗn hợp và tải nặng.", art: "tyre-at" },
   { slug: "xe-tai-nhe", name: "Lốp xe tải nhẹ", description: "Chịu tải cao, mòn đều cho xe 1–3,5 tấn.", art: "tyre-truck" },
-  { slug: "xe-tai-xe-khach", name: "Lốp xe tải – xe khách", description: "Lốp bố thép cho đường dài, tải nặng.", art: "tyre-truck" },
+  { slug: "xe-tai-xe-khach", name: "Lốp xe tải, container, xe khách", description: "Lốp bố thép cho xe tải nặng, đầu kéo container và xe khách đường dài.", art: "tyre-truck" },
 ];
 
 const p = (x: Omit<CatalogProduct, "site">): CatalogProduct => ({ site: "lopxe", ...x });
@@ -117,14 +117,28 @@ export const products: CatalogProduct[] = [
       "Cỡ thông dụng nên dễ tìm lốp thay thế dọc đường. Báo số lượng cần thay cho cả đội xe để được báo giá theo đơn hàng.",
     ],
   }),
+  p({
+    slug: "bridgestone-11r22-5-container", name: "Lốp Bridgestone 11R22.5 cho container", brand: "Bridgestone", categorySlug: "xe-tai-xe-khach", sku: "LX-BS-11R225",
+    keySpec: "11R22.5", art: "tyre-truck", isNew: true,
+    shortDescription: "Lốp không săm cho đầu kéo và rơ-moóc container chạy đường dài.",
+    specs: tyreSpecs("11R22.5", "148/145", "M (130 km/h)", "Radial bố thép, không săm"),
+    highlights: ["Dùng cho đầu kéo và rơ-moóc container", "Không săm, ít sinh nhiệt khi chạy dài", "Thay trọn bộ cho cả xe"],
+    description: [
+      "Kim Ngoan nhận thay lốp cho xe container: đầu kéo, rơ-moóc và sơ-mi rơ-moóc, chạy đường dài và tải nặng.",
+      "Báo số trục và cỡ lốp đang dùng (in trên hông lốp) để được tư vấn đúng loại và báo giá theo số lượng.",
+    ],
+  }),
 ];
 
 export const content: CatalogContent = {
   hero: {
-    eyebrow: "Đại lý lốp ô tô chính hãng",
-    title: "Lốp chính hãng,",
-    highlight: "đúng cỡ xe bạn",
-    description: "Lốp cho xe du lịch, SUV – bán tải, xe tải và xe khách. Cho chúng tôi biết cỡ lốp hoặc đời xe, Kim Ngoan tư vấn loại phù hợp và báo giá trong giờ làm việc.",
+    eyebrow: "Lốp ô tô chính hãng",
+    // the home hero shows these three as three lines (title / highlight / after)
+    title: "Lốp chính hãng",
+    highlight: "Bảo dưỡng lốp xe đúng cách",
+    after: "Đảm bảo an toàn giao thông",
+    description: "Chuyên cung cấp lốp xe ô tô, mâm xe và các dịch vụ chăm sóc, bảo dưỡng bánh xe chuyên nghiệp. Với sự tận tâm, chất lượng và uy tín, Kim Ngoan mang đến những giải pháp tối ưu, giúp mỗi chuyến đi luôn an toàn, êm ái và bền bỉ.",
+    note: "Kim Ngoan – Vững vàng từng bánh xe, an tâm mọi hành trình.",
     stats: [
       { value: "4", label: "Nhóm lốp theo loại xe" },
       { value: "100%", label: "Lốp chính hãng, bảo hành theo hãng" },

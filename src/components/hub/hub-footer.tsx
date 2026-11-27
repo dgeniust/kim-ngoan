@@ -33,7 +33,7 @@ export async function HubFooter() {
             </span>
           </Link>
           <p className="mt-5 text-title font-semibold text-white">{COMPANY.slogan}</p>
-          <p className="mt-2 max-w-xs text-body leading-relaxed">Phân bón, tôn – sắt thép và lốp xe ô tô tại {COMPANY.area}.</p>
+          <p className="mt-2 max-w-xs text-body leading-relaxed">Phân bón, lốp xe ô tô và tôn – sắt thép tại {COMPANY.area}.</p>
         </div>
 
         <nav aria-label="Liên kết nhanh">
@@ -85,7 +85,7 @@ export async function HubFooter() {
             </span>
           </a>
           <Link href="/#lien-he" className="group mt-5 inline-flex h-12 items-center gap-2 rounded-md bg-mv-gold px-6 text-body font-bold text-mv-ink shadow-[0_8px_20px_-8px_rgb(0_0_0/0.5)] transition-colors duration-200 hover:bg-mv-gold-soft">
-            Nhận báo giá <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+            Liên hệ ngay <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
           </Link>
         </div>
       </div>

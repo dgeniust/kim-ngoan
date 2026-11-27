@@ -17,7 +17,7 @@ import { ProductCard } from "./product-card";
 import { SortSelect } from "./sort-select";
 import { PB_PAGE_IMAGES } from "@/constants/page-heads";
 
-const PER_PAGE = 9;
+const PER_PAGE = 12; // 3 full rows of 4 on desktop
 
 function sortProducts(items: Product[], sort: string) {
   const list = [...items];
@@ -75,7 +75,8 @@ export async function ProductListing({ title, description, crumbs, basePath, cat
     <>
       <JsonLd data={itemList} />
       <PageHero title={title} description={description} crumbs={crumbs} image={PB_PAGE_IMAGES[categorySlug ? "danh-muc" : "san-pham"]} />
-      <Container className="grid gap-12 py-12 md:py-16 lg:grid-cols-[272px_1fr]">
+      {/* wider than the default container so the sidebar sits further left and the grid fits 4 cards per row (client request) */}
+      <Container className="grid max-w-[1440px] gap-12 py-12 md:py-16 lg:grid-cols-[240px_1fr] lg:gap-8 xl:gap-10">
         <div className="hidden lg:block">
           <CategorySidebar active={categorySlug} counts={countByCategory(products)} phone={site.phone} />
         </div>
@@ -88,9 +89,9 @@ export async function ProductListing({ title, description, crumbs, basePath, cat
             <SortSelect value={sort} />
           </div>
           {items.length ? (
-            <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 xl:grid-cols-3">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-5 sm:gap-y-12 md:grid-cols-3 xl:grid-cols-4">
               {items.map((p, i) => (
-                <ProductCard key={p.slug} product={p} headingLevel="h2" priority={i < 3} />
+                <ProductCard key={p.slug} product={p} headingLevel="h2" priority={i < 4} />
               ))}
             </div>
           ) : (

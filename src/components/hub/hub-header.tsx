@@ -245,7 +245,7 @@ export function HubHeader({ company: COMPANY }: { company: HeaderCompany }) {
               href="/#lien-he"
               className="group inline-flex h-11 items-center gap-2 rounded-md bg-hub-blue px-5 text-body font-medium text-white transition-colors duration-200 hover:bg-hub-blue-hover"
             >
-              Nhận báo giá{" "}
+              Liên hệ ngay{" "}
               <ArrowRight
                 className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
                 aria-hidden

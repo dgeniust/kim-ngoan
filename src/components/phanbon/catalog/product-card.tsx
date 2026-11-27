@@ -17,7 +17,7 @@ export function ProductCard({ product, headingLevel = "h3", priority = false }: 
           alt={product.name}
           fill
           loading={priority ? "eager" : undefined}
-          sizes="(min-width: 1280px) 22vw, (min-width: 640px) 45vw, 100vw"
+          sizes="(min-width: 1280px) 18vw, (min-width: 768px) 30vw, 50vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
         {(product.isNew || product.featured) && (

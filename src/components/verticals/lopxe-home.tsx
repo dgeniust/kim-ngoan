@@ -8,7 +8,7 @@ import { LOPXE_COPY, LOPXE_MEDIA } from "@/constants/lopxe-media";
 import { TYRE_TIERS } from "@/constants/vertical-extras";
 import { formatDate, formatOpeningHours } from "@/lib/format";
 import { getSettings } from "@/lib/settings/server";
-import { telHref, type Vertical } from "@/lib/verticals";
+import { sectorPhones, telHref, type Vertical, sectorAddress } from "@/lib/verticals";
 import { cn } from "@/lib/utils";
 import { AutoCarousel } from "./auto-carousel";
 import { Headline } from "./headline";
@@ -71,12 +71,14 @@ export async function LopXeHome({
         <MediaVideo
           priority
           video={M.heroVideo}
+          videoClassName="brightness-[1.15] saturate-[1.08]"
           buttonClassName="bottom-5 right-4 sm:right-6 md:bottom-7 lg:right-8"
           overlay={
             <>
               {/* phones: even dark wash (text runs the full height); desktop: dark on the text side + a bottom band under the figures */}
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,14,10,0.7)_0%,rgba(20,14,10,0.6)_40%,rgba(20,14,10,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(20,14,10,0.88)_0%,rgba(20,14,10,0.62)_45%,rgba(20,14,10,0.25)_100%)]" />
-              <div className="absolute inset-x-0 bottom-0 hidden h-56 bg-[linear-gradient(0deg,rgba(20,14,10,0.85),rgba(20,14,10,0))] lg:block" />
+              {/* the right half stays clear on desktop so the rolling wheels are visible */}
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,14,10,0.66)_0%,rgba(20,14,10,0.58)_45%,rgba(20,14,10,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(20,14,10,0.86)_0%,rgba(20,14,10,0.62)_38%,rgba(20,14,10,0)_68%)]" />
+              <div className="absolute inset-x-0 bottom-0 hidden h-48 bg-[linear-gradient(0deg,rgba(20,14,10,0.82),rgba(20,14,10,0))] lg:block" />
             </>
           }
         >
@@ -86,10 +88,14 @@ export async function LopXeHome({
                 <p className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3.5 py-1.5 text-caption font-semibold backdrop-blur-sm">
                   <span aria-hidden className="size-1.5 rounded-full bg-v-spark" /> {COMPANY.legalName} · {hero.eyebrow}
                 </p>
-                <h1 id="hero-title" className="mt-6 text-display v-display text-white">
-                  <Headline h={hero} pillClassName="text-[#f6b98a]" />
+                {/* three lines: the promise big, then two shorter lines (service, safety) one size down */}
+                <h1 id="hero-title" className="mt-6 text-white">
+                  <span className="block text-display v-display">{hero.title}</span>
+                  {hero.highlight && <span className="mt-3 block text-[clamp(1.5rem,2.7vw,2.375rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-[#f6b98a]">{hero.highlight}</span>}
+                  {hero.after && <span className="mt-1 block text-[clamp(1.5rem,2.7vw,2.375rem)] font-semibold leading-[1.15] tracking-[-0.02em]">{hero.after}</span>}
                 </h1>
-                <p className="mt-5 max-w-xl text-lead leading-relaxed text-white/85">{hero.description}</p>
+                <p className="mt-5 max-w-xl text-lead leading-relaxed text-white/90">{hero.description}</p>
+                {hero.note && <p className="mt-3 border-l-2 border-[#f6b98a] pl-3 text-body font-semibold italic text-white">{hero.note}</p>}
                 <div className="mt-7 flex flex-wrap gap-2.5">
                   <VButton asChild size="lg">
                     <a href="#bao-gia">
@@ -101,10 +107,14 @@ export async function LopXeHome({
                   </a>
                 </div>
                 <ul className="mt-8 flex flex-col gap-2 text-small text-white/85 sm:flex-row sm:flex-wrap sm:gap-x-6">
-                  <li>
-                    <a href={telHref(vertical.phone)} className="inline-flex items-center gap-2 font-semibold tabular-nums text-white hover:text-[#f6b98a]">
-                      <Phone className="size-4" aria-hidden /> {vertical.phone}
-                    </a>
+                  <li className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <Phone className="size-4" aria-hidden />
+                    {sectorPhones(vertical).map((p, i) => (
+                      <span key={p} className="inline-flex items-center gap-2">
+                        {i > 0 && <span aria-hidden className="text-white/50">·</span>}
+                        <a href={telHref(p)} className="font-semibold tabular-nums text-white hover:text-[#f6b98a]">{p}</a>
+                      </span>
+                    ))}
                   </li>
                   <li className="inline-flex items-center gap-2">
                     <MapPin className="size-4 shrink-0" aria-hidden /> {COMPANY.area}
@@ -116,7 +126,7 @@ export async function LopXeHome({
               </div>
 
               {/* vehicle types – the catalogue at a glance */}
-              <nav aria-label="Lốp theo loại xe" className="rounded-2xl bg-white/10 p-2 ring-1 ring-white/15 backdrop-blur-md lg:col-span-5">
+              <nav aria-label="Lốp theo loại xe" className="rounded-2xl bg-[#1c140e]/55 p-2 ring-1 ring-white/15 backdrop-blur-md lg:col-span-5">
                 <p className="px-3 pb-1 pt-2 text-caption font-semibold uppercase tracking-[0.12em] text-white/70">Lốp cho từng loại xe</p>
                 <ul>
                   {categories.map((c) => (
@@ -286,7 +296,7 @@ export async function LopXeHome({
             <p className="flex gap-3 text-body text-v-fg">
               <MapPin className="mt-0.5 size-5 shrink-0 text-v-accent" aria-hidden />
               <span>
-                {COMPANY.address}
+                {sectorAddress(vertical, COMPANY.address)}
                 <span className="block text-small text-v-mute">{hours}</span>
               </span>
             </p>
@@ -323,7 +333,7 @@ export async function LopXeHome({
             </div>
             <div className="lg:col-span-5 lg:col-start-8">
               <div className="lg:sticky lg:top-28">
-                <TyreQuote phone={vertical.phone} zalo={COMPANY.zalo} />
+                <TyreQuote phones={sectorPhones(vertical)} zalo={COMPANY.zalo} />
               </div>
             </div>
           </div>
@@ -415,10 +425,12 @@ export async function LopXeHome({
               <p className="mt-4 max-w-md text-lead leading-relaxed text-v-mute">{content.cta.description}</p>
             </div>
             <div className="flex flex-col gap-2 lg:col-span-5 lg:col-start-8">
-              <a href={telHref(vertical.phone)} className="flex items-center justify-between gap-3 rounded-xl bg-v-accent px-6 py-5 text-v-on-accent transition-colors hover:bg-v-accent-hover">
-                <span className="text-h2 font-semibold tabular-nums tracking-[-0.03em]">{vertical.phone}</span>
-                <Phone className="size-6" aria-hidden />
-              </a>
+              {sectorPhones(vertical).map((p) => (
+                <a key={p} href={telHref(p)} className="flex items-center justify-between gap-3 rounded-xl bg-v-accent px-6 py-5 text-v-on-accent transition-colors hover:bg-v-accent-hover">
+                  <span className="text-h2 font-semibold tabular-nums tracking-[-0.03em]">{p}</span>
+                  <Phone className="size-6" aria-hidden />
+                </a>
+              ))}
               <a href={COMPANY.zalo} target="_blank" rel="noopener noreferrer" className="flex h-13 items-center justify-between gap-3 rounded-xl bg-v-tint px-5 text-body font-medium text-v-on-tint">
                 Gửi ảnh hông lốp qua Zalo <MessageCircle className="size-5" aria-hidden />
               </a>

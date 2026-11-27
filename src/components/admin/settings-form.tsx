@@ -174,6 +174,10 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
               <TextField label="Số điện thoại" required type="tel" value={v.phone} onChange={setV("phone")} error={vErr("phone")} />
             </Grid>
             <Grid>
+              <TextField label="Số điện thoại thứ 2" type="tel" value={v.phone2 ?? ""} onChange={setV("phone2")} error={vErr("phone2")} hint="Không bắt buộc – hiện cạnh số chính ở liên hệ, footer" />
+            </Grid>
+            <TextField label="Địa chỉ riêng của ngành" value={v.address ?? ""} onChange={setV("address")} error={vErr("address")} hint="Để trống thì dùng địa chỉ công ty" />
+            <Grid>
               <TextField label="Khẩu hiệu" value={v.tagline} onChange={setV("tagline")} error={vErr("tagline")} />
               <TextField label="Nhãn liên hệ" value={v.contactLabel} onChange={setV("contactLabel")} error={vErr("contactLabel")} hint="VD: Liên hệ về lốp xe ô tô" />
             </Grid>

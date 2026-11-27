@@ -8,7 +8,7 @@ import { VProductCard } from "@/components/verticals/v-product-card";
 import { Reveal } from "@/components/shared/reveal";
 import { getBrands, getCategories, getCategory, getProducts } from "@/lib/data/catalog";
 import { resolveSite } from "@/lib/site-params";
-import { isCatalogSite } from "@/lib/verticals";
+import { isCatalogSite, sectorPhones } from "@/lib/verticals";
 import { getSettings } from "@/lib/settings/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
@@ -130,7 +130,7 @@ export default async function ProductListing({ params, searchParams }: Props) {
           ) : (
             <div className="rounded-xl bg-v-raise px-8 py-16 text-center">
               <p className="v-display text-h3 text-v-fg">Chưa có sản phẩm phù hợp</p>
-              <p className="mt-3 text-v-mute">Thử bỏ bớt bộ lọc, hoặc gọi {vertical.phone} để được báo giá theo quy cách riêng.</p>
+              <p className="mt-3 text-v-mute">Thử bỏ bớt bộ lọc, hoặc gọi {sectorPhones(vertical).join(" / ")} để được báo giá theo quy cách riêng.</p>
               <Link href={base} className="mt-6 inline-flex h-11 items-center rounded-lg bg-v-accent px-5 text-body font-medium text-v-on-accent">Xoá bộ lọc</Link>
             </div>
           )}

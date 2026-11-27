@@ -76,14 +76,14 @@ export function DropPanel({
           </ul>
           <div className="flex items-center justify-between bg-[#f3f7f1] px-5 py-3 text-small">
             <span className="text-hub-ink-soft">
-              Một đầu mối – báo giá cả ba ngành trong ngày.
+              Một đầu mối – tư vấn cả ba ngành hàng.
             </span>
             <Link
               href="/#lien-he"
               onClick={onNavigate}
               className="inline-flex items-center gap-1.5 font-semibold text-hub-blue hover:text-hub-blue-hover"
             >
-              Nhận báo giá <ArrowRight aria-hidden className="size-3.5" />
+              Liên hệ ngay <ArrowRight aria-hidden className="size-3.5" />
             </Link>
           </div>
         </div>

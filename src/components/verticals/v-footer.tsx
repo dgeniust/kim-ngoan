@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BrandMark } from "@/components/shared/brand-mark";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { MapEmbed } from "@/components/shared/map-embed";
-import { telHref, type Vertical } from "@/lib/verticals";
+import { sectorPhones, telHref, type Vertical, sectorAddress } from "@/lib/verticals";
 import { getSettings } from "@/lib/settings/server";
 import { BrandText } from "@/components/shared/brand-text";
 
@@ -34,9 +34,9 @@ export async function VFooter({ vertical }: { vertical: Vertical }) {
           <address className="not-italic">
             <p className="text-small font-semibold text-v-fg">Liên hệ</p>
             <ul className="mt-3 space-y-2.5 text-body">
-              <li className="flex gap-2.5"><Phone className="mt-1 size-4 shrink-0 text-v-accent" aria-hidden /><a href={telHref(vertical.phone)} className="font-semibold tabular-nums text-v-fg hover:text-v-accent">{vertical.phone}</a></li>
+              <li className="flex gap-2.5"><Phone className="mt-1 size-4 shrink-0 text-v-accent" aria-hidden /><span className="flex flex-col gap-1">{sectorPhones(vertical).map((p) => <a key={p} href={telHref(p)} className="font-semibold tabular-nums text-v-fg hover:text-v-accent">{p}</a>)}</span></li>
               <li className="flex gap-2.5"><Mail className="mt-1 size-4 shrink-0 text-v-mute" aria-hidden /><a href={`mailto:${COMPANY.email}`} className={link}>{COMPANY.email}</a></li>
-              <li className="flex gap-2.5"><MapPin className="mt-1 size-4 shrink-0 text-v-mute" aria-hidden /><span className="text-v-fg/65">{COMPANY.address}</span></li>
+              <li className="flex gap-2.5"><MapPin className="mt-1 size-4 shrink-0 text-v-mute" aria-hidden /><span className="text-v-fg/65">{sectorAddress(vertical, COMPANY.address)}</span></li>
               <li className="flex gap-2.5"><Clock className="mt-1 size-4 shrink-0 text-v-mute" aria-hidden /><span className="text-v-fg/65">7:00 – 17:00, tất cả các ngày</span></li>
             </ul>
           </address>

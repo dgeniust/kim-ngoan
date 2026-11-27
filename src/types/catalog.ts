@@ -31,7 +31,7 @@ export type SectionHeading = { title: string; highlight?: string; after?: string
 
 /** Copy for a sector site's home page – editable in the admin (data/content-{site}.json). */
 export type CatalogContent = {
-  hero: { eyebrow: string; title: string; highlight: string; after?: string; description: string; stats: { value: string; label: string }[] };
+  hero: { eyebrow: string; title: string; highlight: string; after?: string; description: string; /** motto under the description (tyres) */ note?: string; stats: { value: string; label: string }[] };
   usps: { title: string; description: string }[];
   services: { title: string; description: string }[];
   about: { title: string; paragraphs: string[] };

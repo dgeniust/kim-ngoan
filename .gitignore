@@ -45,3 +45,5 @@ next-env.d.ts
 /data/
 /tools/figma-import/data/
 __pycache__/
+
+.vercel

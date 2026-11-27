@@ -50,9 +50,9 @@ export function PbHero({
         buttonClassName="bottom-5 right-4 sm:right-6 md:bottom-7 lg:right-8"
         overlay={
           <>
-            {/* deep garden-green wash: even on phones, darker on the text side from lg; a bottom band under the commitments */}
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,40,26,0.72)_0%,rgba(13,40,26,0.6)_40%,rgba(13,40,26,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(13,40,26,0.9)_0%,rgba(13,40,26,0.66)_45%,rgba(13,40,26,0.25)_100%)]" />
-            <div className="absolute inset-x-0 bottom-0 hidden h-56 bg-[linear-gradient(0deg,rgba(13,40,26,0.9),rgba(13,40,26,0))] lg:block" />
+            {/* light garden-green wash so the video stays bright: only the text side (lg: left, phones: top + bottom) is darkened */}
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,40,26,0.55)_0%,rgba(13,40,26,0.38)_40%,rgba(13,40,26,0.86)_100%)] lg:bg-[linear-gradient(90deg,rgba(13,40,26,0.82)_0%,rgba(13,40,26,0.56)_40%,rgba(13,40,26,0)_76%)]" />
+            <div className="absolute inset-x-0 bottom-0 hidden h-48 bg-[linear-gradient(0deg,rgba(13,40,26,0.82),rgba(13,40,26,0))] lg:block" />
           </>
         }
       >
@@ -61,7 +61,7 @@ export function PbHero({
             <div className="lg:col-span-7">
               <p className="inline-block max-w-full rounded-2xl bg-white/12 px-3.5 py-1.5 text-caption font-semibold leading-relaxed backdrop-blur-sm">
                 <span aria-hidden className="mr-2 inline-block size-1.5 rounded-full bg-sun-300 align-middle" />
-                <BrandText text={company} /> <span className="whitespace-nowrap">· Đại lý phân bón &amp; thuốc BVTV</span>
+                <BrandText text={company} />
               </p>
               <h1 id="hero-title" className="mt-6 text-display font-semibold !text-white">
                 <span className="sr-only">{company} – </span>
@@ -73,7 +73,7 @@ export function PbHero({
               </div>
               <div className="mt-6 flex flex-wrap gap-2.5">
                 <a href={telHref(phone)} className="inline-flex h-12 items-center gap-2 rounded-full bg-sun-300 px-6 text-body font-semibold text-brand-950 transition-colors hover:bg-sun-200">
-                  <Phone className="size-4" aria-hidden /> Gọi đặt hàng · <span className="tabular-nums">{phone}</span>
+                  <Phone className="size-4" aria-hidden /> Liên hệ · <span className="tabular-nums">{phone}</span>
                 </a>
                 <Link href="/phanbon/san-pham" className="group inline-flex h-12 items-center gap-2 rounded-full px-5 text-body font-semibold text-white ring-1 ring-white/35 backdrop-blur-sm transition-colors hover:bg-white hover:text-brand-900">
                   Xem tất cả sản phẩm <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
@@ -91,7 +91,7 @@ export function PbHero({
 
             {/* what we sell – product groups at a glance */}
             {groups.length > 0 && (
-              <nav aria-label="Nhóm sản phẩm đang bán" className="rounded-2xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur-md lg:col-span-5">
+              <nav aria-label="Nhóm sản phẩm đang bán" className="rounded-2xl bg-brand-950/45 p-5 ring-1 ring-white/15 backdrop-blur-md lg:col-span-5">
                 <p className="text-caption font-semibold uppercase tracking-[0.12em] text-white/70">Sản phẩm đang bán</p>
                 <div className="mt-3 space-y-4">
                   {groups.map((g) => (
